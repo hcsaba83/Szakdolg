@@ -1,0 +1,6 @@
+insert into blogger (id, name, age) values (1, 'Gyula', 21)
+insert into blogger (id, name, age) values (2, 'Géza', 29)
+insert into blogger (id, name, age) values (3, 'Gizi', 33)
+insert into story (id, content, posted, title, blogger_id) values (1, 'Talán minden kérdések legfélelmetesebbike éppen ez: mennyi borzalmat visel el az emberi lélek úgy, hogy még mindig megőrzi éber, befogadásra kész, lankadatlan józanságát.', '2018-10-6', 'Az emberi lélek', (select id from blogger where name='Gyula'))
+insert into story (id, content, posted, title, blogger_id) values (2, 'Van az úgy néha, hogy az embernek muszáj nevetnie. Csak úgy, semmiért akár. És ilyenkor aztán senki-semmi vissza nem tudja fojtani a nevetést.', '2018-10-7', 'Nevetés', (select id from blogger where name='Géza'))
+insert into story (id, content, posted, title, blogger_id) values (3, 'A hazugságokkal az a gond, hogy az egyik a másikhoz vezet. Hamarosan olyan lesz, mintha olyan úton vezetnél, amelyet nem ismersz. Eltévedsz.', '2018-10-8', 'Hazug', (select id from blogger where name='Gizi'))
