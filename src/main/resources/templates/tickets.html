@@ -28,15 +28,15 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-5" aria-expanded="false">
-                    <span class="sr-only"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                    <span class="sr-only">a</span>
+                    <span class="icon-bar">b</span>
+                    <span class="icon-bar">c</span>
+                    <span class="icon-bar">d</span>
                 </button>
                 <a class="navbar-brand" href="#">Hibajegyek</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-5">
-                <p class="navbar-text navbar-right" th:text="#{yourip}">IP címed: <a href="#" class="navbar-link">127.0.0.1</a></p>
+                <p class="navbar-text navbar-right" th:utext="#{welcome}">Üdvözöllek, Vendég!</p>
             </div>
         </div>
     </nav>
@@ -51,15 +51,15 @@
 	        <td width="10%">Cím</td>
     	</tr>
 <!--         	<tr th:each="ticket : ${tickets}"   th:classappend="${ticketService.getDateDiff(#dates.createNow(), ticket.date,TimeUnit.MINUTES)} ? 'warning' : 'danger'">  -->
-         	<tr th:each="ticket : ${tickets}"   th:classappend="${(#dates.year(#dates.createNow()) - #dates.year(ticket.date)) gt 0} ? 'danger' : (   ${( ((#dates.month(#dates.createNow())*30) + (#dates.day(#dates.createNow()))) - 
-         																																			     (((#dates.month(ticket.date))*30) + (#dates.day(ticket.date))) ) gt 50} ? 'danger' :
+         	<tr th:each="ticket : ${tickets}"   th:classappend="${(#dates.year(#dates.createNow()) - #dates.year(ticket.startdate)) gt 0} ? 'danger' : (   ${( ((#dates.month(#dates.createNow())*30) + (#dates.day(#dates.createNow()))) - 
+         																																			     (((#dates.month(ticket.startdate))*30) + (#dates.day(ticket.startdate))) ) gt 50} ? 'danger' :
          																																		  (   ${( ((#dates.month(#dates.createNow())*30) + (#dates.day(#dates.createNow()))) - 
-         																																			     (((#dates.month(ticket.date))*30) + (#dates.day(ticket.date))) ) gt 15} ? 'warning' : '')) "> 
+         																																			     (((#dates.month(ticket.startdate))*30) + (#dates.day(ticket.startdate))) ) gt 15} ? 'warning' : '')) "> 
         	
 	        <td><a th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/tickets/' + ${ticket.id}}"   /></td>
 	        <td th:utext="${ticket.user.name}"></td>
-	        <td th:utext="${ticket.content}"></td>
-	        <td th:text="${#dates.format(ticket.date, 'yyyy.MM.dd')}"></td>
+	        <td th:utext="${ticket.task}"></td>
+	        <td th:text="${#dates.format(ticket.startdate, 'yyyy.MM.dd')}"></td>
 	        <td th:utext="${ticket.user.phone}"></td>
 	        <td  th:utext="${ticket.user.address}"></td>
         </tr>

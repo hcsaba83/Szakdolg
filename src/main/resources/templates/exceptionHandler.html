@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title th:text="${pageTitle}">SpaceJack</title>
+    <title th:text="${pageTitle}">Kivétel történt</title>
     
     <link rel="stylesheet" th:href="@{css/main.css}" href="../static/css/main.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
@@ -33,7 +33,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Csabi szakdolgozat gyakorlatok</a>
+                <a class="navbar-brand" href="#">Kivétel kezelő oldal</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-5">
                 <p class="navbar-text navbar-right" th:text="#{yourip}">IP címed: <a href="#" class="navbar-link">127.0.0.1</a></p>
@@ -44,22 +44,9 @@
    
     <article>
         <header>
-            <h1 th:text="${#numbers.formatInteger(ticket.id,5)}">Ez itt a cím</h1> 
-            <p th:text="${#dates.format(ticket.startdate, 'yyyy.MM.dd')}">Posted on September 31, 2015 at 10:00 PM</p>
+            <h1>Sajnáljuk, az alábbi hiba történt!</h1> 
         </header>
-    
- 	    <section th:utext="${ticket.task}">
-            <p>Carl összeráncolta szemöldökét, és felnézett az égre. Bármennyire is erőlködött, nem tudott egyetlen másodpercnél tovább a nap felé nézni. Az égitest vakító ereje bevilágította a környéket, emellett pedig szúrós meleg pontként szurkálta halántékát mind a két oldalról.</p>
-      		<p> -Feladom… - gondolta, majd tekintetét a játszótérre emelte. Innen a nyolcadik emeletről tökéletesen be lehetett látni az egész grundot. A háztömbök által körülölelt focipályán a gyerekek nyüzsögtek reggeltől estig. Ha az egyiket elhívták a szülei, szinte azonnal jött a helyére egy másik. A hajnalban még négy fős csapatok délutánra nyolc tagúra dagadtak, naplemente előtt pedig már nem is lehetett pontosan megállapítani, hogy melyik térfelen hány gyerek szaladgál fel-alá.</p>
-      		<p></p>
-        </section>
-        
-        <footer>
-            <address>
-                Beküldte: <span th:text="${ticket.user.name}">Anonymous</span>
-            </address>
-        </footer>
-        <hr/>
+ 	    <section th:utext="${errmessage}"></section>
     </article>
 
     <footer>

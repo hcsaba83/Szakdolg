@@ -22,11 +22,15 @@ public class TicketService {
 	}
 	
 	public List<Ticket> getTickets() {
-		return ticketRepo.findAllByOrderByDateAsc();
+		return ticketRepo.findAllByOrderByStartdateAsc();
 	}
 
 	public Object getSpecificTicket(Long id) {
 		return ticketRepo.findById(id);
+	}
+	
+	public Boolean idExists(Long id) {
+		return ticketRepo.exists(id);
 	}
 	
 

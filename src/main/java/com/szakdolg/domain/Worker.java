@@ -14,8 +14,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="users")
-public class User {
+@Table(name="workers")
+public class Worker {
 	
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
@@ -23,29 +23,21 @@ public class User {
 	private String name;
 	//@JsonIgnore
 	private String password;
-	private String phone;
-	private String address;
-	private Date regdate;
-	private Integer token;
 	private Boolean active;
 	private String role;
 	@JsonBackReference
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "worker")
 	private List<Ticket> tickets;
 	
 	
-	public User() {
+	public Worker() {
 	}
 	
-	public User(Long id, String name, String password, String phone, String address, Date regdate, Integer token,
+	public Worker(Long id, String name, String password, String phone, String address, Date regdate, Integer token,
 			Boolean active, String role, List<Ticket> tickets) {
 		this.id = id;
 		this.name = name;
 		this.password = password;
-		this.phone = phone;
-		this.address = address;
-		this.regdate = regdate;
-		this.token = token;
 		this.active = active;
 		this.role = role;
 		this.tickets = tickets;
@@ -65,33 +57,7 @@ public class User {
 	public String getPassword() {
 		return password;
 	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getPhone() {
-		return phone;
-	}
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public Date getRegdate() {
-		return regdate;
-	}
-	public void setRegdate(Date regdate) {
-		this.regdate = regdate;
-	}
-	public Integer getToken() {
-		return token;
-	}
-	public void setToken(Integer token) {
-		this.token = token;
-	}
+
 	public Boolean getActive() {
 		return active;
 	}

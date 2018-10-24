@@ -10,7 +10,7 @@ import com.szakdolg.domain.Ticket;
 @Repository
 public interface TicketRepository extends CrudRepository<Ticket, Long>  {
 	
-	List<Ticket> findAllByOrderByDateAsc();
+	List<Ticket> findAllByOrderByStartdateAsc();
 
 	Ticket findById(Long id);
 

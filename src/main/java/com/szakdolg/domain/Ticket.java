@@ -2,6 +2,7 @@ package com.szakdolg.domain;
 
 import java.sql.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,12 +19,61 @@ public class Ticket {
 	Long id;
 	@ManyToOne
 	User user;
-	String content;
-	Date date;
+	@ManyToOne
+	Worker worker;
+	String task;
+	Date startdate;
+	Date enddate;
+	Date solutiondate;
+	@Column(columnDefinition="varchar(50) default 'Elvégzendő'")
+	String status;
+	String solution;
 	
 	public Ticket() {
 	}
 	
+	
+	
+	public Worker getWorker() {
+		return worker;
+	}
+
+	public void setWorker(Worker worker) {
+		this.worker = worker;
+	}
+
+	public Date getEnddate() {
+		return enddate;
+	}
+
+	public void setEnddate(Date enddate) {
+		this.enddate = enddate;
+	}
+
+	public Date getSolutiondate() {
+		return solutiondate;
+	}
+
+	public void setSolutiondate(Date solutiondate) {
+		this.solutiondate = solutiondate;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getSolution() {
+		return solution;
+	}
+
+	public void setSolution(String solution) {
+		this.solution = solution;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -37,17 +87,17 @@ public class Ticket {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public String getContent() {
-		return content;
+	public String getTask() {
+		return task;
 	}
-	public void setContent(String content) {
-		this.content = content;
+	public void setTas(String task) {
+		this.task = task;
 	}
-	public Date getDate() {
-		return date;
+	public Date getStartdate() {
+		return startdate;
 	}
-	public void setDate(Date date) {
-		this.date = date;
+	public void setStartdate(Date startdate) {
+		this.startdate = startdate;
 	}
 	
 	
