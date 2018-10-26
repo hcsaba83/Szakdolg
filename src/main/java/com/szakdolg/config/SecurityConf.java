@@ -25,7 +25,11 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 			.and()
 				.withUser("user")
 				.password("pass")
-				.roles("USER");
+				.roles("USER")
+			.and()
+			.withUser("sa")
+			.password("")
+			.roles("ADMIN");
 	}
 	
 	@Override
@@ -33,10 +37,15 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 		httpSec
 				.authorizeRequests()
 					.antMatchers(HttpMethod.GET,"/").permitAll()
+					.antMatchers("/reg").permitAll()
+					.antMatchers("/registration").permitAll()
+					.antMatchers("/db/*").permitAll()
 					.antMatchers("/tickets").hasRole("USER")
 					.antMatchers("/tickets/**").hasRole("ADMIN")
 				.and()
-					.formLogin().permitAll();
+					.formLogin().loginPage("/login").permitAll()
+					.and()
+					.logout().logoutSuccessUrl("/login?logout").permitAll();
 	}
 
 }
