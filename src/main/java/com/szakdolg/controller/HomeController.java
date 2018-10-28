@@ -30,10 +30,8 @@ public class HomeController {
 	}
 
 	@RequestMapping("/")
-	public String stories(Model model) {
-		model.addAttribute("pageTitle", "Hibabejelentő oldal");
-		model.addAttribute("tickets", ticketService.getTickets());
-		return "tickets";
+	public String stories() {
+		return "index";
 	}
 	
 	//@Secured("ROLE_USER")
@@ -60,6 +58,11 @@ public class HomeController {
 		return "registration";
 	}
 	
+	@RequestMapping("/editor/edit")
+	public String editor() {
+		return "editor";
+	}
+	
 	//@RequestMapping("/reg", method = RequestMethod.POST)
 	@PostMapping("/reg")
 	public String greetingSubmit(@ModelAttribute User user) {
@@ -76,10 +79,5 @@ public class HomeController {
 		model.addAttribute("errmessage", ex.getMessage());
 		return "exceptionHandler";
 	}
-	
-	
-	
-
-	
 
 }

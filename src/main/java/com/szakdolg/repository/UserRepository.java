@@ -11,4 +11,6 @@ import com.szakdolg.domain.User;
 public interface UserRepository extends CrudRepository<User, Long> {
 
 	List<User> findAll();
+	
+	User findByName(String name);
 }

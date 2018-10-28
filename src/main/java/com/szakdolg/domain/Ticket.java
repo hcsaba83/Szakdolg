@@ -18,74 +18,60 @@ public class Ticket {
 	@Id
 	Long id;
 	@ManyToOne
-	User user;
-	@ManyToOne
-	Worker worker;
+	User client;
 	String task;
 	Date startdate;
 	Date enddate;
-	Date solutiondate;
-	@Column(columnDefinition="varchar(50) default 'Elvégzendő'")
+	@Column(columnDefinition="varchar(50) default 'Opened'")
 	String status;
 	String solution;
 	
 	public Ticket() {
 	}
 	
-	
-	
-	public Worker getWorker() {
-		return worker;
-	}
-
-	public void setWorker(Worker worker) {
-		this.worker = worker;
-	}
-
-	public Date getEnddate() {
-		return enddate;
-	}
-
-	public void setEnddate(Date enddate) {
+	public Ticket(Long id, User client, User solver, String task, Date startdate, Date enddate, Date solutiondate,
+			String status, String solution) {
+		this.id = id;
+		this.client = client;
+		this.task = task;
+		this.startdate = startdate;
 		this.enddate = enddate;
-	}
-
-	public Date getSolutiondate() {
-		return solutiondate;
-	}
-
-	public void setSolutiondate(Date solutiondate) {
-		this.solutiondate = solutiondate;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
 		this.status = status;
-	}
-
-	public String getSolution() {
-		return solution;
-	}
-
-	public void setSolution(String solution) {
 		this.solution = solution;
 	}
 
+	public User getClient() {
+		return client;
+	}
+	public void setClient(User client) {
+		this.client = client;
+	}
+	public void setTask(String task) {
+		this.task = task;
+	}
+	public Date getEnddate() {
+		return enddate;
+	}
+	public void setEnddate(Date enddate) {
+		this.enddate = enddate;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getSolution() {
+		return solution;
+	}
+	public void setSolution(String solution) {
+		this.solution = solution;
+	}
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
-	}
-	
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
 	}
 	public String getTask() {
 		return task;

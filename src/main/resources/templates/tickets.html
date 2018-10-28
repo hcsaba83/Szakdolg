@@ -57,11 +57,11 @@
          																																			     (((#dates.month(ticket.startdate))*30) + (#dates.day(ticket.startdate))) ) gt 15} ? 'warning' : '')) "> 
         	
 	        <td><a th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/tickets/' + ${ticket.id}}"   /></td>
-	        <td th:utext="${ticket.user.name}"></td>
+	        <td th:utext="${ticket.client.name}"></td>
 	        <td th:utext="${ticket.task}"></td>
 	        <td th:text="${#dates.format(ticket.startdate, 'yyyy.MM.dd')}"></td>
-	        <td th:utext="${ticket.user.phone}"></td>
-	        <td  th:utext="${ticket.user.address}"></td>
+	        <td th:utext="${ticket.client.phone}"></td>
+	        <td  th:utext="${ticket.client.address}"></td>
         </tr>
    </table>
    </center>

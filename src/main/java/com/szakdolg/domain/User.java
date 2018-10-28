@@ -1,12 +1,19 @@
 package com.szakdolg.domain;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -28,17 +35,25 @@ public class User {
 	private Date regdate;
 	private Integer token;
 	private Boolean active;
-	private String role;
 	@JsonBackReference
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "client")
 	private List<Ticket> tickets;
+	
+	@ManyToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable (
+			name = "users_roles",
+			joinColumns = {@JoinColumn(name="user_id")},
+			inverseJoinColumns = {@JoinColumn(name="role_id")}
+			)
+	private Set<Role> roles = new HashSet<Role>();
 	
 	
 	public User() {
 	}
 	
 	public User(Long id, String name, String password, String phone, String address, Date regdate, Integer token,
-			Boolean active, String role, List<Ticket> tickets) {
+			Boolean active, List<Ticket> tickets, Set<Role> roles) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.password = password;
@@ -47,9 +62,19 @@ public class User {
 		this.regdate = regdate;
 		this.token = token;
 		this.active = active;
-		this.role = role;
 		this.tickets = tickets;
+		this.roles = roles;
 	}
+
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -98,19 +123,14 @@ public class User {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
-	public String getRole() {
-		return role;
-	}
-	public void setRole(String role) {
-		this.role = role;
-	}
+
 	public List<Ticket> getTickets() {
 		return tickets;
 	}
 	public void setTickets(List<Ticket> tickets) {
 		this.tickets = tickets;
 	}
-	
-	
+
+
 
 }
