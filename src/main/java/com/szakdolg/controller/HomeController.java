@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.szakdolg.domain.User;
 import com.szakdolg.service.TicketService;
+import com.szakdolg.service.UserDetailsImpl;
 
 @Controller
 public class HomeController {
@@ -23,7 +24,14 @@ public class HomeController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	TicketService ticketService;
+	UserDetailsImpl userDetails;
 	
+	
+	@Autowired
+	public UserDetailsImpl getUserDetailsImpl() {
+		return userDetails;
+	}
+
 	@Autowired
 	public void setStoryService(TicketService ticketService) {
 		this.ticketService = ticketService;
@@ -39,6 +47,15 @@ public class HomeController {
 	public String tickets(Model model) {
 		model.addAttribute("pageTitle", "TICKETS");
 		model.addAttribute("tickets", ticketService.getTickets());
+		return "tickets";
+	}
+	
+	@RequestMapping("/usertickets")
+	public String usertickets(Model model)  throws Exception  {
+		if (ticketService.getTicketsByName() == null)
+			throw new Exception("Nincs egy darab hibajegy sem.");
+		model.addAttribute("pageTitle", "USER'S TICKETS");
+		model.addAttribute("tickets", ticketService.getTicketsByName());
 		return "tickets";
 	}
 	

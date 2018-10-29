@@ -13,6 +13,8 @@ import com.szakdolg.repository.UserRepository;
 public class UserServImp implements UserService, UserDetailsService {
 	
 	private UserRepository userRepository;
+	
+	
 
 //	// Konstruktor alap DI
 	@Autowired
@@ -26,7 +28,6 @@ public class UserServImp implements UserService, UserDetailsService {
 		return userRepository.findByName(name);
 	}
 
-
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		System.out.println("User keresés: "+username);
@@ -36,5 +37,6 @@ public class UserServImp implements UserService, UserDetailsService {
 		}
 		return new UserDetailsImpl(user);
 	}
+	
 
 }
