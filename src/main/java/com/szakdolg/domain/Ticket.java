@@ -19,6 +19,7 @@ public class Ticket {
 	Long id;
 	@ManyToOne
 	User client;
+	String worker;
 	String task;
 	Date startdate;
 	Date enddate;
@@ -29,17 +30,12 @@ public class Ticket {
 	public Ticket() {
 	}
 	
-	public Ticket(Long id, User client, User solver, String task, Date startdate, Date enddate, Date solutiondate,
-			String status, String solution) {
-		this.id = id;
-		this.client = client;
-		this.task = task;
-		this.startdate = startdate;
-		this.enddate = enddate;
-		this.status = status;
-		this.solution = solution;
+	public String getWorker() {
+		return worker;
 	}
-
+	public void setWorker(String worker) {
+		this.worker = worker;
+	}
 	public User getClient() {
 		return client;
 	}

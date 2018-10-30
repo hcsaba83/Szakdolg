@@ -47,8 +47,8 @@ public class UserDetailsImpl implements UserDetails {
 	@Override
 	public String getUsername() {
 		System.out.print("name for Security: ");
-		System.out.println(user.getName() );
-		return user.getName();
+		System.out.println(user.getEmail() );
+		return user.getEmail();
 	}
 
 	@Override

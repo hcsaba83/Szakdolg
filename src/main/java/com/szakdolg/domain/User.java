@@ -24,9 +24,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name="users")
 public class User {
 	
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	//@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
-	private Long id;
+	private String email;
 	private String name;
 	//@JsonIgnore
 	private String password;
@@ -51,10 +51,10 @@ public class User {
 	public User() {
 	}
 	
-	public User(Long id, String name, String password, String phone, String address, Date regdate, Integer token,
+	public User(String email, String name, String password, String phone, String address, Date regdate, Integer token,
 			Boolean active, List<Ticket> tickets, Set<Role> roles) {
 		super();
-		this.id = id;
+		this.email = email;
 		this.name = name;
 		this.password = password;
 		this.phone = phone;
@@ -67,6 +67,14 @@ public class User {
 	}
 
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -75,12 +83,6 @@ public class User {
 		this.roles = roles;
 	}
 
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public String getName() {
 		return name;
 	}

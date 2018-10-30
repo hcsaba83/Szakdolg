@@ -23,15 +23,15 @@ public class UserServImp implements UserService, UserDetailsService {
 	}
 
 	@Override
-	public User findByName(String name) {
-		System.out.println("findByName: "+name);
-		return userRepository.findByName(name);
+	public User findByEmail(String email) {
+		System.out.println("findByEmail: "+email);
+		return userRepository.findByEmail(email);
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		System.out.println("User keresés: "+username);
-		User user = findByName(username);
+		User user = findByEmail(username);
 		if(user == null) {
 			throw new UsernameNotFoundException(username);
 		}

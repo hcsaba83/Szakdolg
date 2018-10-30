@@ -51,11 +51,21 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/usertickets")
-	public String usertickets(Model model)  throws Exception  {
-		if (ticketService.getTicketsByName() == null)
+	public String userTickets(Model model)  throws Exception  {
+		if (ticketService.getTicketsByClient() == null)
 			throw new Exception("Nincs egy darab hibajegy sem.");
 		model.addAttribute("pageTitle", "USER'S TICKETS");
-		model.addAttribute("tickets", ticketService.getTicketsByName());
+		model.addAttribute("tickets", ticketService.getTicketsByClient());
+		return "tickets";
+	}
+	
+	
+	@RequestMapping("/workertickets")
+	public String workerTickets(Model model)  throws Exception  {
+		if (ticketService.getTicketsByWorker() == null)
+			throw new Exception("Nincs egy darab hibajegy sem.");
+		model.addAttribute("pageTitle", "USER'S TICKETS");
+		model.addAttribute("tickets", ticketService.getTicketsByWorker());
 		return "tickets";
 	}
 	

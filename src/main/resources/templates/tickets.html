@@ -29,8 +29,9 @@
    		<tr>
 	        <td width="10%" >Id</td>
 	        <td width="15%">Név</td>
-	        <td width="40%">Bejelentés</td>
-	        <td width="15%">Bejelentés kelte</td>
+	        <td width="35%">Bejelentés</td>
+	        <td width="10%">Megoldo</td>
+	        <td width="10%">Bejelentés kelte</td>
 	        <td width="10%">Telefonszám</td>
 	        <td width="10%">Cím</td>
     	</tr>
@@ -43,6 +44,7 @@
 	        <td><a th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/tickets/' + ${ticket.id}}"   /></td>
 	        <td th:utext="${ticket.client.name}"></td>
 	        <td th:utext="${ticket.task}"></td>
+	        <td th:utext="${ticket.worker}">Nincs megoldo</td>
 	        <td th:text="${#dates.format(ticket.startdate, 'yyyy.MM.dd')}"></td>
 	        <td th:utext="${ticket.client.phone}"></td>
 	        <td  th:utext="${ticket.client.address}"></td>
