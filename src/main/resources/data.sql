@@ -14,7 +14,7 @@ insert into users_roles (user_id, role_id) values ('info2@csabszak.com',1)
 insert into users_roles (user_id, role_id) values ('info3@csabszak.com',1)
 insert into users_roles (user_id, role_id) values ('info4@csabszak.com',1)
 
-insert into TICKETS (task, worker, startdate, client_email) values ('Nincs internet kapcsolat a számítógépen! SOS!', 'Batman', '2017-10-6', (select email from USERS where email='info1@csabszak.com'))
+insert into TICKETS (task, worker, solution, startdate, client_email) values ('Nincs internet kapcsolat a számítógépen! SOS!', 'Batman', 'nemazigazi', '2017-10-6', (select email from USERS where email='info1@csabszak.com'))
 insert into TICKETS (task, worker, startdate, client_email) values ('Központi szerver nem indul. Sürgős!', 'Batman', '2018-5-11', (select email from USERS where email='info2@csabszak.com'))
 insert into TICKETS (task, worker, startdate, client_email) values ('VLC média player nem indul. ', 'Batman', '2018-8-19', (select email from USERS where email='info3@csabszak.com'))
 insert into TICKETS (task, worker, startdate, client_email) values ('Új nyomtató üzembe helyezése.', 'Batman', '2018-10-9', (select email from USERS where email='info4@csabszak.com'))

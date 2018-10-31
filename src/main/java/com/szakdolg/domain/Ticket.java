@@ -81,6 +81,12 @@ public class Ticket {
 	public void setStartdate(Date startdate) {
 		this.startdate = startdate;
 	}
+
+	@Override
+	public String toString() {
+		return "Ticket [id=" + id + ", client=" + client + ", worker=" + worker + ", task=" + task + ", startdate="
+				+ startdate + ", enddate=" + enddate + ", status=" + status + ", solution=" + solution + "]";
+	}
 	
 	
 

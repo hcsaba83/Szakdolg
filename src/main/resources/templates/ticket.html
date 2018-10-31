@@ -42,6 +42,23 @@
         </footer>
         <hr/>
     </article>
+        <article>
+        <header>
+            <h1>Megoldás</h1> 
+
+        </header>
+    
+ 	    <section th:utext="${ticket.solution}">
+            <p>...</p>
+        </section>
+        
+        <footer>
+            <address>
+                Megoldotta: <span th:text="${ticket.worker}">Anonymous</span>
+            </address>
+        </footer>
+        <hr/>
+    </article>
 
     <footer>
         <p th:text="#{footerText}">Készült az San Franciscoból Jöttem csapata megbízásából</p>

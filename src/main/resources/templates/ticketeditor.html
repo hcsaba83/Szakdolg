@@ -1,0 +1,37 @@
+!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" layout:decorator="layouts/main">
+<head>
+<title>uu74p5</title>
+</head>
+<body>
+
+	<div layout:fragment="ticketEditor">
+	
+	    <article>
+        <header>
+            <h1 th:text="${#numbers.formatInteger(ticket.id,5)}">Ez itt a cím</h1> 
+            <p th:text="${#dates.format(ticket.startdate, 'yyyy.MM.dd')}">Posted on September 31, 2015 at 10:00 PM</p>
+        </header>
+    
+ 	    <section th:utext="${ticket.task}">
+            <p>...</p>
+        </section>
+        
+        <footer>
+            <address>
+                Beküldte: <span th:text="${ticket.client.name}">Anonymous</span>
+            </address>
+        </footer>
+        <hr/>
+    </article>
+
+		<form name="ticketeditor" th:action="@{'/tickets/edit/' + ${ticket.id}}" th:object="${ticket}" method="post" class="form-signin">
+			<h2 class="form-signin-heading">Hibajegy szeresztése</h2>
+		 	    <input type="textfield" id="solution" name="solution" th:field="*{solution}" class="form-control" placeholder="Megoldás"  /> 
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Mentés</button>
+		</form>
+
+	</div>
+
+</body>
+</html>

@@ -30,7 +30,7 @@ public class TicketService {
 		return ticketRepo.findAllByOrderByStartdateAsc();
 	}
 
-	public Object getSpecificTicket(Long id) {
+	public Ticket getSpecificTicket(Long id) {
 		return ticketRepo.findById(id);
 	}
 	
