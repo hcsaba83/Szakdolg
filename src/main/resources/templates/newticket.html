@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" layout:decorator="layouts/main">
+<head>
+<title>uu74p5</title>
+</head>
+<body>
+
+<div layout:fragment="ticketEditor">
+	
+<form name="ticketeditor" th:action="@{'/usertickets/new/'}" th:object="${ticket}" method="post" class="form-signin">
+	
+		<table style="width:98%" class="table table-striped table-bordered table-hover">
+
+		<tr style="font-style:italic">
+			<td colspan="4">Hiba leírása:</td>
+		</tr>
+		<tr>
+			<td height="100px" colspan="4"><input type="textarea" id="task" name="task" th:field="*{task}" class="form-control" placeholder="Hibabejelent�s"  /></td>
+		</tr>
+		<tr>
+		<td>Bejelentő:</td><td><span sec:authentication="name"></span></td><td>Bejelentás dátuma:</td><td th:utext="${#dates.format(#dates.createNow(), 'yyyy.MM.dd')}">start date</td>
+		</tr>
+	
+	</table>
+
+	<button class="btn btn-warning" type="submit" role="button">Mentés</button>
+	
+</form>
+
+	</div>
+
+</body>
+</html>

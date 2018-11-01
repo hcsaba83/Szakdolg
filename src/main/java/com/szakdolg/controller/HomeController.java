@@ -1,11 +1,14 @@
 package com.szakdolg.controller;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,6 +23,7 @@ import com.szakdolg.repository.TicketRepository;
 import com.szakdolg.repository.UserRepository;
 import com.szakdolg.service.TicketService;
 import com.szakdolg.service.UserDetailsImpl;
+import com.szakdolg.service.UserServImp;
 
 @Controller
 public class HomeController {
@@ -27,26 +31,32 @@ public class HomeController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	private TicketService ticketService;
-	private UserDetailsImpl userDetails;
-	TicketRepository ticketRepository;
-	UserRepository userRepository;
+	UserDetailsImpl userDetails;
+	private TicketRepository ticketRepository;
+	private UserRepository userRepository;
+	private UserServImp userService;
 
 	
+	@Autowired
+	public UserDetailsImpl getUserDetails() {
+		return userDetails;
+	}
 
-	public HomeController(TicketRepository ticketRepository, UserRepository userRepository) {
-		super();
+	@Autowired
+	public UserServImp getUserService() {
+		return userService;
+	}
+
+	// EZZEL KEZDJ MÁR VALAMIT! VAGY LEGYEN SETTER VAGY .... VAGY MiND ÍGY LEGYEN
+	public HomeController(TicketRepository ticketRepository, UserRepository userRepository, UserServImp userService) {
 		this.ticketRepository = ticketRepository;
 		this.userRepository = userRepository;
+		this.userService = userService;
 	}
 
 	@Autowired
 	public TicketRepository getTicketRepository() {
 		return ticketRepository;
-	}
-
-	@Autowired
-	public UserDetailsImpl getUserDetailsImpl() {
-		return userDetails;
 	}
 
 	@Autowired
@@ -88,7 +98,17 @@ public class HomeController {
 	
 	//@Secured("ROLE_ADMIN")
 	@RequestMapping("/tickets/{id}")
-	public String searchForStory(@PathVariable(value="id") Long id, Model model) throws Exception {
+	public String searchForTicket(@PathVariable(value="id") Long id, Model model) throws Exception {
+		if (ticketService.idExists(id) == false)
+			throw new Exception("Nincs ilyen azonosítószámú hibajegy.");
+		model.addAttribute("pageTitle", "Ticket részletei");
+		model.addAttribute("ticket", ticketService.getSpecificTicket(id));
+		return "ticket";
+	}
+	
+	//@Secured("ROLE_ADMIN")
+	@RequestMapping("/usertickets/{id}")
+	public String searchForUserTicket(@PathVariable(value="id") Long id, Model model) throws Exception {
 		if (ticketService.idExists(id) == false)
 			throw new Exception("Nincs ilyen azonosítószámú hibajegy.");
 		model.addAttribute("pageTitle", "Ticket részletei");
@@ -107,9 +127,31 @@ public class HomeController {
 	public String greetingSubmit(@ModelAttribute User user) {
 		System.out.println("Új User");
 		log.info("Uj User Regisztracio.");
-		log.debug(user.getName());
+		log.debug(user.getEmail());
 		log.debug(user.getPassword());
 		return("/auth/login");
+	}
+	
+	@PostMapping("/usertickets/new")
+	public String postNewTicket(@ModelAttribute Ticket ticket) {
+		System.out.println("Új Ticket");
+		String ez;
+		System.out.println(ez = SecurityContextHolder.getContext().getAuthentication().getName());
+		System.out.println(ticket.getTask());
+		System.out.println(new Date());
+		ticket.setStartdate(new Date());
+		ticket.setClient(userService.findByEmail(ez));
+		ticketRepository.save(ticket);
+		log.info("New ticket sent.");
+		log.debug(ticket.getTask());
+		log.debug(ticket.getClient().getName());
+		return("/usertickets");
+	}
+	
+	@RequestMapping("/newticket")
+	public String newTicket(Model model) {
+		model.addAttribute("ticket", new Ticket());
+		return "newticket";
 	}
 	
 	@PostMapping("/tickets/edit/{id}")
@@ -118,14 +160,13 @@ public class HomeController {
 			throw new Exception("Mi a péklapát?");
 		System.out.println("Ticket Editoring....");
 		Ticket jegy = ticketService.getSpecificTicket(id);
-		System.out.println(jegy.getId());
-		System.out.println(jegy.getSolution());
-		System.out.println(jegy.toString());
+		jegy.setEnddate(new Date());
 		jegy.setSolution(solution);
 		ticketRepository.save(jegy);
 		System.out.println(jegy.getId());
-		System.out.println(jegy.getSolution());
 		System.out.println(jegy.getTask());
+		System.out.println(jegy.getSolution());
+		System.out.println(jegy.getClient().getRoles());
 		return("tickets");
 	}
 	

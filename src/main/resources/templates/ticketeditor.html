@@ -1,35 +1,47 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en" layout:decorator="layouts/main">
 <head>
 <title>uu74p5</title>
 </head>
 <body>
 
-	<div layout:fragment="ticketEditor">
+<div layout:fragment="ticketEditor">
 	
-	    <article>
-        <header>
-            <h1 th:text="${#numbers.formatInteger(ticket.id,5)}">Ez itt a c�m</h1> 
-            <p th:text="${#dates.format(ticket.startdate, 'yyyy.MM.dd')}">Posted on September 31, 2015 at 10:00 PM</p>
-        </header>
-    
- 	    <section th:utext="${ticket.task}">
-            <p>...</p>
-        </section>
-        
-        <footer>
-            <address>
-                Bek�ldte: <span th:text="${ticket.client.name}">Anonymous</span>
-            </address>
-        </footer>
-        <hr/>
-    </article>
+<form name="ticketeditor" th:action="@{'/tickets/edit/' + ${ticket.id}}" th:object="${ticket}" method="post" class="form-signin">
+	
+		<table style="width:98%" class="table table-striped table-bordered table-hover">
+		<tr style="font-weight:bold">
+			<td style="width:25%">Hibajegy ID:</td><td style="width:25%" class="info" th:text="${#numbers.formatInteger(ticket.id,5)}">00000</td><td style="width:25%">Státusz:</td><td style="width:25%" class="danger" th:utext="${ticket.status}">StĂˇtusz: 00000</td>
+		</tr>
+		<tr style="font-style:italic">
+			<td colspan="4">Feladat leírása:</td>
+		</tr>
+		<tr>
+			<td height="100px" colspan="4" th:utext="${ticket.task}">Feladat</td>
+		</tr>
+		<tr>
+			<td>Bejelentő:</td><td th:utext="${ticket.client.name}">Kliens</td><td>Bejelentás dátuma:</td><td th:utext="${#dates.format(ticket.startdate, 'yyyy.MM.dd')}">start date</td>
+		</tr>
+		<tr  style="font-style:italic">
+			<td colspan="4">Megoldás leírása:</td>
+		</tr>
+		<tr>
+			<td colspan="4"><input type="textarea" id="solution" name="solution" th:field="*{solution}" class="form-control" placeholder="Megoldás"  /></td>
+		</tr>
+		<tr>
+			<td>Megoldó:</td>
+			<td th:utext="${ticket.worker}">Worker</td>
+			<td>Megoldás dátuma:</td>
+			<td>
+			</td>
+			 
+		</tr>
+	
+	</table>
 
-		<form name="ticketeditor" th:action="@{'/tickets/edit/' + ${ticket.id}}" th:object="${ticket}" method="post" class="form-signin">
-			<h2 class="form-signin-heading">Hibajegy szereszt�se</h2>
-		 	    <input type="textfield" id="solution" name="solution" th:field="*{solution}" class="form-control" placeholder="Megold�s"  /> 
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Ment�s</button>
-		</form>
+	<button class="btn btn-warning" type="submit" role="button">Mentés</button>
+	
+</form>
 
 	</div>
 

@@ -25,10 +25,9 @@
 		       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				    <ul class="nav navbar-nav">
 				        <li class="active"><a href="/">Kezdőoldal</a></li>
-				        <li class=""><a href="usertickets">Hibajegyeim</a></li>
-				        <li class=""><a href="workertickets">Hibajegyek W</a></li>
-				        <li class=""><a href="editor/edit">Editor</a></li>
-				        <li class=""><a href="editor/edit">Bejelentés</a></li>
+				        <li class="" sec:authorize="hasAnyAuthority('USER', 'ADMIN')"><a href="usertickets">Hibajegyeim</a></li>
+				        <li class="" sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')"><a href="workertickets">Hibajegyek W</a></li>
+				        <li class=""><a href="newticket">Bejelentés</a></li>
 				        <li class=""><a href="editor/edit">Email</a></li>
 				        
 				    </ul>
@@ -38,7 +37,10 @@
 				      </form>
 				    </div>
 				    <div class="navbar-text navbar-right" sec:authorize="isAuthenticated()">
-				     Üdvözöllek, <span sec:authentication="name"></span>!
+				     <font color="green">Üdvözöllek, <span sec:authentication="name"></span>!</font>
+				    </div>
+				    <div class="navbar-text navbar-right" sec:authorize="hasAuthority('ADMIN')">
+				     	<font color="red">{ADMIN}</font>
 				    </div>
 				    
 				    <div class="navbar-text navbar-right" sec:authorize="isAnonymous()">

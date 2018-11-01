@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,13 +15,13 @@ import com.szakdolg.domain.User;
 
 //Jól belenyúlunk a motorháztető alá, megmondjuk a Spring Securitynak, hogy az adatbázisból vesse össze
 //az adatokat 
+
 public class UserDetailsImpl implements UserDetails {
 
 	private static final long serialVersionUID = -4772871954166589912L;
 	
 	private User user;
 
-	//DI
 	public UserDetailsImpl(User user) {
 		this.user = user;
 	}

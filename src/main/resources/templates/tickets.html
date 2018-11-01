@@ -41,7 +41,9 @@
          																																		  (   ${( ((#dates.month(#dates.createNow())*30) + (#dates.day(#dates.createNow()))) - 
          																																			     (((#dates.month(ticket.startdate))*30) + (#dates.day(ticket.startdate))) ) gt 15} ? 'warning' : '')) "> 
         	
-	        <td><a th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/tickets/' + ${ticket.id}}"   /></td>
+	        <p sec:authorize="hasAuthority('ADMIN')"><td><a th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/tickets/' + ${ticket.id}}"   /></td></p>
+	        <p sec:authorize="hasAuthority('USER')"><td><a th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/usertickets/' + ${ticket.id}}"   /></td></p>
+
 	        <td th:utext="${ticket.client.name}"></td>
 	        <td th:utext="${ticket.task}"></td>
 	        <td th:utext="${ticket.worker}">Nincs megoldo</td>

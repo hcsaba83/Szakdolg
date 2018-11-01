@@ -13,8 +13,6 @@ import com.szakdolg.repository.UserRepository;
 public class UserServImp implements UserService, UserDetailsService {
 	
 	private UserRepository userRepository;
-	
-	
 
 //	// Konstruktor alap DI
 	@Autowired
@@ -37,6 +35,11 @@ public class UserServImp implements UserService, UserDetailsService {
 		}
 		return new UserDetailsImpl(user);
 	}
+	
+	public User findByName(String name) {
+		return userRepository.findByName(name);
+	}
+	
 	
 
 }

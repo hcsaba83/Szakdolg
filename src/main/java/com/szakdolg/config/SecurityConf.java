@@ -30,8 +30,9 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 		httpSec
 				.authorizeRequests()
 					.antMatchers("/").permitAll()
-					.antMatchers("/editor", "/editor/**").hasAuthority("USER")
-					.antMatchers("/tickets", "/tickets/**").hasAuthority("ADMIN")
+					.antMatchers("/usertickets", "/usertickets/**").hasAuthority("USER")
+					.antMatchers("/tickets", "/tickets/**").hasAnyAuthority("EDITOR", "ADMIN")
+					.antMatchers("/workertickets", "/workertickets/**").hasAnyAuthority("EDITOR", "ADMIN")
 					.antMatchers("/reg").permitAll()
 					.antMatchers("/registration").permitAll()
 					.anyRequest().authenticated()
