@@ -1,43 +1,37 @@
 <!DOCTYPE html>
-<html lang="en" layout:decorator="layouts/main">
+<html lang="hu" layout:decorator="layouts/main">
 <head>
 <title>Tickets</title>
 </head>
 <body>
 
-<div layout:fragment="tickets">
+<div width="95%" layout:fragment="tickets">
 <div class="container">
+	
+	<h2>Hibajegyek</h2>
+	<a class="btn btn-default" th:href="@{'/workertickets/inprogress'}" role="button">Saját folyamatban</a>
+	<a class="btn btn-default" th:href="@{'/workertickets/closed'}" role="button">Saját lezárt</a>
+	<a class="btn btn-default" th:href="@{'/workertickets'}" role="button">Saját összes</a>
+		<a class="btn btn-default" th:href="@{'/alltickets/inprogress'}" role="button">Összes folyamatban</a>
+	<a class="btn btn-default" th:href="@{'/alltickets/closed'}" role="button">Összes lezárt</a>
+	<a class="btn btn-default" th:href="@{'/alltickets'}" role="button">Összes</a>
+	<a class="btn btn-warning" th:href="@{'/tickets'}" role="button">Gazdátlan</a>
 
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-5" aria-expanded="false">
-                    <span class="sr-only"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">Hibajegyek</a>
-            </div>
-            
-        </div>
-    </nav>
-	<center>
-   <table class="table table-striped table-bordered table-hover">
+   <table style="width:98%" class="table table-striped table-bordered table-hover">
    		<tr>
 	        <td width="10%" >Id</td>
 	        <td width="15%">Név</td>
 	        <td width="35%">Bejelentés</td>
-	        <td width="10%">Megoldo</td>
+	        <td width="10%">Megoldó</td>
 	        <td width="10%">Bejelentés kelte</td>
 	        <td width="10%">Telefonszám</td>
 	        <td width="10%">Cím</td>
     	</tr>
 <!--         	<tr th:each="ticket : ${tickets}"   th:classappend="${ticketService.getDateDiff(#dates.createNow(), ticket.date,TimeUnit.MINUTES)} ? 'warning' : 'danger'">  -->
-         	<tr th:each="ticket : ${tickets}"   th:classappend="${(#dates.year(#dates.createNow()) - #dates.year(ticket.startdate)) gt 0} ? 'danger' : (   ${( ((#dates.month(#dates.createNow())*30) + (#dates.day(#dates.createNow()))) - 
+         	<tr th:each="ticket : ${tickets}"   th:classappend="${ticket.status eq 'closed'} ? 'success' : (${(#dates.year(#dates.createNow()) - #dates.year(ticket.startdate)) gt 0} ? 'danger' : (   ${( ((#dates.month(#dates.createNow())*30) + (#dates.day(#dates.createNow()))) - 
          																																			     (((#dates.month(ticket.startdate))*30) + (#dates.day(ticket.startdate))) ) gt 50} ? 'danger' :
          																																		  (   ${( ((#dates.month(#dates.createNow())*30) + (#dates.day(#dates.createNow()))) - 
-         																																			     (((#dates.month(ticket.startdate))*30) + (#dates.day(ticket.startdate))) ) gt 15} ? 'warning' : '')) "> 
+         																																			     (((#dates.month(ticket.startdate))*30) + (#dates.day(ticket.startdate))) ) gt 15} ? 'warning' : '')) )"> 
         	
 	        <p sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')"><td><a th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/tickets/' + ${ticket.id}}"   /></td></p>
 	        <p sec:authorize="hasAuthority('USER')"><td><a th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/usertickets/' + ${ticket.id}}"   /></td></p>
@@ -46,9 +40,9 @@
 	        <td th:utext="${ticket.task}"></td>
 	        <td>
 	        <span th:if="${ticket.worker != null}" th:utext="${ticket.worker.name}"></span>
-	        <span th:if="${ticket.worker == null}"><form sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')" id="frmvallalom" th:action="@{'/vallalom/' + ${ticket.id}}" method="post" class="form-inline">
-				    		<a href="javascript:{}" onclick="document.getElementById('frmvallalom').submit(); return false;">Vállalom</a>
-				      </form></span>
+	        <span sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')" th:if="${ticket.worker == null}">
+				    		<a th:href="@{'/vallalom/' + ${ticket.id}}">Vállalom</a>
+				      </span>
 
 	        </td>
 	        <td th:text="${#dates.format(ticket.startdate, 'yyyy.MM.dd')}"></td>
@@ -56,7 +50,7 @@
 	        <td  th:utext="${ticket.client.address}"></td>
         </tr>
    </table>
-   </center>
+
 
 </div>
 </div>

@@ -22,8 +22,14 @@ public interface TicketRepository extends CrudRepository<Ticket, Long>  {
 	@Query(value="SELECT t FROM Ticket t where worker_email= (select email from User where email= :email)")
 	List<Ticket> findAllByWorker(@Param("email") String worker);
 	
+	@Query(value="SELECT t FROM Ticket t where worker_email= (select email from User where email= :email) AND status=:status")
+	List<Ticket> findAllByWorkerbyStatus(@Param("email") String worker, @Param("status") String status);
+	
 	@Query(value="SELECT t FROM Ticket t where worker_email = null")
 	List<Ticket> findAllNoWorker();
+	
+	@Query(value="SELECT t FROM Ticket t where status = :status")
+	List<Ticket> findAllByStatus(@Param("status") String status);
 
 	Ticket findById(Long id);
 

@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,10 +32,8 @@ public class HomeController {
 	private TicketService ticketService;
 	UserDetailsImpl userDetails;
 	private TicketRepository ticketRepository;
-	private UserRepository userRepository;
 	private UserServImp userService;
 
-	
 	@Autowired
 	public UserDetailsImpl getUserDetails() {
 		return userDetails;
@@ -47,10 +44,8 @@ public class HomeController {
 		return userService;
 	}
 
-	// EZZEL KEZDJ MÁR VALAMIT! VAGY LEGYEN SETTER VAGY .... VAGY MiND ÍGY LEGYEN
 	public HomeController(TicketRepository ticketRepository, UserRepository userRepository, UserServImp userService) {
 		this.ticketRepository = ticketRepository;
-		this.userRepository = userRepository;
 		this.userService = userService;
 	}
 
@@ -84,6 +79,13 @@ public class HomeController {
 		return "tickets";
 	}
 	
+	@RequestMapping("/alltickets/{status}")
+	public String allTicketsByStatus(@PathVariable(value="status") String status, Model model) {
+		model.addAttribute("pageTitle", "TICKETS");
+		model.addAttribute("tickets", ticketService.getTicketsByStatus(status));
+		return "tickets";
+	}
+	
 	@RequestMapping("/usertickets")
 	public String userTickets(Model model)  throws Exception  {
 		if (ticketService.getTicketsByClient() == null)
@@ -103,6 +105,15 @@ public class HomeController {
 		return "tickets";
 	}
 	
+	@RequestMapping("/workertickets/{status}")
+	public String workerTicketsClosed(@PathVariable(value="status") String status, Model model)  throws Exception  {
+		if (ticketService.getTicketsByWorkerByStatus(status) == null)
+			throw new Exception("Nincs egy darab hibajegy sem.");
+		model.addAttribute("pageTitle", "WORKER'S TICKETS");
+		model.addAttribute("tickets", ticketService.getTicketsByWorkerByStatus(status));
+		return "tickets";
+	}
+
 	//@Secured("ROLE_ADMIN")
 	@RequestMapping("/tickets/{id}")
 	public String searchForTicket(@PathVariable(value="id") Long id, Model model) throws Exception {
@@ -164,25 +175,26 @@ public class HomeController {
 	@PostMapping("/tickets/edit/{id}")
 	public String editTicket(@PathVariable(value="id") Long id, @ModelAttribute("solution") String solution) throws Exception {
 		if (ticketService.idExists(id) == false)
-			throw new Exception("Mi a péklapát?");
+			throw new Exception("Nincs ilyen azonosítójú hibajegy.");
 		log.info("Ticket Módosítás. Ticket ID: " +id);
 		Ticket jegy = ticketService.getSpecificTicket(id);
 		jegy.setEnddate(new Date());
-		jegy.setWorker(userService.findByName(SecurityContextHolder.getContext().getAuthentication().getName()));
+		jegy.setWorker(userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
 		jegy.setSolution(solution);
+		jegy.setStatus("closed");
 		ticketRepository.save(jegy);
 		return("redirect:/tickets");
 	}
 	
-	@PostMapping("/vallalom/{id}")
+	@RequestMapping("/vallalom/{id}")
 	public String vallalTicket(@PathVariable(value="id") Long id) throws Exception {
 		if (ticketService.idExists(id) == false)
-			throw new Exception("Mi a péklapát?");
+			throw new Exception("Nincs ilyen azonosítójú hibajegy, ezért nem is lehet elvállalni.");
 		
 		Ticket jegy = ticketService.getSpecificTicket(id);
 		
 		jegy.setWorker(userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
-		jegy.setStatus("In progress...");
+		jegy.setStatus("inprogress");
 		
 		ticketRepository.save(jegy);
 		log.info("Hibajegy elvállalva. Hibajegy ID: " +id+ " Vállalta: " + jegy.getWorker().getName());
@@ -190,21 +202,18 @@ public class HomeController {
 		return("redirect:/tickets");
 	}
 	
-	
 	@RequestMapping("/tickets/{id}/editor")
-	public String editor(@PathVariable(value="id") Long id, Model model) {
+	public String editor(@PathVariable(value="id") Long id, Model model) throws Exception {
+		if (ticketService.idExists(id) == false)
+			throw new Exception("Nincs ilyen azonosítójú hibajegy, ezért nem is lehet szerkeszteni.");
+		
 		model.addAttribute("ticket", ticketService.getSpecificTicket(id));
-		System.out.println("ticketeditor request mapping");
 		return "ticketeditor";
 	}
-	
-	
-	
 	
 	@ExceptionHandler(Exception.class)
 	public String exceptionHandler(HttpServletRequest rA, Exception ex, Model model) {
 		model.addAttribute("errmessage", ex.getMessage());
 		return "exceptionHandler";
 	}
-
 }

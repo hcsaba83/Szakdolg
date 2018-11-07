@@ -47,13 +47,25 @@ public class TicketService {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		thatname = auth.getName();
 		System.out.println("getTicketsByWorker meghívódott.");
-		System.out.println(thatname);
 		return ticketRepo.findAllByWorker(thatname);
 	}
+	
+	public List<Ticket> getTicketsByWorkerByStatus(String status) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		thatname = auth.getName();
+		System.out.println("getTicketsByWorkerbySTATUS meghívódott.");
+		return ticketRepo.findAllByWorkerbyStatus(thatname, status);
+	}
+	
 	
 	public List<Ticket> getTicketsNoWorker() {
 		System.out.println("getTicketsNoWorker meghívódott.");
 		return ticketRepo.findAllNoWorker();
+	}
+	
+	public List<Ticket> getTicketsByStatus(String status) {
+		System.out.println("getTicketsByStatus meghívódott.");
+		return ticketRepo.findAllByStatus(status);
 	}
 	
 	public Boolean idExists(Long id) {

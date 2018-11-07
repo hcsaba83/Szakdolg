@@ -41,7 +41,7 @@
 		</tr>
 	
 	</table>
-	<span th:if="${ticket.status == 'In progress...'}">
+	<span th:if="${ticket.status == 'inprogress'}">
    	<p sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')"><a class="btn btn-warning" th:href="@{${ticket.id} + '/editor'}" role="button">Szerkesztés</a></p>
     </span>
 

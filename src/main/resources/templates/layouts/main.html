@@ -25,11 +25,10 @@
 		       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				    <ul class="nav navbar-nav">
 				        <li class="active"><a href="/">Kezdőoldal</a></li>
-				        <li class="" sec:authorize="hasAnyAuthority('USER', 'ADMIN')"><a href="/usertickets">Hibajegyeim</a></li>
-				        <li class="" sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')"><a href="/tickets">Hibajegyek NULL</a></li>
-				        <li class="" sec:authorize="hasAuthority('ADMIN')"><a href="/alltickets">Hibajegyek SUM</a></li>
-				        <li class=""><a href="newticket">Bejelentés</a></li>
-				        <li class=""><a href="editor/edit">Email</a></li>
+				        <li class="" sec:authorize="hasAuthority('USER')"><a href="/usertickets">Hibajegyeim</a></li>
+				        <li class="" sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')"><a href="/workertickets">Hibajegyeim</a></li>
+				        <li class="" sec:authorize="hasAuthority('USER')"><a href="newticket">Bejelentés</a></li>
+				        <li class="" sec:authorize="hasAuthority('USER')"><a href="editor/edit">Email</a></li>
 				        
 				    </ul>
 				    <div class="navbar-text navbar-right">
@@ -60,6 +59,7 @@
 		<div layout:fragment="ticket"></div>
 		<div layout:fragment="ticketEditor"></div>
 		<div layout:fragment="index"></div>
+		<div layout:fragment="error"></div>
 		
 
 

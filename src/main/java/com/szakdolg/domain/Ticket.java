@@ -26,7 +26,7 @@ public class Ticket {
 	String task;
 	Date startdate;
 	Date enddate;
-	@Column(columnDefinition="varchar(50) default 'Opened'")
+	@Column(columnDefinition="varchar(50) default 'opened'")
 	String status;
 	String solution;
 	
