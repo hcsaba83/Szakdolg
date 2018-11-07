@@ -12,16 +12,14 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-5" aria-expanded="false">
-                    <span class="sr-only">a</span>
-                    <span class="icon-bar">b</span>
-                    <span class="icon-bar">c</span>
-                    <span class="icon-bar">d</span>
+                    <span class="sr-only"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#">Hibajegyek</a>
             </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-5">
-                <p class="navbar-text navbar-right" th:utext="#{welcome}">Üdvözöllek, Vendég!</p>
-            </div>
+            
         </div>
     </nav>
 	<center>
@@ -41,12 +39,18 @@
          																																		  (   ${( ((#dates.month(#dates.createNow())*30) + (#dates.day(#dates.createNow()))) - 
          																																			     (((#dates.month(ticket.startdate))*30) + (#dates.day(ticket.startdate))) ) gt 15} ? 'warning' : '')) "> 
         	
-	        <p sec:authorize="hasAuthority('ADMIN')"><td><a th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/tickets/' + ${ticket.id}}"   /></td></p>
+	        <p sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')"><td><a th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/tickets/' + ${ticket.id}}"   /></td></p>
 	        <p sec:authorize="hasAuthority('USER')"><td><a th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/usertickets/' + ${ticket.id}}"   /></td></p>
 
 	        <td th:utext="${ticket.client.name}"></td>
 	        <td th:utext="${ticket.task}"></td>
-	        <td th:utext="${ticket.worker}">Nincs megoldo</td>
+	        <td>
+	        <span th:if="${ticket.worker != null}" th:utext="${ticket.worker.name}"></span>
+	        <span th:if="${ticket.worker == null}"><form sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')" id="frmvallalom" th:action="@{'/vallalom/' + ${ticket.id}}" method="post" class="form-inline">
+				    		<a href="javascript:{}" onclick="document.getElementById('frmvallalom').submit(); return false;">Vállalom</a>
+				      </form></span>
+
+	        </td>
 	        <td th:text="${#dates.format(ticket.startdate, 'yyyy.MM.dd')}"></td>
 	        <td th:utext="${ticket.client.phone}"></td>
 	        <td  th:utext="${ticket.client.address}"></td>

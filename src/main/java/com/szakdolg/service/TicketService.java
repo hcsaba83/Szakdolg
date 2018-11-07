@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.szakdolg.domain.Ticket;
+import com.szakdolg.domain.User;
 import com.szakdolg.repository.TicketRepository;
 
 @Service
@@ -26,7 +27,7 @@ public class TicketService {
 		this.ticketRepo = ticketRepo;
 	}
 
-	public List<Ticket> getTickets() {
+	public List<Ticket> getAllTickets() {
 		return ticketRepo.findAllByOrderByStartdateAsc();
 	}
 
@@ -47,7 +48,12 @@ public class TicketService {
 		thatname = auth.getName();
 		System.out.println("getTicketsByWorker meghívódott.");
 		System.out.println(thatname);
-		return ticketRepo.findAllByWorker("Batman");
+		return ticketRepo.findAllByWorker(thatname);
+	}
+	
+	public List<Ticket> getTicketsNoWorker() {
+		System.out.println("getTicketsNoWorker meghívódott.");
+		return ticketRepo.findAllNoWorker();
 	}
 	
 	public Boolean idExists(Long id) {

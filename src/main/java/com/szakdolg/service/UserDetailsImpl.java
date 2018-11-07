@@ -32,7 +32,7 @@ public class UserDetailsImpl implements UserDetails {
 		Set<Role> roles = user.getRoles();
 		for (Role role : roles) {
 			authorities.add(new SimpleGrantedAuthority(role.getRole()));
-			System.out.println("Role: "+authorities);
+			System.out.println("Kiosztott Role: "+authorities);
 		}
 		return authorities;
 	}
@@ -40,15 +40,15 @@ public class UserDetailsImpl implements UserDetails {
 	//Jelszó átadása a Spring Securitynak és a többit......
 	@Override
 	public String getPassword() {
-		System.out.print("pw for Security: ");
-		System.out.println(user.getPassword() );
+		//System.out.print("pw for Security: ");
+		//System.out.println(user.getPassword() );
 		return user.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
-		System.out.print("name for Security: ");
-		System.out.println(user.getEmail() );
+		//System.out.print("name for Security: ");
+		//System.out.println(user.getEmail() );
 		return user.getEmail();
 	}
 

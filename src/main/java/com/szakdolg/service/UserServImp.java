@@ -22,13 +22,12 @@ public class UserServImp implements UserService, UserDetailsService {
 
 	@Override
 	public User findByEmail(String email) {
-		System.out.println("findByEmail: "+email);
 		return userRepository.findByEmail(email);
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		System.out.println("User keresés: "+username);
+		System.out.println("***** Belépett User: "+username+ " *****");
 		User user = findByEmail(username);
 		if(user == null) {
 			throw new UsernameNotFoundException(username);

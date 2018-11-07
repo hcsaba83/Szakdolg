@@ -73,7 +73,14 @@ public class HomeController {
 	@RequestMapping("/tickets")
 	public String tickets(Model model) {
 		model.addAttribute("pageTitle", "TICKETS");
-		model.addAttribute("tickets", ticketService.getTickets());
+		model.addAttribute("tickets", ticketService.getTicketsNoWorker());
+		return "tickets";
+	}
+	
+	@RequestMapping("/alltickets")
+	public String allTickets(Model model) {
+		model.addAttribute("pageTitle", "TICKETS");
+		model.addAttribute("tickets", ticketService.getAllTickets());
 		return "tickets";
 	}
 	
@@ -91,7 +98,7 @@ public class HomeController {
 	public String workerTickets(Model model)  throws Exception  {
 		if (ticketService.getTicketsByWorker() == null)
 			throw new Exception("Nincs egy darab hibajegy sem.");
-		model.addAttribute("pageTitle", "USER'S TICKETS");
+		model.addAttribute("pageTitle", "WORKER'S TICKETS");
 		model.addAttribute("tickets", ticketService.getTicketsByWorker());
 		return "tickets";
 	}
@@ -142,7 +149,7 @@ public class HomeController {
 		ticket.setStartdate(new Date());
 		ticket.setClient(userService.findByEmail(ez));
 		ticketRepository.save(ticket);
-		log.info("New ticket sent.");
+		log.info("Új hibajegy elkészítve.");
 		log.debug(ticket.getTask());
 		log.debug(ticket.getClient().getName());
 		return("/usertickets");
@@ -158,16 +165,29 @@ public class HomeController {
 	public String editTicket(@PathVariable(value="id") Long id, @ModelAttribute("solution") String solution) throws Exception {
 		if (ticketService.idExists(id) == false)
 			throw new Exception("Mi a péklapát?");
-		System.out.println("Ticket Editoring....");
+		log.info("Ticket Módosítás. Ticket ID: " +id);
 		Ticket jegy = ticketService.getSpecificTicket(id);
 		jegy.setEnddate(new Date());
+		jegy.setWorker(userService.findByName(SecurityContextHolder.getContext().getAuthentication().getName()));
 		jegy.setSolution(solution);
 		ticketRepository.save(jegy);
-		System.out.println(jegy.getId());
-		System.out.println(jegy.getTask());
-		System.out.println(jegy.getSolution());
-		System.out.println(jegy.getClient().getRoles());
-		return("tickets");
+		return("redirect:/tickets");
+	}
+	
+	@PostMapping("/vallalom/{id}")
+	public String vallalTicket(@PathVariable(value="id") Long id) throws Exception {
+		if (ticketService.idExists(id) == false)
+			throw new Exception("Mi a péklapát?");
+		
+		Ticket jegy = ticketService.getSpecificTicket(id);
+		
+		jegy.setWorker(userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
+		jegy.setStatus("In progress...");
+		
+		ticketRepository.save(jegy);
+		log.info("Hibajegy elvállalva. Hibajegy ID: " +id+ " Vállalta: " + jegy.getWorker().getName());
+
+		return("redirect:/tickets");
 	}
 	
 	

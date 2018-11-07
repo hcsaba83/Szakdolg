@@ -21,7 +21,7 @@ public class ApiController {
 
 	@RequestMapping("/tickets_rest")
 	public List<Ticket> tickets_rest() {
-		return ticketService.getTickets();
+		return ticketService.getAllTickets();
 	}
 
 }

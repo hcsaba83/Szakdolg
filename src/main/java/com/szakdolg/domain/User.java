@@ -37,7 +37,9 @@ public class User {
 	private Boolean active;
 	@JsonBackReference
 	@OneToMany(mappedBy = "client")
-	private List<Ticket> tickets;
+	private List<Ticket> usertickets;
+	@OneToMany(mappedBy = "worker")
+	private List<Ticket> workertickets;
 	
 	@ManyToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable (
@@ -52,7 +54,7 @@ public class User {
 	}
 	
 	public User(String email, String name, String password, String phone, String address, Date regdate, Integer token,
-			Boolean active, List<Ticket> tickets, Set<Role> roles) {
+			Boolean active, List<Ticket> usertickets, List<Ticket> workertickets, Set<Role> roles) {
 		super();
 		this.email = email;
 		this.name = name;
@@ -62,7 +64,8 @@ public class User {
 		this.regdate = regdate;
 		this.token = token;
 		this.active = active;
-		this.tickets = tickets;
+		this.usertickets = usertickets;
+		this.workertickets = workertickets;
 		this.roles = roles;
 	}
 
@@ -126,12 +129,22 @@ public class User {
 		this.active = active;
 	}
 
-	public List<Ticket> getTickets() {
-		return tickets;
+	public List<Ticket> getUsertickets() {
+		return usertickets;
 	}
-	public void setTickets(List<Ticket> tickets) {
-		this.tickets = tickets;
+
+	public void setUsertickets(List<Ticket> usertickets) {
+		this.usertickets = usertickets;
 	}
+
+	public List<Ticket> getWorkertickets() {
+		return workertickets;
+	}
+
+	public void setWorkertickets(List<Ticket> workertickets) {
+		this.workertickets = workertickets;
+	}
+
 
 
 

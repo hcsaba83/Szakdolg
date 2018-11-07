@@ -30,7 +30,7 @@
 		</tr>
 		<tr>
 			<td>Megoldó:</td>
-			<td th:utext="${ticket.worker}">Worker</td>
+			<td><span th:if="${ticket.worker != null}" th:utext="${ticket.worker.name}">Worker</span></td>
 			<td>Megoldás dátuma:</td>
 			<td>
 			</td>

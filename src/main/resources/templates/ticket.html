@@ -30,7 +30,7 @@
 		</tr>
 		<tr>
 			<td>Megoldó:</td>
-			<td th:utext="${ticket.worker}">Worker</td>
+			<td><span th:if="${ticket.worker != null}" th:utext="${ticket.worker.name}">Worker</span></td>
 			<td>Megoldás dátuma:</td>
 				<div th:switch="${ticket.enddate}">
 						<p th:case="null"><td>nincs</td></p>
@@ -41,9 +41,9 @@
 		</tr>
 	
 	</table>
-	
+	<span th:if="${ticket.status == 'In progress...'}">
    	<p sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')"><a class="btn btn-warning" th:href="@{${ticket.id} + '/editor'}" role="button">Szerkesztés</a></p>
-    
+    </span>
 
 </div>
 </body>
