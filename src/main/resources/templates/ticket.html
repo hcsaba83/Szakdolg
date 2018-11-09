@@ -11,30 +11,42 @@
 
 	<table style="width:98%" class="table table-striped table-bordered table-hover">
 		<tr style="font-weight:bold">
-			<td style="width:25%">Hibajegy ID:</td><td style="width:25%" class="info" th:text="${#numbers.formatInteger(ticket.id,5)}">00000</td><td style="width:25%">Státusz:</td><td style="width:25%" class="danger" th:utext="${ticket.status}">StĂˇtusz: 00000</td>
+			<td style="border-bottom:1pt solid black; border-left:1pt solid black; border-top:1pt solid black;" class="info">Hibajegy ID:</td>
+			<td style="border-bottom:1pt solid black; border-top:1pt solid black; border-right:1pt solid black;" class="info" th:text="${#numbers.formatInteger(ticket.id,5)}"></td>
+			<td style="border-bottom:1pt solid black; border-top:1pt solid black;" class="danger" >Státusz:</td>
+			<td style="border-bottom:1pt solid black; border-top:1pt solid black; border-right:1pt solid black;" class="danger" th:utext="${ticket.status}"></td>
 		</tr>
 		<tr style="font-style:italic">
-			<td colspan="4">Feladat leírása:</td>
+			<td style="border-top:1pt solid black; border-left:1pt solid black; border-right:1pt solid black;" colspan="4">Feladat leírása:</td>
 		</tr>
 		<tr>
-			<td height="100px" colspan="4" th:utext="${ticket.task}">Feladat</td>
+			<td style="border-bottom:1pt solid black; border-left:1pt solid black; border-right:1pt solid black;" height="100px" colspan="4" th:utext="${ticket.task}">Feladat</td>
 		</tr>
 		<tr>
-			<td>Bejelentő:</td><td th:utext="${ticket.client.name}">Kliens</td><td>Bejelentás dátuma:</td><td th:utext="${#dates.format(ticket.startdate, 'yyyy.MM.dd')}">start date</td>
+			<td style="border-left:1pt solid black; border-right:1pt solid black;">Bejelentő:</td>
+			<td style="border-right:1pt solid black;">Címe:</td>
+			<td style="border-right:1pt solid black;">Bejelentés dátuma:</td>
+			<td style="border-right:1pt solid black;">Telefonszám:</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1pt solid black; border-left:1pt solid black; border-right:1pt solid black;"  th:utext="${ticket.client.name}"></td>
+			<td style="border-bottom:1pt solid black; border-right:1pt solid black;" th:utext="${ticket.client.address}"></td>
+			<td style="border-bottom:1pt solid black; border-right:1pt solid black;"  th:utext="${#dates.format(ticket.startdate, 'yyyy.MM.dd HH:mm')}"></td>
+			<td style="border-bottom:1pt solid black; border-right:1pt solid black;" th:text="${ticket.client.phone}"></td>
 		</tr>
 		<tr  style="font-style:italic">
-			<td colspan="4">Megoldás leírása:</td>
+			<td style="border-right:1pt solid black; border-left:1pt solid black; border-top:1pt solid black;" colspan="4">Megoldás leírása:</td>
 		</tr>
 		<tr>
-			<td height="100px" colspan="4" th:utext="${ticket.solution}">Megoldás</td>
+			<td style="border-bottom:1pt solid black; border-left:1pt solid black; border-right:1pt solid black;" height="100px" colspan="4" th:utext="${ticket.solution}"></td>
 		</tr>
 		<tr>
-			<td>Megoldó:</td>
-			<td><span th:if="${ticket.worker != null}" th:utext="${ticket.worker.name}">Worker</span></td>
-			<td>Megoldás dátuma:</td>
+			<td style="border-bottom:1pt solid black; border-left:1pt solid black;">Megoldó:</td>
+			<td style="border-bottom:1pt solid black; border-right:1pt solid black;"><span th:if="${ticket.worker != null}" th:utext="${ticket.worker.name}">Worker</span></td>
+			<td style="border-bottom:1pt solid black;">Megoldás dátuma:</td>
 				<div th:switch="${ticket.enddate}">
-						<p th:case="null"><td>nincs</td></p>
-						<p th:case="*"> <td th:utext="${#dates.format(ticket.enddate, 'yyyy.MM.dd')}">datummm</td></p>
+						<p th:case="null"><td style="border-bottom:1pt solid black; border-right:1pt solid black;">Még nincs.</td></p>
+						<p th:case="*"> <td style="border-bottom:1pt solid black; border-right:1pt solid black;" th:utext="${#dates.format(ticket.enddate, 'yyyy.MM.dd HH:mm')}">datummm</td></p>
 				</div>
 			
 			 
