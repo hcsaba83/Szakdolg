@@ -35,12 +35,16 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 					.antMatchers("/workertickets", "/workertickets/**").hasAnyAuthority("EDITOR", "ADMIN")
 					.antMatchers("/alltickets", "/alltickets/**").hasAuthority("ADMIN")
 					.antMatchers("/reg").permitAll()
+					.antMatchers("/tickets_rest").permitAll()
 					.antMatchers("/registration").permitAll()
 					.anyRequest().authenticated()
 				.and()
 					.formLogin().loginPage("/login").permitAll()
 					.and()
 					.logout().logoutSuccessUrl("/login?logout").permitAll();
+		
+		httpSec.headers().frameOptions().disable();
+		httpSec.csrf().disable();
 	}
 
 }

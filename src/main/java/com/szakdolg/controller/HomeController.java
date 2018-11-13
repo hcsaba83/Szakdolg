@@ -213,7 +213,10 @@ public class HomeController {
 	
 	@ExceptionHandler(Exception.class)
 	public String exceptionHandler(HttpServletRequest rA, Exception ex, Model model) {
-		model.addAttribute("errmessage", ex.getMessage());
+		if (ex.getClass().getName().endsWith("TypeMismatchException") == true) {
+			model.addAttribute("errmessage", "Rossz formátumú azonosító. Kérem, szám formátumban adja meg a hibajegy azonosítóját!");
+		}
+		else {model.addAttribute("errmessage", ex.getMessage());}
 		return "exceptionHandler";
 	}
 }

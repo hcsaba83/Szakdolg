@@ -36,10 +36,24 @@ public class ErrorPageController implements ErrorController {
 		model.addAttribute("message", error.get("message"));
 		model.addAttribute("path", error.get("path"));
 		model.addAttribute("status", error.get("status"));
-		
+
+		if (error.get("status").equals(404)) {
+			System.out.println("************************** 404.");
+			return "404";
+		}
+		if (error.get("status").equals(403)) {
+			System.out.println("************************** 403.");
+			return "403";
+		}
+		if (error.get("status").equals(500)) {
+			System.out.println("************************** 500.");
+			return "500";
+		}
+		System.out.println("************************** detailedE.");
 		return "detailedError";
 	}
 
+	
 	@Override
 	public String getErrorPath() {
 		return ERR_PATH;

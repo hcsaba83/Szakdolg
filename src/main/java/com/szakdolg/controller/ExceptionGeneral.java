@@ -8,7 +8,7 @@ public class ExceptionGeneral {
 	
 	public String exception(Exception ex, Model model) {
 		model.addAttribute("exception", ex);
-		// kell ugye ide egy exceptionPage nézet, template
+		System.out.println(ex.getMessage());
 		return "exceptionHandler";
 	}
 

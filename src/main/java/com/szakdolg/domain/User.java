@@ -24,11 +24,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name="users")
 public class User {
 	
-	//@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
 	private String email;
 	private String name;
-	//@JsonIgnore
 	private String password;
 	private String phone;
 	private String address;
@@ -38,9 +36,10 @@ public class User {
 	@JsonBackReference
 	@OneToMany(mappedBy = "client")
 	private List<Ticket> usertickets;
+	@JsonBackReference
 	@OneToMany(mappedBy = "worker")
 	private List<Ticket> workertickets;
-	
+	@JsonBackReference
 	@ManyToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable (
 			name = "users_roles",
