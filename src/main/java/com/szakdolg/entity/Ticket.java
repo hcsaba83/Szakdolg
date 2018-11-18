@@ -1,4 +1,4 @@
-package com.szakdolg.domain;
+package com.szakdolg.entity;
 
 import java.util.Date;
 

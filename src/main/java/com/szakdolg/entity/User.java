@@ -1,4 +1,4 @@
-package com.szakdolg.domain;
+package com.szakdolg.entity;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -31,7 +31,7 @@ public class User {
 	private String phone;
 	private String address;
 	private Date regdate;
-	private Integer token;
+	private String token;
 	private Boolean active;
 	@JsonBackReference
 	@OneToMany(mappedBy = "client")
@@ -52,7 +52,7 @@ public class User {
 	public User() {
 	}
 	
-	public User(String email, String name, String password, String phone, String address, Date regdate, Integer token,
+	public User(String email, String name, String password, String phone, String address, Date regdate, String token,
 			Boolean active, List<Ticket> usertickets, List<Ticket> workertickets, Set<Role> roles) {
 		super();
 		this.email = email;
@@ -81,8 +81,10 @@ public class User {
 		return roles;
 	}
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
+	public void addRoles(String roleName) {
+		if (this.roles == null || this.roles.isEmpty())
+			this.roles = new HashSet<>();
+		this.roles.add(new Role(roleName));
 	}
 
 	public String getName() {
@@ -115,10 +117,10 @@ public class User {
 	public void setRegdate(Date regdate) {
 		this.regdate = regdate;
 	}
-	public Integer getToken() {
+	public String getToken() {
 		return token;
 	}
-	public void setToken(Integer token) {
+	public void setToken(String token) {
 		this.token = token;
 	}
 	public Boolean getActive() {

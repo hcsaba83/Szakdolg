@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.szakdolg.domain.Ticket;
+import com.szakdolg.entity.Ticket;
 import com.szakdolg.service.TicketService;
 
 @RestController

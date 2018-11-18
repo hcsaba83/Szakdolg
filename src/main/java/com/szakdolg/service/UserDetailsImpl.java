@@ -5,13 +5,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
+
+import com.szakdolg.entity.Role;
+import com.szakdolg.entity.User;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-import com.szakdolg.domain.Role;
-import com.szakdolg.domain.User;
 
 //Jól belenyúlunk a motorháztető alá, megmondjuk a Spring Securitynak, hogy az adatbázisból vesse össze
 //az adatokat 
@@ -19,7 +23,7 @@ import com.szakdolg.domain.User;
 public class UserDetailsImpl implements UserDetails {
 
 	private static final long serialVersionUID = -4772871954166589912L;
-	
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	private User user;
 
 	public UserDetailsImpl(User user) {
@@ -32,23 +36,20 @@ public class UserDetailsImpl implements UserDetails {
 		Set<Role> roles = user.getRoles();
 		for (Role role : roles) {
 			authorities.add(new SimpleGrantedAuthority(role.getRole()));
-			System.out.println("Kiosztott Role: "+authorities);
+			log.debug("Kiosztott Role: "+authorities);
 		}
 		return authorities;
 	}
 
-	//Jelszó átadása a Spring Securitynak és a többit......
 	@Override
 	public String getPassword() {
-		//System.out.print("pw for Security: ");
-		//System.out.println(user.getPassword() );
-		return user.getPassword();
+		byte[] decoded = Base64.decode(user.getPassword().getBytes());
+		String pw = new String(decoded);
+		return pw;
 	}
 
 	@Override
 	public String getUsername() {
-		//System.out.print("name for Security: ");
-		//System.out.println(user.getEmail() );
 		return user.getEmail();
 	}
 
@@ -69,7 +70,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return user.getActive();
 	}
 
 }

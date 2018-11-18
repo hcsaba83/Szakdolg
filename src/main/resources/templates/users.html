@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="hu" layout:decorator="layouts/main">
+<head>
+<title>Felhasználók</title>
+</head>
+<body>
+
+<div width="95%" layout:fragment="tickets">
+<div class="container">
+	
+	<h2>Felhasználók</h2>
+	
+   <table style="width:78%" class="table table-striped table-bordered table-hover">
+   		<tr>
+   			<td width="20%">Név</td>
+	        <td width="15%" >Email</td>
+	        <td width="20%">Regisztráció</td>
+	        <td width="10%">Aktív-e</td>
+	        <td width="6%">Aktivál</td>
+	        <td width="6%">Módosít</td>
+	        <td width="6%">Töröl</td>
+
+    	</tr>
+         	<tr th:each="user : ${users}"> 
+         	<td th:utext="${user.name}"></td>
+	        <td th:utext="${user.email}"></td>
+	        <td th:text="${#dates.format(user.regdate, 'yyyy.MM.dd HH:mm')}"></td>
+	        <td th:utext="${user.active}"></td>
+	        <td><button class="btn btn-success btn-xs" >Aktivál</button></td>
+	        <td><button class="btn btn-warning btn-xs" >Módosít</button></td>
+	        <td><button class="btn btn-danger btn-xs" >Töröl</button></td>
+        </tr>
+   </table>
+
+
+</div>
+</div>
+
+</body>
+</html>

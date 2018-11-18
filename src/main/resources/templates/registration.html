@@ -1,17 +1,26 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en" layout:decorator="layouts/main">
 <head>
 <title>uu74p5</title>
 </head>
 <body>
 
-	<div layout:fragment="loginContent">
+	<div style="width:50%;" layout:fragment="loginContent">
 
 		<form name="registration" th:action="@{/reg}" th:object="${user}" method="post" class="form-signin">
-			<h2 class="form-signin-heading">K�rlek, regisztr�lj!</h2>
-		 	    <input type="text" id="email" name="email" th:field="*{email}" class="form-control" placeholder="Email c�m"  /> 
-			    <input type="password" id="password" name="password" th:field="*{password}"  class="form-control" placeholder="Jelsz�" />
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Regisztr�ci�</button>
+			<h2 class="form-signin-heading">Kérlek, regisztrálj!</h2>
+				<p>Email címed:</p>
+		 	    <input type="text" required="" id="email" name="email" th:field="*{email}" class="form-control" placeholder="Email cím"  /> 
+			    <p>Jelszó: /minimum 8 karakter/</p>
+			    <input type="password" pattern=".{8,}" title="Legalább 8 karakteres jelszót adjon meg!" required="" id="password" name="password" th:field="*{password}"  class="form-control" placeholder="Jelszó" />
+			    <p>Teljes neved:</p>
+			    <input type="text" required="" id="name" name="name" th:field="*{name}" class="form-control" placeholder="Teljes név"  />
+			    <p>A pontos címed:</p>
+			    <input type="text" required="" id="address" name="address" th:field="*{address}" class="form-control" placeholder="Pontos cím"  />
+			    <p>Telefonszámod:</p>
+			    <input type="text" required="" id="phone" name="phone" th:field="*{phone}" class="form-control" placeholder="Telefonszám"  />
+			    <br/>
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Regisztráció</button>
 		</form>
 
 	</div>

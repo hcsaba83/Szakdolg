@@ -30,7 +30,9 @@
 		</tr>
 		<tr>
 			<td>Megoldó:</td>
-			<td><span th:if="${ticket.worker != null}" th:utext="${ticket.worker.name}">Worker</span></td>
+			<td><span th:if="${ticket.worker != null}" th:utext="${ticket.worker.name}">Worker</span>
+				
+			</td>
 			<td>Megoldás dátuma:</td>
 			<td>
 			</td>
@@ -42,6 +44,8 @@
 	<button class="btn btn-warning" type="submit" role="button">Mentés</button>
 	
 </form>
+
+
 
 	</div>
 

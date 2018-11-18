@@ -41,9 +41,20 @@
 			<td style="border-bottom:1pt solid black; border-left:1pt solid black; border-right:1pt solid black;" height="100px" colspan="4" th:utext="${ticket.solution}"></td>
 		</tr>
 		<tr>
-			<td style="border-bottom:1pt solid black; border-left:1pt solid black;">Megoldó:</td>
-			<td style="border-bottom:1pt solid black; border-right:1pt solid black;"><span th:if="${ticket.worker != null}" th:utext="${ticket.worker.name}">Worker</span></td>
-			<td style="border-bottom:1pt solid black;">Megoldás dátuma:</td>
+			<td style="border-bottom:1pt solid black; border-left:1pt solid black;" width="25%">Megoldó:</td>
+			<td style="border-bottom:1pt solid black; border-right:1pt solid black;" width="25%">
+			
+				<span th:if="${ticket.worker != null}" th:utext="${ticket.worker.name}">Worker</span>
+				
+				<span th:if="${ticket.status == 'opened'}">
+				<form name="ticketworker" th:action="@{'/tickets/editworker/' + ${ticket.id}}" th:object="${ticket}" method="post" class="form-signin">
+				<select th:field="*{worker}">
+    			<option th:each="editor : ${editors}" th:value="${editor.email}" th:utext="${editor.name}"></option>
+				</select>
+				<button class="btn btn-warning btn-xs" type="submit" role="button" action="ticketworker">Megoldó kijelölése</button>
+				</form>
+				</span></td>
+			<td style="border-bottom:1pt solid black;" width="25%">Megoldás dátuma:</td>
 				<div th:switch="${ticket.enddate}">
 						<p th:case="null"><td style="border-bottom:1pt solid black; border-right:1pt solid black;">Még nincs.</td></p>
 						<p th:case="*"> <td style="border-bottom:1pt solid black; border-right:1pt solid black;" th:utext="${#dates.format(ticket.enddate, 'yyyy.MM.dd HH:mm')}">datummm</td></p>
@@ -56,6 +67,11 @@
 	<span th:if="${ticket.status == 'inprogress'}">
    	<p sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')"><a class="btn btn-warning" th:href="@{${ticket.id} + '/editor'}" role="button">Szerkesztés</a></p>
     </span>
+    
+	
+	
+
+
 
 </div>
 </body>

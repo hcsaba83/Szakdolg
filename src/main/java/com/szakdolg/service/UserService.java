@@ -1,10 +1,10 @@
 package com.szakdolg.service;
 
-import org.springframework.stereotype.Service;
-
-import com.szakdolg.domain.User;
+import com.szakdolg.entity.User;
 
 public interface UserService {
+	
+	public String registerUser(User user);
 
 	public User findByEmail(String email);
 }

@@ -1,4 +1,4 @@
-package com.szakdolg.domain;
+package com.szakdolg.entity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,6 +20,17 @@ public class Role {
 	private Set<User> users = new HashSet<User>();
 	
 	public Role() {
+	}
+
+	public Role(String role) {
+
+		this.role = role;
+	}
+
+	public Role(Long id, String role, Set<User> users) {
+		this.id = id;
+		this.role = role;
+		this.users = users;
 	}
 
 	public Long getId() {
