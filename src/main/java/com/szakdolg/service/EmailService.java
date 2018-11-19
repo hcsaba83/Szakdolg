@@ -38,7 +38,6 @@ public class EmailService {
 			 		+ "Amennyiben nem Ön regisztrált oldalunkra, úgy e levelet tekintse tárgytalannak. \n \n"
 			 		+ "Tisztelettel: Horváth László Csaba - uu74p5");
 			 
-			 
 			 javaMailSender.send(message);
 			 log.debug("Email küldés sikeres ide: " + email);
 		} catch (Exception e) {

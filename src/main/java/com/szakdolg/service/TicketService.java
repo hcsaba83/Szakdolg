@@ -128,6 +128,9 @@ public class TicketService {
 		
 	}
 	
+	public void deleteTicket(Long id) {
+		ticketRepository.delete(id);
+	}
 	
 	
 	//EXCEPTION
@@ -139,6 +142,7 @@ public class TicketService {
 			else {model.addAttribute("errmessage", ex.getMessage());}
 			return "exceptionHandler";
 		}
+
 		
 		
 	

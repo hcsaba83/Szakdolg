@@ -43,7 +43,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/tickets")
-	public String tickets(Model model) {
+	public String ticketsWithNoWorker(Model model) {
 		model.addAttribute("pageTitle", "TICKETS");
 		model.addAttribute("tickets", ticketService.getTicketsNoWorker());
 		return "tickets";
@@ -155,6 +155,17 @@ public class HomeController {
 		model.addAttribute("ticket", ticketService.getSpecificTicket(id));
 		return "ticketeditor";
 	}
+	
+	//Hibajegy TÖRLÉS ****************************************************************
+	@RequestMapping("/tickets/{id}/delete")
+	public String deleteTicket(@PathVariable(value="id") Long id, Model model) throws Exception {
+		if (ticketService.idExists(id) == false)
+			throw new Exception("Nincs ilyen azonosítójú hibajegy, ezért nem is lehet törölni.");
+		
+		ticketService.deleteTicket(id);
+		return ("redirect:/tickets");
+	}
+	
 	
 	//Megoldó hozzáadás ADMIN által ****************************************************************
 	@PostMapping("/tickets/editworker/{id}")

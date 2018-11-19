@@ -15,7 +15,7 @@
 <tr><td>Regisztráció dátuma:</td><td th:utext="${user.regdate}">__regdátum__</td></tr>
 <tr><td>Aktív-e:</td><td th:utext="${user.active}">__aktív__</td></tr>
 <tr><td>Token:</td><td  th:utext="${user.token}">__token__</td></tr>
-<tr><td>Jogkörök:</td><td th:utext="${user.roles}"></td></tr>
+<tr><td>Jogkörök:</td><td th:each="roles : ${user.roles}"><span th:text="'['+${roles.role}+'] '"></span></td></tr>
 </table>
 	
 </div>

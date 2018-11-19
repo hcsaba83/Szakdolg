@@ -15,15 +15,15 @@
 			<td colspan="4">Hiba leírása:</td>
 		</tr>
 		<tr>
-			<td height="100px" colspan="4"><input type="textarea" id="task" name="task" th:field="*{task}" class="form-control" placeholder="Hibabejelent�s"  /></td>
+			<td height="100px" colspan="4"><textarea required="" title="Legalább 8 karakteres jelszót adjon meg!" rows="5" type="textarea" id="task" name="task" th:field="*{task}" class="form-control" placeholder="Hibabejelentés"></textarea></td>
 		</tr>
 		<tr>
-		<td>Bejelentő:</td><td><span sec:authentication="name"></span></td><td>Bejelentás dátuma:</td><td th:utext="${#dates.format(#dates.createNow(), 'yyyy.MM.dd')}">start date</td>
+		<td>Bejelentő:</td><td><span sec:authentication="name"></span></td><td>Bejelentés dátuma:</td><td th:utext="${#dates.format(#dates.createNow(), 'yyyy.MM.dd. HH:mm')}">start date</td>
 		</tr>
 	
 	</table>
 
-	<button class="btn btn-warning" type="submit" role="button">Mentés</button>
+	<button class="btn btn-warning" type="submit" role="button">Küldés</button>
 	
 </form>
 

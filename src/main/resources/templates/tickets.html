@@ -35,7 +35,7 @@
 	        <td width="5%" >Id</td>
 	        <td width="10%">Bejelentő</td>
 	        <td>Bejelentés</td>
-	        <td width="10%">Megoldó</td>
+	        <td width="7%">Megoldó</td>
 	        <td width="13%">Bejelentés kelte</td>
 	        <td width="7%">Státusz</td>
     	</tr>
@@ -45,7 +45,7 @@
          																																		  (   ${( ((#dates.month(#dates.createNow())*30) + (#dates.day(#dates.createNow()))) - 
          																																			     (((#dates.month(ticket.startdate))*30) + (#dates.day(ticket.startdate))) ) gt 15} ? 'warning' : '')) )"> 
         	
-	        <p sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')"><td><a th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/tickets/' + ${ticket.id}}"   /></td></p>
+	        <p sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')"><td><a class="btn btn-primary btn-xs" th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/tickets/' + ${ticket.id}}"   /></td></p>
 	        <p sec:authorize="hasAuthority('USER')"><td><a th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/usertickets/' + ${ticket.id}}"   /></td></p>
 
 	        <td th:utext="${ticket.client.name}"></td>
@@ -53,12 +53,12 @@
 	        <td>
 	        <span th:if="${ticket.worker != null}" th:utext="${ticket.worker.name}"></span>
 	        <span sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')" th:if="${ticket.worker == null}">
-				    		<a th:href="@{'/vallalom/' + ${ticket.id}}">Vállalom</a>
+				    		<a class="btn btn-warning btn-xs" th:href="@{'/vallalom/' + ${ticket.id}}">Vállalom</a>
 				      </span>
 
 	        </td>
 	        <td th:text="${#dates.format(ticket.startdate, 'yyyy.MM.dd HH:mm')}"></td>
-	        <td th:utext="${ticket.status}"></td>
+	        <td th:if="${ticket.status eq 'opened'}" th:utext="Nyitott"></td><td th:if="${ticket.status eq 'inprogress'}" th:utext="Folyamatban"></td><td th:if="${ticket.status eq 'closed'}" th:utext="Lezárt"></td>
         </tr>
    </table>
 

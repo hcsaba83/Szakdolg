@@ -26,9 +26,9 @@
 	        <td th:utext="${user.email}"></td>
 	        <td th:text="${#dates.format(user.regdate, 'yyyy.MM.dd HH:mm')}"></td>
 	        <td th:utext="${user.active}"></td>
-	        <td><button class="btn btn-success btn-xs" >Aktivál</button></td>
-	        <td><button class="btn btn-warning btn-xs" >Módosít</button></td>
-	        <td><button class="btn btn-danger btn-xs" >Töröl</button></td>
+	        <td align="center"><button th:if="${user.active eq true}" class="btn btn-warning btn-xs" th:utext="Inaktivál">Inaktivál</button><button th:if="${user.active != true}" class="btn btn-success btn-xs" th:utext="Aktivál">Aktivál</button></td>
+	        <td align="center"><button class="btn btn-warning btn-xs" >Módosít</button></td>
+	        <td align="center"><button class="btn btn-danger btn-xs" >Töröl</button></td>
         </tr>
    </table>
 

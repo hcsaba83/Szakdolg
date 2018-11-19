@@ -26,7 +26,7 @@
 			<td colspan="4">Megoldás leírása:</td>
 		</tr>
 		<tr>
-			<td colspan="4"><input type="text" id="solution" name="solution" th:field="*{solution}" class="form-control" rows="4" placeholder="Megoldás"  /></td>
+			<td colspan="4"><input type="text" required="" id="solution" name="solution" th:field="*{solution}" class="form-control" rows="4" placeholder="Megoldás"  /></td>
 		</tr>
 		<tr>
 			<td>Megoldó:</td>
@@ -42,6 +42,8 @@
 	</table>
 
 	<button class="btn btn-warning" type="submit" role="button">Mentés</button>
+	
+   	<a sec:authorize="hasAuthority('ADMIN')" class="btn btn-danger" th:href="@{${ticket.id} + '/delete'}" role="button">T�rl�s</a>
 	
 </form>
 
