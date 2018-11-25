@@ -6,7 +6,7 @@
 	<groupId>com.szakdolg</groupId>
 	<artifactId>szakdolg</artifactId>
 	<version>0.1</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>SzakDolg</name>
 	<description>szakdolg</description>
@@ -72,6 +72,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		
 	</dependencies>
