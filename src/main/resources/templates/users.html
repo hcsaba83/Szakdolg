@@ -22,13 +22,13 @@
 
     	</tr>
          	<tr th:each="user : ${users}"> 
-         	<td th:utext="${user.name}"></td>
+         	<td><a th:utext="${user.name}"  th:href="@{'/users/' + ${user.getEmailEncoded()}}"/></td>
 	        <td th:utext="${user.email}"></td>
 	        <td th:text="${#dates.format(user.regdate, 'yyyy.MM.dd HH:mm')}"></td>
 	        <td th:utext="${user.active}"></td>
 	        <td align="center"><button th:if="${user.active eq true}" class="btn btn-warning btn-xs" th:utext="Inaktivál">Inaktivál</button><button th:if="${user.active != true}" class="btn btn-success btn-xs" th:utext="Aktivál">Aktivál</button></td>
 	        <td align="center"><button class="btn btn-warning btn-xs" >Módosít</button></td>
-	        <td align="center"><button class="btn btn-danger btn-xs" >Töröl</button></td>
+	        <td align="center"><a sec:authorize="hasAuthority('ADMIN')" class="btn btn-danger btn-xs" th:href="@{'/users/' + ${user.getEmailEncoded()} + '/delete'}" role="button">T�rl�s</a></td>
         </tr>
    </table>
 

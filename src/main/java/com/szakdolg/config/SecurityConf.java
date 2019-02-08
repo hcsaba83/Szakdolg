@@ -35,6 +35,7 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 					.antMatchers("/workertickets", "/workertickets/**").hasAnyAuthority("EDITOR", "ADMIN")
 					.antMatchers("/alltickets", "/alltickets/**").hasAuthority("ADMIN")
 					.antMatchers("/users", "/users/**").hasAuthority("ADMIN")
+					.antMatchers("/db", "/db/**").hasAuthority("ADMIN")
 					.antMatchers("/workers", "/workers/**").hasAuthority("ADMIN")
 					.antMatchers("/reg").permitAll()
 					.antMatchers("/tickets_rest").permitAll()
@@ -46,8 +47,8 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 					.and()
 					.logout().logoutSuccessUrl("/login?logout").permitAll();
 		
-		//httpSec.headers().frameOptions().disable();
-		//httpSec.csrf().disable();
+		httpSec.headers().frameOptions().disable();
+		httpSec.csrf().disable();
 	}
 
 }

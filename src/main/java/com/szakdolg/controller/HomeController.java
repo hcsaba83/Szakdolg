@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -38,7 +39,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/")
-	public String stories() {
+	public String mainPage() {
 		return "index";
 	}
 	
@@ -197,7 +198,7 @@ public class HomeController {
 	
 //	@RequestMapping("/users/{email}")
 //	public String searchForUser(@PathVariable(value="email") String email, Model model) throws Exception {
-//		if (userService.emailExists(email) == true)
+//		if (userService.emailExists(email) == false)
 //			throw new Exception("Nincs ilyen azonosítójú felhasználó");
 //		log.info("email: " +email);
 //		model.addAttribute("pageTitle", "Felhasználó részletes adatai");
@@ -205,15 +206,28 @@ public class HomeController {
 //		return "user";
 //	}
 	
-	@RequestMapping("/users/{name}")
-	public String searchForUser(@PathVariable(value="name") String name, Model model) throws Exception {
-		if (userService.emailExists(name) == true)
+	@RequestMapping("/users/{id}")
+	public String searchForUser(@PathVariable(value="id") String id, Model model) throws Exception {
+		byte[] decoded = Base64.decode(id.getBytes());
+		String email = new String(decoded);
+		if (userService.emailExists(email) == false)
 			throw new Exception("Nincs ilyen azonosítójú felhasználó");
-		log.debug("név: " +name);
-		log.debug("role: " +userService.findByName(name).getRoles());
+		//log.debug("email: " +email);
 		model.addAttribute("pageTitle", "Felhasználó részletes adatai");
-		model.addAttribute("user", userService.findByName(name));
+		model.addAttribute("user", userService.findByEmail(email));
 		return "user";
+	}
+	
+	//USER TÖRLÉS ****************************************************************
+	@RequestMapping("/users/{id}/delete")
+	public String deleteUser(@PathVariable(value="id") String id, Model model) throws Exception {
+		byte[] decoded = Base64.decode(id.getBytes());
+		String email = new String(decoded);
+		if (userService.emailExists(email) == false)
+			throw new Exception("Nincs ilyen azonosítójú hibajegy, ezért nem is lehet törölni.");
+		
+		userService.deleteByEmail(email);
+		return ("redirect:/users");
 	}
 	
 	//EXCEPTION

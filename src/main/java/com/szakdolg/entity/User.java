@@ -17,6 +17,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.security.crypto.codec.Base64;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -35,12 +39,13 @@ public class User {
 	private Boolean active;
 	@JsonBackReference
 	@OneToMany(mappedBy = "client")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Ticket> usertickets;
 	@JsonBackReference
 	@OneToMany(mappedBy = "worker")
 	private List<Ticket> workertickets;
 	@JsonBackReference
-	@ManyToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany (cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
 	@JoinTable (
 			name = "users_roles",
 			joinColumns = {@JoinColumn(name="user_id")},
@@ -72,6 +77,12 @@ public class User {
 	public String getEmail() {
 		return email;
 	}
+	
+	public String getEmailEncoded() {
+		byte[] encoded = Base64.encode(email.getBytes());
+		String emailencoded = new String(encoded);
+		return emailencoded;
+	}
 
 	public void setEmail(String email) {
 		this.email = email;
@@ -85,6 +96,11 @@ public class User {
 		if (this.roles == null || this.roles.isEmpty())
 			this.roles = new HashSet<>();
 		this.roles.add(new Role(roleName));
+	}
+	
+	public void deleteRoles() {
+		this.roles.clear();
+		System.out.println("roles deleted");
 	}
 
 	public String getName() {

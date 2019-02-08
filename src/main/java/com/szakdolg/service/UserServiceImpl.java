@@ -15,16 +15,19 @@ import org.springframework.stereotype.Service;
 import com.szakdolg.entity.Role;
 import com.szakdolg.entity.User;
 import com.szakdolg.repository.RoleRepository;
+import com.szakdolg.repository.TicketRepository;
 import com.szakdolg.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 	
 	private final String USER_ROLE = "USER";
+	private final String ADMIN_ROLE = "ADMIN";
 	
 	private UserRepository userRepository;
 	private RoleRepository roleRepository;
 	private EmailService emailService;
+	private TicketRepository ticketRepository;
 	
 	@Autowired
 	public void setEmailService(EmailService emailService) {
@@ -43,6 +46,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public User findByEmail(String email) {
 		return userRepository.findByEmail(email);
+	}
+
+
+	public void deleteByEmail(String email) {
+		log.debug("Törlendő: " + email);
+		User u = userRepository.findByEmail(email);
+		log.debug("OBJ: " + u.getName() +" "+ u.getRoles());
+		u.getRoles().clear();
+		userRepository.deleteRoles(email);
+		log.debug("OBJ: " + u.getName() +" "+ u.getRoles());
+		userRepository.deleteByEmail(email);
 	}
 
 	@Override
@@ -66,7 +80,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	
 	public List<User> findAllUser() {
 		//log.debug("findAllUser");
-		System.out.println(userRepository.findAllUser());
+		//System.out.println(userRepository.findAllUser());
 		return userRepository.findAllUser();
 	}
 
@@ -74,6 +88,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public Boolean emailExists(String email) {
 		return userRepository.exists(email);
 	}
+	
 
 	@Override
 	public String registerUser(User userToRegister) {
@@ -127,6 +142,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		log.debug("Random kód: " + toReturn);
 		return new String(word);
     }
+
 
 
 }
