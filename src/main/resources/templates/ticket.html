@@ -31,7 +31,7 @@
 			<td style="border-right:1pt solid black;">Telefonszám:</td>
 		</tr>
 		<tr>
-			<td style="border-bottom:1pt solid black; border-left:1pt solid black; border-right:1pt solid black;"  th:utext="${ticket.client.name}"></td>
+			<td style="border-bottom:1pt solid black; border-left:1pt solid black; border-right:1pt solid black;"><span th:if="${ticket.client.deleted eq false}" th:utext="${ticket.client.name}"></span><span style="color:red;" th:if="${ticket.client.deleted eq true}" th:utext="'TÖRÖLT F.H. ' + ${ticket.client.name}"></span></td>
 			<td style="border-bottom:1pt solid black; border-right:1pt solid black;" th:utext="${ticket.client.address}"></td>
 			<td style="border-bottom:1pt solid black; border-right:1pt solid black;"  th:utext="${#dates.format(ticket.startdate, 'yyyy.MM.dd HH:mm')}"></td>
 			<td style="border-bottom:1pt solid black; border-right:1pt solid black;" th:text="${ticket.client.phone}"></td>

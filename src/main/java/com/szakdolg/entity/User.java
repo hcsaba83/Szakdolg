@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -37,6 +38,8 @@ public class User {
 	private Date regdate;
 	private String token;
 	private Boolean active;
+	@Column(columnDefinition="boolean default false")
+	private Boolean deleted;
 	@JsonBackReference
 	@OneToMany(mappedBy = "client")
 	@OnDelete(action = OnDeleteAction.CASCADE)
@@ -58,7 +61,7 @@ public class User {
 	}
 	
 	public User(String email, String name, String password, String phone, String address, Date regdate, String token,
-			Boolean active, List<Ticket> usertickets, List<Ticket> workertickets, Set<Role> roles) {
+			Boolean active, Boolean deleted, List<Ticket> usertickets, List<Ticket> workertickets, Set<Role> roles) {
 		super();
 		this.email = email;
 		this.name = name;
@@ -68,6 +71,7 @@ public class User {
 		this.regdate = regdate;
 		this.token = token;
 		this.active = active;
+		this.deleted = deleted;
 		this.usertickets = usertickets;
 		this.workertickets = workertickets;
 		this.roles = roles;
@@ -144,6 +148,14 @@ public class User {
 	}
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	public List<Ticket> getUsertickets() {

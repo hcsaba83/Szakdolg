@@ -38,6 +38,7 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 					.antMatchers("/db", "/db/**").hasAuthority("ADMIN")
 					.antMatchers("/workers", "/workers/**").hasAuthority("ADMIN")
 					.antMatchers("/reg").permitAll()
+					.antMatchers("/img/**").permitAll()
 					.antMatchers("/tickets_rest").permitAll()
 					.antMatchers("/registration").permitAll()
 					.antMatchers("/activation", "/activation/**").permitAll()

@@ -26,9 +26,9 @@
 	        <td th:utext="${user.email}"></td>
 	        <td th:text="${#dates.format(user.regdate, 'yyyy.MM.dd HH:mm')}"></td>
 	        <td th:utext="${user.active}"></td>
-	        <td align="center"><button th:if="${user.active eq true}" class="btn btn-warning btn-xs" th:utext="Inaktivál">Inaktivál</button><button th:if="${user.active != true}" class="btn btn-success btn-xs" th:utext="Aktivál">Aktivál</button></td>
+	        <td align="center"><a sec:authorize="hasAuthority('ADMIN')"  th:if="${user.active eq true}" class="btn btn-warning btn-xs" th:utext="Inaktivál" th:href="@{'/users/' + ${user.getEmailEncoded()} + '/active'}" role="button">Inaktivál</a><a sec:authorize="hasAuthority('ADMIN')"  th:if="${user.active != true}" class="btn btn-success btn-xs" th:utext="Aktivál" th:href="@{'/users/' + ${user.getEmailEncoded()} + '/active'}" role="button">Aktivál</a></td>
 	        <td align="center"><button class="btn btn-warning btn-xs" >Módosít</button></td>
-	        <td align="center"><a sec:authorize="hasAuthority('ADMIN')" class="btn btn-danger btn-xs" th:href="@{'/users/' + ${user.getEmailEncoded()} + '/delete'}" role="button">T�rl�s</a></td>
+	        <td align="center"><a sec:authorize="hasAuthority('ADMIN')" th:if="${user.deleted eq false}" class="btn btn-danger btn-xs" th:href="@{'/users/' + ${user.getEmailEncoded()} + '/delete'}" role="button">Törlés</a></td>
         </tr>
    </table>
 

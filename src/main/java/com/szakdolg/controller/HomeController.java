@@ -47,6 +47,7 @@ public class HomeController {
 	public String ticketsWithNoWorker(Model model) {
 		model.addAttribute("pageTitle", "TICKETS");
 		model.addAttribute("tickets", ticketService.getTicketsNoWorker());
+		model.addAttribute("status", "tickets");
 		return "tickets";
 	}
 	
@@ -54,6 +55,7 @@ public class HomeController {
 	public String allTickets(Model model) {
 		model.addAttribute("pageTitle", "TICKETS");
 		model.addAttribute("tickets", ticketService.getAllTickets());
+		model.addAttribute("status", "alltickets");
 		return "tickets";
 	}
 	
@@ -61,6 +63,8 @@ public class HomeController {
 	public String allTicketsByStatus(@PathVariable(value="status") String status, Model model) {
 		model.addAttribute("pageTitle", "TICKETS");
 		model.addAttribute("tickets", ticketService.getTicketsByStatus(status));
+		model.addAttribute("status", status);
+		model.addAttribute("all", "true");
 		return "tickets";
 	}
 	
@@ -70,15 +74,28 @@ public class HomeController {
 			throw new Exception("Nincs egy darab hibajegy sem.");
 		model.addAttribute("pageTitle", "USER'S TICKETS");
 		model.addAttribute("tickets", ticketService.getTicketsByClient());
+		model.addAttribute("status", "allusertickets");
 		return "tickets";
 	}
 	
+	@RequestMapping(value = "/usertickets/{status}", method = RequestMethod.GET)
+	public String userTicketsByStatus(@PathVariable(value="status") String status, Model model)  throws Exception  {
+		if (ticketService.getTicketsByClientByStatus(status) == null)
+			throw new Exception("Nincs egy darab hibajegy sem.");
+		model.addAttribute("pageTitle", "USER'S TICKETS");
+		model.addAttribute("tickets", ticketService.getTicketsByClientByStatus(status));
+		model.addAttribute("status", status);
+		model.addAttribute("all", "false");
+		return "tickets";
+	}
+
 	@RequestMapping("/workertickets")
 	public String workerTicketsByWorker(Model model)  throws Exception  {
 		if (ticketService.getTicketsByWorker() == null)
 			throw new Exception("Nincs egy darab hibajegy sem.");
 		model.addAttribute("pageTitle", "WORKER'S TICKETS");
 		model.addAttribute("tickets", ticketService.getTicketsByWorker());
+		model.addAttribute("status", "allworkertickets");
 		return "tickets";
 	}
 	
@@ -88,6 +105,8 @@ public class HomeController {
 			throw new Exception("Nincs egy darab hibajegy sem.");
 		model.addAttribute("pageTitle", "WORKER'S TICKETS");
 		model.addAttribute("tickets", ticketService.getTicketsByWorkerByStatus(status));
+		model.addAttribute("status", status);
+		model.addAttribute("all", "false");
 		return "tickets";
 	}
 
@@ -227,6 +246,18 @@ public class HomeController {
 			throw new Exception("Nincs ilyen azonosítójú hibajegy, ezért nem is lehet törölni.");
 		
 		userService.deleteByEmail(email);
+		return ("redirect:/users");
+	}
+	
+	//USER AKTIVÁL ****************************************************************
+	@RequestMapping("/users/{id}/active")
+	public String activeteUser(@PathVariable(value="id") String id, Model model) throws Exception {
+		byte[] decoded = Base64.decode(id.getBytes());
+		String email = new String(decoded);
+		if (userService.emailExists(email) == false)
+			throw new Exception("Nincs ilyen azonosítójú hibajegy, ezért nem is lehet törölni.");
+		
+		userService.activateByEmail(email);
 		return ("redirect:/users");
 	}
 	

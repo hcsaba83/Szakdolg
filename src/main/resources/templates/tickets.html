@@ -9,27 +9,18 @@
 <div class="container">
 	
 	<h2>Hibajegyek</h2>
-	<table>
-	<tr>
-	<td sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')" >
-	<a class="btn btn-default" th:href="@{'/workertickets/inprogress'}" role="button">Saját folyamatban</a>
-	<a class="btn btn-default" th:href="@{'/workertickets/closed'}" role="button">Saját lezárt</a>
-	<a class="btn btn-default" th:href="@{'/workertickets'}" role="button">Saját összes</a>
-	<a class="btn btn-default" th:href="@{'/tickets'}" role="button">Gazdátlan</a>
-	</td>
-	<td>  </td>
-	<td sec:authorize="hasAuthority('ADMIN')">
-	<a class="btn btn-default" th:href="@{'/alltickets/inprogress'}" role="button">Összes folyamatban</a>
-	<a class="btn btn-default" th:href="@{'/alltickets/closed'}" role="button">Összes lezárt</a>
-	<a class="btn btn-default" th:href="@{'/alltickets'}" role="button">Összes</a>
-	</td>
-	<td sec:authorize="hasAuthority('USER')" >
-	<a class="btn btn-default" th:href="@{'/usertickets/inprogress'}" role="button">Saját folyamatban</a>
-	<a class="btn btn-default" th:href="@{'/usertickets/closed'}" role="button">Saját lezárt</a>
-	<a class="btn btn-default" th:href="@{'/usertickets'}" role="button">Saját összes</a>
-	</td>
-	</tr>
-	</table>
+	<h4>
+		<span th:if="${all == 'true'}">Összes</span>
+		<span th:if="${all == 'false'}">Saját</span>
+		<span th:if="${status == 'inprogress'}"> folyamatban</span>
+		<span th:if="${status == 'closed'}"> lezárt</span>
+		<span th:if="${status == 'opened'}"> nyitott</span>
+		<span th:if="${status == 'allworkertickets'}">Összes saját</span>
+		<span th:if="${status == 'allusertickets'}">Összes saját</span>
+		<span th:if="${status == 'alltickets'}">Összes</span>
+		<span th:if="${status == 'tickets'}">Gazdátlan jegyek</span>
+	</h4>
+	
    <table style="width:98%" class="table table-striped table-bordered table-hover">
    		<tr>
 	        <td width="5%" >Id</td>
@@ -48,7 +39,7 @@
 	        <p sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')"><td><a class="btn btn-primary btn-xs" th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/tickets/' + ${ticket.id}}"   /></td></p>
 	        <p sec:authorize="hasAuthority('USER')"><td><a th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/usertickets/' + ${ticket.id}}"   /></td></p>
 
-	        <td th:utext="${ticket.client.name}"></td>
+	        <td> <span th:if="${ticket.client.deleted eq false}" th:utext="${ticket.client.name}"></span><span th:if="${ticket.client.deleted eq true}">*DELETED USER*</span></td>
 	        <td th:utext="${ticket.task}"></td>
 	        <td>
 	        <span th:if="${ticket.worker != null}" th:utext="${ticket.worker.name}"></span>

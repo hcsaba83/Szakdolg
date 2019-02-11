@@ -16,5 +16,4 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	}
 
 	
-	
 }

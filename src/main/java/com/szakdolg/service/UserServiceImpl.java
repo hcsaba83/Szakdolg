@@ -48,16 +48,26 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return userRepository.findByEmail(email);
 	}
 
-
+// DELETE
 	public void deleteByEmail(String email) {
 		log.debug("Törlendő: " + email);
-		User u = userRepository.findByEmail(email);
-		log.debug("OBJ: " + u.getName() +" "+ u.getRoles());
-		u.getRoles().clear();
-		userRepository.deleteRoles(email);
-		log.debug("OBJ: " + u.getName() +" "+ u.getRoles());
-		userRepository.deleteByEmail(email);
+		User user = userRepository.findByEmail(email);
+		user.getRoles().clear();
+		user.setDeleted(true);
+		userRepository.save(user);
+		log.debug("Törölt: " + email);
 	}
+	
+//	public void deleteByEmail(String email) {
+//		log.debug("Törlendő: " + email);
+//		User u = userRepository.findByEmail(email);
+//		log.debug("OBJ: " + u.getName() +" "+ u.getRoles());
+//		u.getRoles().clear();
+//		userRepository.deleteRoles(email);
+//		log.debug("OBJ: " + u.getName() +" "+ u.getRoles());
+//		userRepository.deleteByEmail(email);
+//	}
+	
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -129,6 +139,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		userRepository.save(user);
 		return "ok";
 	}
+	
+	public void activateByEmail(String email) {
+		User user = userRepository.findByEmail(email);
+		if (user.getActive() == true)
+			user.setActive(false);
+		else user.setActive(true);
+		log.debug("Aktív állapot változtatva: " +user.getName()+" felhasználónak erre: "+user.getActive());
+		userRepository.save(user);
+	}
 		
 	//Random String
 	public String generateKey()
@@ -142,6 +161,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		log.debug("Random kód: " + toReturn);
 		return new String(word);
     }
+
+
 
 
 

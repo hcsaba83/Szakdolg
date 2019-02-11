@@ -10,7 +10,7 @@
 	<title>uu74p5</title>
 	
 	<link rel="stylesheet" href="../static/css/blog.css" th:href="@{/css/blog.css}"/>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
 		
 	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css' />	
 	<link href='https://fonts.googleapis.com/css?family=Exo' rel='stylesheet' type='text/css' />
@@ -25,8 +25,25 @@
 		       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				    <ul class="nav navbar-nav">
 				        <li class=""><a class="" href="/">Kezdőoldal</a></li>
-				        <li class="" sec:authorize="hasAuthority('USER')"><a class="" href="/usertickets">Hibajegyeim</a></li>
-				        <li class="" sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')"><a class="" href="/workertickets">Hibajegyek</a></li>
+				        <li class="dropdown" sec:authorize="hasAuthority('USER')"><a href="/usertickets" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hibajegyeim <span class="caret"></span></a>
+				        	<ul class="dropdown-menu">
+	            				<li><a th:href="@{'/usertickets/inprogress'}">Saját folyamatban</a></li>
+	            				<li><a th:href="@{'/usertickets/opened'}">Saját nyitott</a></li>
+	           					<li><a th:href="@{'/usertickets/closed'}">Saját lezárt</a></li>
+	            				<li><a th:href="@{'/usertickets'}">Saját összes</a></li>
+	            			</ul></li>
+				        <li class="dropdown" sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')"><a href="/workertickets" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hibajegyek <span class="caret"></span></a>
+				        	<ul class="dropdown-menu">
+	            				<li><a th:href="@{'/workertickets/inprogress'}">Saját folyamatban</a></li>
+	           					<li><a th:href="@{'/workertickets/closed'}">Saját lezárt</a></li>
+	            				<li><a th:href="@{'/workertickets'}">Saját összes</a></li>
+	            				<li role="separator" class="divider"></li>
+	            				<li><a th:href="@{'/alltickets/inprogress'}">Összes folyamatban</a></li>
+	           					<li><a th:href="@{'/alltickets/closed'}">Összes lezárt</a></li>
+	            				<li><a th:href="@{'/alltickets'}">Összes</a></li>
+	            				<li role="separator" class="divider"></li>
+	            				<li><a th:href="@{'/tickets'}">Gazdátlan feladatok</a></li>
+          					</ul></li>
 				        <li class="" sec:authorize="hasAuthority('ADMIN')"><a class="" href="/users">Kliensek</a></li>
 				        <li class="" sec:authorize="hasAuthority('ADMIN')"><a class="" href="/workers">Munkatársak</a></li>
 				        <li class="" sec:authorize="hasAuthority('USER')"><a class="" href="newticket">Bejelentés</a></li>

@@ -66,6 +66,13 @@ public class TicketService {
 		return ticketRepository.findAllByWorkerbyStatus(thatname, status);
 	}
 	
+	public List<Ticket> getTicketsByClientByStatus(String status) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		thatname = auth.getName();
+		log.debug("getTicketsByWorkerbySTATUS: " + thatname + " és " + status);
+		return ticketRepository.findAllByClientByStatus(thatname, status);
+	}
+	
 	
 	public List<Ticket> getTicketsNoWorker() {
 		//log.debug("getTicketsNoWorker");
@@ -142,6 +149,7 @@ public class TicketService {
 			else {model.addAttribute("errmessage", ex.getMessage());}
 			return "exceptionHandler";
 		}
+
 
 		
 		
