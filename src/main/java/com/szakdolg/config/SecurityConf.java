@@ -29,7 +29,6 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSec) throws Exception {
 		httpSec
 				.authorizeRequests()
-					.antMatchers("/").permitAll()
 					.antMatchers("/usertickets", "/usertickets/**").hasAnyAuthority("USER", "ADMIN")
 					.antMatchers("/tickets", "/tickets/**").hasAnyAuthority("EDITOR", "ADMIN")
 					.antMatchers("/workertickets", "/workertickets/**").hasAnyAuthority("EDITOR", "ADMIN")

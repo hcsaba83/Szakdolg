@@ -1,18 +1,112 @@
 <!DOCTYPE html>
-<html lang="hu">
+<html lang="hu" layout:decorator="layouts/main">
 <head>
-<title>Bazinga</title>
-
+<title>Index</title>
 </head>
 <body>
 
-
-<div align="center" style="padding-top: 300px; paddign-bottom: 200px;">
-<a href="/login" ><img src="img/bazinga.jpg" alt="bazinga!" height="100" width="100" /></a>
+<div layout:fragment="index">
+<!-- 1. oszlop -->
+<div class="col-sm-6 col-md-4">
+		<div class="panel panel-primary">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Folyamatban  <span class="badge" th:text="${ticketsbyopened_num}">12</span></h3>
+		  </div>
+		  <div class="panel-body">
+			    <table class="table">
+					<tr th:each="ticket : ${ticketsinprogress}">
+						<td><a class="btn btn-primary btn-xs" th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/tickets/' + ${ticket.id}}"   /></td>
+						<td> <span th:if="${ticket.client.deleted eq false}" th:utext="${ticket.client.name}"></span><span th:if="${ticket.client.deleted eq true}">*DELETED USER*</span></td>
+						<td th:utext="${ticket.task}"></td>
+					</tr>
+	  			</table>
+	  			<p><a href="#" class="btn btn-success" role="button">Mutasd mind</a></p>
+		  </div>
+		</div>
+		
+		<div class="panel panel-primary">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Lezárt <span class="badge" th:text="${ticketsbyclosed_num}">12</span></h3>
+		  </div>
+		  <div class="panel-body">
+		    <table class="table">
+					<tr th:each="ticket : ${ticketsclosed}">
+						<td><a class="btn btn-primary btn-xs" th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/tickets/' + ${ticket.id}}"   /></td>
+						<td> <span th:if="${ticket.client.deleted eq false}" th:utext="${ticket.client.name}"></span><span th:if="${ticket.client.deleted eq true}">*DELETED USER*</span></td>
+						<td th:utext="${ticket.task}"></td>
+					</tr>
+	  			</table>
+	  			<p><a href="#" class="btn btn-success" role="button">Mutasd mind</a></p>
+		  </div>
+		</div>
+</div>
+<!-- 2. oszlop -->
+<div class="col-sm-6 col-md-4">
+		<div class="panel panel-primary">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Gazdátlan  <span class="badge" th:text="${ticketsopened_num}"></span></h3>
+		  </div>
+		  <div class="panel-body">
+		    	<table class="table">
+					<tr th:each="ticket : ${ticketsopened}">
+						<td><a class="btn btn-primary btn-xs" th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/tickets/' + ${ticket.id}}"   /></td>
+						<td> <span th:if="${ticket.client.deleted eq false}" th:utext="${ticket.client.name}"></span><span th:if="${ticket.client.deleted eq true}">*DELETED USER*</span></td>
+						<td th:utext="${ticket.task}"></td>
+					</tr>
+	  			</table>
+	  			<p><a href="#" class="btn btn-success" role="button">Mutasd mind</a></p>
+		  </div>
+		</div>
+		
+		<div class="panel panel-primary">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Panel title 5</h3>
+		  </div>
+		  <div class="panel-body">
+		    <table class="table">
+					<tr><td>01</td><td>Csaba</td><td>2019.02.12.</td></tr>
+					<tr><td>02</td><td>Gizi</td><td>2019.02.12.</td></tr>
+					<tr><td>03</td><td>Gyula</td><td>2019.02.12.</td></tr>
+	  			</table>
+	  			<p><a href="#" class="btn btn-success" role="button">Mutasd mind</a></p>
+		  </div>
+		</div>
+</div>
+<!-- 3. oszlop -->
+<div class="col-sm-6 col-md-4">
+		<div class="panel panel-primary">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Statisztika</h3>
+		  </div>
+		  <div class="panel-body">
+		    <table class="table">
+					<tr><td>Lezárt</td><td th:text="${ticketsbyclosed_num}">103</td></tr>
+					<tr><td>Folymatban</td><td th:text="${ticketsbyopened_num}">4</td></tr>
+					<tr style="font-weight: bold"><td>Összes</td><td th:text="${ticketsbyworker_num}"></td></tr>
+					<tr><td>Munka kezdete:</td><td th:text="${#dates.format(user.regdate, 'yyyy.MM.dd')}"></td></tr>
+	  			</table>
+		  </div>
+		</div>
+		
+				<div class="panel panel-primary">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Panel title 4</h3>
+		  </div>
+		  <div class="panel-body">
+		    <table class="table">
+					<tr><td>01</td><td>Csaba</td><td>2019.02.12.</td></tr>
+					<tr><td>02</td><td>Gizi</td><td>2019.02.12.</td></tr>
+					<tr><td>03</td><td>Gyula</td><td>2019.02.12.</td></tr>
+					<tr><td>01</td><td>Csaba</td><td>2019.02.12.</td></tr>
+	  			</table>
+	  			<p><a href="#" class="btn btn-success" role="button">Mutasd mind</a></p>
+		  </div>
+		</div>
 </div>
 
 
-
+<hr/>
+</div>
 
 </body>
 </html>

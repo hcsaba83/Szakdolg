@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +40,15 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/")
-	public String mainPage() {
+	public String mainPage(Model model) {
+		model.addAttribute("user", userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
+		model.addAttribute("ticketsinprogress", ticketService.getTicketsByStatusByWorkerLimit("inprogress"));
+		model.addAttribute("ticketsclosed", ticketService.getTicketsByStatusByWorkerLimit("closed"));
+		model.addAttribute("ticketsopened", ticketService.getTicketsNoWorkerLimit());
+		model.addAttribute("ticketsbyopened_num", Integer.toString(ticketService.getTicketsByStatusByWorkerCount("inprogress")));
+		model.addAttribute("ticketsbyclosed_num", Integer.toString(ticketService.getTicketsByStatusByWorkerCount("closed")));
+		model.addAttribute("ticketsopened_num", Integer.toString(ticketService.getTicketsByNoWorkerCount()));
+		model.addAttribute("ticketsbyworker_num", Integer.toString(ticketService.getTicketsByWorkerCount()));
 		return "index";
 	}
 	

@@ -2,7 +2,7 @@ package com.szakdolg.repository;
 
 import java.util.List;
 
-
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -28,11 +28,36 @@ public interface TicketRepository extends CrudRepository<Ticket, Long>  {
 	@Query(value="SELECT t FROM Ticket t where client_email= (select email from User where email= :email) AND status=:status")
 	List<Ticket> findAllByClientByStatus(@Param("email") String user, @Param("status") String status);
 	
-	@Query(value="SELECT t FROM Ticket t where worker_email = null")
+	@Query(value="SELECT t FROM Ticket t where worker_email = null ORDER BY t.startdate DESC")
 	List<Ticket> findAllNoWorker();
+
 	
 	@Query(value="SELECT t FROM Ticket t where status = :status")
 	List<Ticket> findAllByStatus(@Param("status") String status);
+	
+	
+	// LIMIT LEKÉRÉSEK
+	//by status
+	@Query(value="SELECT t FROM Ticket t where status = :status")
+	List<Ticket> findAllByInProgressLimit(@Param("status") String status, Pageable pageable);
+	//by worker by status
+	@Query(value="SELECT t FROM Ticket t where worker_email= (select email from User where email= :email) AND status=:status")
+	List<Ticket> findAllByWorkerbyStatusLimit(@Param("email") String worker, @Param("status") String status, Pageable pageable);
+	//by no worker
+	@Query(value="SELECT t FROM Ticket t where worker_email = null ORDER BY t.startdate DESC")
+	List<Ticket> findAllNoWorkerLimit(Pageable pageable);
+	
+	
+	//COUNT LEKÉRÉSEK
+	//by worker
+	@Query(value="SELECT COUNT(id) FROM Ticket t where worker_email= (select email from User where email= :email)")
+	int findAllByWorkerCount(@Param("email") String worker);
+	//by worker by status
+	@Query(value="SELECT COUNT(id) FROM Ticket t where worker_email= (select email from User where email= :email) AND status=:status")
+	int findAllByWorkerbyStatusCount(@Param("email") String worker, @Param("status") String status);
+	//by no worker - opened
+	@Query(value="SELECT COUNT(id) FROM Ticket t where worker_email = null")
+	int findAllNoWorkerCount();
 
 	Ticket findById(Long id);
 

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -73,17 +74,53 @@ public class TicketService {
 		return ticketRepository.findAllByClientByStatus(thatname, status);
 	}
 	
-	
+	//gazdátlan
 	public List<Ticket> getTicketsNoWorker() {
-		//log.debug("getTicketsNoWorker");
 		return ticketRepository.findAllNoWorker();
 	}
+	//gazdátlan (no worker - opened) limit 5
+	public List<Ticket> getTicketsNoWorkerLimit() {
+		//log.debug("getTicketsNoWorker");
+		return ticketRepository.findAllNoWorkerLimit(new PageRequest(0,5));
+	}
+
 	
+	//státusz szerint
 	public List<Ticket> getTicketsByStatus(String status) {
 		//log.debug("getTicketsByStatus: " + status);
 		return ticketRepository.findAllByStatus(status);
 	}
 	
+	//inprogress szerint limit 5
+	public List<Ticket> getTicketsByInProgressLimit(String status) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		thatname = auth.getName();
+		return ticketRepository.findAllByInProgressLimit(status, new PageRequest(0,5));
+	}
+	
+	//by status by worker limit 5
+	public List<Ticket> getTicketsByStatusByWorkerLimit(String status) {
+		return ticketRepository.findAllByWorkerbyStatusLimit(thatname, status, new PageRequest(0,5));
+	}
+	//by status by worker COUNT
+	public int getTicketsByStatusByWorkerCount(String status) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		thatname = auth.getName();
+		return ticketRepository.findAllByWorkerbyStatusCount(thatname, status);
+	}
+	//no worker COUNT
+		public int getTicketsByNoWorkerCount() {
+			return ticketRepository.findAllNoWorkerCount();
+		}
+	// by worker COUNT
+		public int getTicketsByWorkerCount() {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			thatname = auth.getName();
+			return ticketRepository.findAllByWorkerCount(thatname);
+		}
+		
+		
+	//
 	public Boolean idExists(Long id) {
 		return ticketRepository.exists(id);
 	}
