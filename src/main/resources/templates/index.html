@@ -10,7 +10,7 @@
 <div class="col-sm-6 col-md-4">
 		<div class="panel panel-primary">
 		  <div class="panel-heading">
-		    <h3 class="panel-title">Folyamatban  <span class="badge" th:text="${ticketsbyopened_num}">12</span></h3>
+		    <h3 class="panel-title">Saját folyamatban  <span class="badge" th:text="${ticketsbyopened_num}">12</span></h3>
 		  </div>
 		  <div class="panel-body">
 			    <table class="table">
@@ -20,13 +20,13 @@
 						<td th:utext="${ticket.task}"></td>
 					</tr>
 	  			</table>
-	  			<p><a href="#" class="btn btn-success" role="button">Mutasd mind</a></p>
+	  			<p><a th:href="@{'/workertickets/inprogress'}" class="btn btn-success" role="button">Mutasd mind</a></p>
 		  </div>
 		</div>
 		
 		<div class="panel panel-primary">
 		  <div class="panel-heading">
-		    <h3 class="panel-title">Lezárt <span class="badge" th:text="${ticketsbyclosed_num}">12</span></h3>
+		    <h3 class="panel-title">Saját lezárt <span class="badge" th:text="${ticketsbyclosed_num}">12</span></h3>
 		  </div>
 		  <div class="panel-body">
 		    <table class="table">
@@ -36,7 +36,7 @@
 						<td th:utext="${ticket.task}"></td>
 					</tr>
 	  			</table>
-	  			<p><a href="#" class="btn btn-success" role="button">Mutasd mind</a></p>
+	  			<p><a th:href="@{'/workertickets/closed'}" class="btn btn-success" role="button">Mutasd mind</a></p>
 		  </div>
 		</div>
 </div>
@@ -54,7 +54,7 @@
 						<td th:utext="${ticket.task}"></td>
 					</tr>
 	  			</table>
-	  			<p><a href="#" class="btn btn-success" role="button">Mutasd mind</a></p>
+	  			<p><a th:href="@{'/tickets'}" class="btn btn-success" role="button">Mutasd mind</a></p>
 		  </div>
 		</div>
 		

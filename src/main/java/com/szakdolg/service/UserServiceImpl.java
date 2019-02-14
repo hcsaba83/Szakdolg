@@ -23,6 +23,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	
 	private final String USER_ROLE = "USER";
 	private final String ADMIN_ROLE = "ADMIN";
+	private final String USER_DELETED_ROLE = "USER_DELETED";
 	
 	private UserRepository userRepository;
 	private RoleRepository roleRepository;
@@ -50,13 +51,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 // DELETE
 	public void deleteByEmail(String email) {
-		log.debug("Törlendő: " + email);
 		User user = userRepository.findByEmail(email);
+		user.setActive(false);
 		user.getRoles().clear();
+		Role userRole = roleRepository.findByRole(USER_DELETED_ROLE);
+		if (userRole != null) {
+			user.getRoles().add(userRole);
+		} else {
+			user.addRoles(USER_DELETED_ROLE);
+		}
 		user.setDeleted(true);
 		userRepository.save(user);
-		log.debug("Törölt: " + email);
+		log.debug("Törölt user: " + email);
+		
 	}
+	
 	
 //	public void deleteByEmail(String email) {
 //		log.debug("Törlendő: " + email);
@@ -79,22 +88,24 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return new UserDetailsImpl(user);
 	}
 	
+	//USER KERESÉSEK
 	public User findByName(String name) {
 		return userRepository.findByName(name);
 	}
-	
 	public List<User> findAllEditor() {
-		//log.debug("findAllEditor");
 		return userRepository.findAllEditor();
 	}
-	
+	public List<User> findAllEditorByDeleted() {
+		return userRepository.findAllEditorByDeleted();
+	}
 	public List<User> findAllUser() {
-		//log.debug("findAllUser");
-		//System.out.println(userRepository.findAllUser());
 		return userRepository.findAllUser();
 	}
-
+	public List<User> findAllUserByDeleted() {
+		return userRepository.findAllUserByDeleted();
+	}
 	
+	//USER LÉTEZIK-E
 	public Boolean emailExists(String email) {
 		return userRepository.exists(email);
 	}
@@ -161,8 +172,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		log.debug("Random kód: " + toReturn);
 		return new String(word);
     }
-
-
 
 
 

@@ -2,6 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en" layout:decorator="layouts/main">
 <head>
 <title>uu74p5</title>
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
 </head>
 <body>
 
@@ -41,9 +46,9 @@
 	
 	</table>
 
+	<button class="btn btn-success" onclick="goBack()">Vissza</button>
 	<button class="btn btn-warning" type="submit" role="button">MentÃ©s</button>
-	
-   	<a sec:authorize="hasAuthority('ADMIN')" class="btn btn-danger" th:href="@{${ticket.id} + '/delete'}" role="button">Törlés</a>
+   	<a sec:authorize="hasAuthority('ADMIN')" class="btn btn-danger" th:href="@{${ticket.id} + '/delete'}" role="button">TÃ¶rlÃ©s</a>
 	
 </form>
 

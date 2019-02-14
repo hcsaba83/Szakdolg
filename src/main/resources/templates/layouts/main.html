@@ -32,7 +32,7 @@
 	           					<li><a th:href="@{'/usertickets/closed'}">Saját lezárt</a></li>
 	            				<li><a th:href="@{'/usertickets'}">Saját összes</a></li>
 	            			</ul></li>
-				        <li class="dropdown" sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')"><a href="/workertickets" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hibajegyek <span class="caret"></span></a>
+				        <li class="dropdown" sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hibajegyek <span class="caret"></span></a>
 				        	<ul class="dropdown-menu">
 	            				<li><a th:href="@{'/workertickets/inprogress'}">Saját folyamatban</a></li>
 	           					<li><a th:href="@{'/workertickets/closed'}">Saját lezárt</a></li>
@@ -46,6 +46,11 @@
           					</ul></li>
 				        <li class="" sec:authorize="hasAuthority('ADMIN')"><a class="" href="/users">Kliensek</a></li>
 				        <li class="" sec:authorize="hasAuthority('ADMIN')"><a class="" href="/workers">Munkatársak</a></li>
+				        <li class="dropdown" sec:authorize="hasAuthority('ADMIN')"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Egyéb <span class="caret"></span></a>
+					        <ul class="dropdown-menu">
+		            			<li><a th:href="@{'/workertickets/inprogress'}">Statisztika</a></li>
+		           				<li><a th:href="@{'/workersdeleted'}">Törölt felhasználók</a></li>
+					        </ul></li>
 				        <li class="" sec:authorize="hasAuthority('USER')"><a class="" href="newticket">Bejelentés</a></li>
 				        <li class="" sec:authorize="hasAuthority('USER')"><a class="" href="editor/edit">Email</a></li>
 				        

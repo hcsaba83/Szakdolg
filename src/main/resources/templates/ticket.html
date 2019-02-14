@@ -2,6 +2,11 @@
 <html lang="en" layout:decorator="layouts/main">
 <head>
 <title>Ticket</title>
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
 </head>
 <body>
 
@@ -66,6 +71,8 @@
 		</tr>
 	
 	</table>
+	
+	<button class="btn btn-success" onclick="goBack()">Vissza</button>
 	<span th:if="${ticket.status == 'inprogress'}">
    	<a sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')" class="btn btn-warning" th:href="@{${ticket.id} + '/editor'}" role="button">Szerkesztés</a>
     </span>

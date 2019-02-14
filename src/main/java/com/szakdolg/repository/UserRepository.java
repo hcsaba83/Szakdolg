@@ -18,9 +18,15 @@ public interface UserRepository extends CrudRepository<User, String> {
 	
 	@Query(value= "SELECT * FROM Users WHERE email IN (select user_id FROM Users_Roles where role_id = 2 OR role_id = 3)", nativeQuery = true)
 	List<User> findAllEditor();
+
+	@Query(value= "SELECT * FROM Users WHERE email IN (select user_id FROM Users_Roles where role_id = 4)", nativeQuery = true)
+	List<User> findAllEditorByDeleted();
 	
 	@Query(value= "SELECT * FROM Users WHERE email IN (select user_id FROM Users_Roles where role_id = 1)", nativeQuery = true)
 	List<User> findAllUser();
+	
+	@Query(value= "SELECT * FROM Users WHERE email IN (select user_id FROM Users_Roles where role_id = 5)", nativeQuery = true)
+	List<User> findAllUserByDeleted();
 	
 	@Transactional
 	@Modifying
@@ -38,6 +44,9 @@ public interface UserRepository extends CrudRepository<User, String> {
 	User findByEmail(String email);
 
 	User findByToken(String code);
+
+
+	
 
 
 

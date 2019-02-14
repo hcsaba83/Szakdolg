@@ -173,7 +173,7 @@ public class HomeController {
 	@PostMapping("/tickets/edit/{id}")
 	public String solveTicket(@PathVariable(value="id") Long id, @ModelAttribute("solution") String solution) throws Exception {
 		ticketService.solveTicket(id, solution);
-		return("redirect:/tickets");
+		return("redirect:/tickets/{id}");
 	}
 	
 	@RequestMapping("/tickets/{id}/editor")
@@ -218,9 +218,21 @@ public class HomeController {
 		return "users";
 	}
 	
+	@RequestMapping("/usersdeleted")
+	public String usersByClientsByDeleted(Model model) {
+		model.addAttribute("users", userService.findAllUserByDeleted());
+		return "users";
+	}
+	
 	@RequestMapping("/workers")
 	public String usersByWorkers(Model model) {
 		model.addAttribute("users", userService.findAllEditor());
+		return "users";
+	}
+	
+	@RequestMapping("/workersdeleted")
+	public String usersByWorkersByDeleted(Model model) {
+		model.addAttribute("users", userService.findAllEditorByDeleted());
 		return "users";
 	}
 	
