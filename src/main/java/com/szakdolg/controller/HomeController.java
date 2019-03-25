@@ -43,12 +43,19 @@ public class HomeController {
 	public String mainPage(Model model) {
 		model.addAttribute("user", userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
 		model.addAttribute("ticketsinprogress", ticketService.getTicketsByStatusByWorkerLimit("inprogress"));
+		model.addAttribute("ticketsinprogress_us", ticketService.getTicketByStatusByClientLimit("inprogress"));
 		model.addAttribute("ticketsclosed", ticketService.getTicketsByStatusByWorkerLimit("closed"));
+		model.addAttribute("ticketsclosed_us", ticketService.getTicketByStatusByClientLimit("closed"));
 		model.addAttribute("ticketsopened", ticketService.getTicketsNoWorkerLimit());
+		model.addAttribute("ticketsbyopened_us", ticketService.getTicketByStatusByClientLimit("opened"));
 		model.addAttribute("ticketsbyopened_num", Integer.toString(ticketService.getTicketsByStatusByWorkerCount("inprogress")));
+		model.addAttribute("ticketsbyinprogress_num_us", Integer.toString(ticketService.getTicketsByStatusByClientCount("inprogress")));
+		model.addAttribute("ticketsbyopened_num_us", Integer.toString(ticketService.getTicketsByStatusByClientCount("opened")));
 		model.addAttribute("ticketsbyclosed_num", Integer.toString(ticketService.getTicketsByStatusByWorkerCount("closed")));
+		model.addAttribute("ticketsbyclosed_num_us", Integer.toString(ticketService.getTicketsByStatusByClientCount("closed")));
 		model.addAttribute("ticketsopened_num", Integer.toString(ticketService.getTicketsByNoWorkerCount()));
 		model.addAttribute("ticketsbyworker_num", Integer.toString(ticketService.getTicketsByWorkerCount()));
+		model.addAttribute("ticketsbyclient_num", Integer.toString(ticketService.getTicketsByClientCount()));
 		return "index";
 	}
 	

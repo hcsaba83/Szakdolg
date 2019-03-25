@@ -60,7 +60,11 @@ function goBack() {
 				</select>
 				<button class="btn btn-warning btn-xs" type="submit" role="button" action="ticketworker">Megoldó kijelölése</button>
 				</form>
-				</span></td>
+				</span>
+				<span sec:authorize="hasAuthority('EDITOR')" th:if="${ticket.worker == null}">
+				    		<a class="btn btn-warning btn-xs" th:href="@{'/vallalom/' + ${ticket.id}}">Vállalom</a>
+				      </span>
+				</td>
 			<td style="border-bottom:1pt solid black;" width="25%">Megoldás dátuma:</td>
 				<div th:switch="${ticket.enddate}">
 						<p th:case="null"><td style="border-bottom:1pt solid black; border-right:1pt solid black;">Még nincs.</td></p>

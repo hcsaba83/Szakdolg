@@ -102,12 +102,24 @@ public class TicketService {
 	public List<Ticket> getTicketsByStatusByWorkerLimit(String status) {
 		return ticketRepository.findAllByWorkerbyStatusLimit(thatname, status, new PageRequest(0,5));
 	}
+	
+	//by status by user limit 5
+	public Object getTicketByStatusByClientLimit(String status) {
+		return ticketRepository.findAllByClientByStatusLimit(thatname, status, new PageRequest(0,5));
+	}
+	
 	//by status by worker COUNT
 	public int getTicketsByStatusByWorkerCount(String status) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		thatname = auth.getName();
 		return ticketRepository.findAllByWorkerbyStatusCount(thatname, status);
 	}
+	//by status by client COUNT
+		public int getTicketsByStatusByClientCount(String status) {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			thatname = auth.getName();
+			return ticketRepository.findAllByClientbyStatusCount(thatname, status);
+		}
 	//no worker COUNT
 		public int getTicketsByNoWorkerCount() {
 			return ticketRepository.findAllNoWorkerCount();
@@ -118,6 +130,12 @@ public class TicketService {
 			thatname = auth.getName();
 			return ticketRepository.findAllByWorkerCount(thatname);
 		}
+	// by client COUNT
+				public int getTicketsByClientCount() {
+					Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+					thatname = auth.getName();
+					return ticketRepository.findAllByClientCount(thatname);
+				}
 		
 		
 	//
@@ -186,6 +204,7 @@ public class TicketService {
 			else {model.addAttribute("errmessage", ex.getMessage());}
 			return "exceptionHandler";
 		}
+
 
 
 		

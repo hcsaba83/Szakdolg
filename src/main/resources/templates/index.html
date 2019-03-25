@@ -8,7 +8,7 @@
 <div layout:fragment="index">
 <!-- 1. oszlop -->
 <div class="col-sm-6 col-md-4">
-		<div class="panel panel-primary">
+		<div sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')"  class="panel panel-primary">
 		  <div class="panel-heading">
 		    <h3 class="panel-title">Saját folyamatban  <span class="badge" th:text="${ticketsbyopened_num}">12</span></h3>
 		  </div>
@@ -24,7 +24,25 @@
 		  </div>
 		</div>
 		
-		<div class="panel panel-primary">
+		
+		<!-- user -->
+		<div sec:authorize="hasAuthority('USER')"  class="panel panel-primary">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Folyamatban lévő bejelentéseim  <span class="badge" th:text="${ticketsbyinprogress_num_us}">12</span></h3>
+		  </div>
+		  <div class="panel-body">
+			    <table class="table">
+					<tr th:each="ticket : ${ticketsinprogress_us}">
+						<td><a class="btn btn-primary btn-xs" th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/usertickets/' + ${ticket.id}}"   /></td>
+						<td> <span th:if="${ticket.client.deleted eq false}" th:utext="${ticket.client.name}"></span><span th:if="${ticket.client.deleted eq true}">*DELETED USER*</span></td>
+						<td th:utext="${ticket.task}"></td>
+					</tr>
+	  			</table>
+	  			<p><a th:href="@{'/usertickets/inprogress'}" class="btn btn-success" role="button">Mutasd mind</a></p>
+		  </div>
+		</div>
+		
+		<div sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')"  class="panel panel-primary">
 		  <div class="panel-heading">
 		    <h3 class="panel-title">Saját lezárt <span class="badge" th:text="${ticketsbyclosed_num}">12</span></h3>
 		  </div>
@@ -42,9 +60,9 @@
 </div>
 <!-- 2. oszlop -->
 <div class="col-sm-6 col-md-4">
-		<div class="panel panel-primary">
+		<div sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')" class="panel panel-primary">
 		  <div class="panel-heading">
-		    <h3 class="panel-title">Gazdátlan  <span class="badge" th:text="${ticketsopened_num}"></span></h3>
+		    <h3  class="panel-title">Gazdátlan  <span class="badge" th:text="${ticketsopened_num}"></span></h3>
 		  </div>
 		  <div class="panel-body">
 		    	<table class="table">
@@ -58,23 +76,27 @@
 		  </div>
 		</div>
 		
-		<div class="panel panel-primary">
+		<!-- USER GAZDÁTLAN -->
+		<div sec:authorize="hasAuthority('USER')" class="panel panel-primary">
 		  <div class="panel-heading">
-		    <h3 class="panel-title">Panel title 5</h3>
+		    <h3  class="panel-title">Nyitott  <span class="badge" th:text="${ticketsbyopened_num_us}"></span></h3>
 		  </div>
 		  <div class="panel-body">
-		    <table class="table">
-					<tr><td>01</td><td>Csaba</td><td>2019.02.12.</td></tr>
-					<tr><td>02</td><td>Gizi</td><td>2019.02.12.</td></tr>
-					<tr><td>03</td><td>Gyula</td><td>2019.02.12.</td></tr>
+		    	<table class="table">
+					<tr th:each="ticket : ${ticketsbyopened_us}">
+						<td><a class="btn btn-primary btn-xs" th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/tickets/' + ${ticket.id}}"   /></td>
+						<td> <span th:if="${ticket.client.deleted eq false}" th:utext="${ticket.client.name}"></span><span th:if="${ticket.client.deleted eq true}">*DELETED USER*</span></td>
+						<td th:utext="${ticket.task}"></td>
+					</tr>
 	  			</table>
-	  			<p><a href="#" class="btn btn-success" role="button">Mutasd mind</a></p>
+	  			<p><a th:href="@{'/tickets'}" class="btn btn-success" role="button">Mutasd mind</a></p>
 		  </div>
 		</div>
+		
 </div>
 <!-- 3. oszlop -->
 <div class="col-sm-6 col-md-4">
-		<div class="panel panel-primary">
+		<div sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')"   class="panel panel-primary">
 		  <div class="panel-heading">
 		    <h3 class="panel-title">Statisztika</h3>
 		  </div>
@@ -83,25 +105,27 @@
 					<tr><td>Lezárt</td><td th:text="${ticketsbyclosed_num}">103</td></tr>
 					<tr><td>Folymatban</td><td th:text="${ticketsbyopened_num}">4</td></tr>
 					<tr style="font-weight: bold"><td>Összes</td><td th:text="${ticketsbyworker_num}"></td></tr>
-					<tr><td>Munka kezdete:</td><td th:text="${#dates.format(user.regdate, 'yyyy.MM.dd')}"></td></tr>
+					
 	  			</table>
 		  </div>
 		</div>
 		
-				<div class="panel panel-primary">
+		<!-- user STATISZTIKA -->
+		<div sec:authorize="hasAuthority('USER')"   class="panel panel-primary">
 		  <div class="panel-heading">
-		    <h3 class="panel-title">Panel title 4</h3>
+		    <h3 class="panel-title">Statisztika</h3>
 		  </div>
 		  <div class="panel-body">
 		    <table class="table">
-					<tr><td>01</td><td>Csaba</td><td>2019.02.12.</td></tr>
-					<tr><td>02</td><td>Gizi</td><td>2019.02.12.</td></tr>
-					<tr><td>03</td><td>Gyula</td><td>2019.02.12.</td></tr>
-					<tr><td>01</td><td>Csaba</td><td>2019.02.12.</td></tr>
+					<tr><td>Lezárt</td><td th:text="${ticketsbyclosed_num_us}">103</td></tr>
+					<tr><td>Folymatban</td><td th:text="${ticketsbyinprogress_num_us}">4</td></tr>
+					<tr><td>Nyitott</td><td th:text="${ticketsbyopened_num_us}">4</td></tr>
+					<tr style="font-weight: bold"><td>Összes</td><td th:text="${ticketsbyclient_num}"></td></tr>
+					
 	  			</table>
-	  			<p><a href="#" class="btn btn-success" role="button">Mutasd mind</a></p>
 		  </div>
 		</div>
+	
 </div>
 
 
