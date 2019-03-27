@@ -38,9 +38,9 @@
 	           					<li><a th:href="@{'/workertickets/closed'}">Saját lezárt</a></li>
 	            				<li><a th:href="@{'/workertickets'}">Saját összes</a></li>
 	            				<li role="separator" class="divider"></li>
-	            				<li><a th:href="@{'/alltickets/inprogress'}">Összes folyamatban</a></li>
-	           					<li><a th:href="@{'/alltickets/closed'}">Összes lezárt</a></li>
-	            				<li><a th:href="@{'/alltickets'}">Összes</a></li>
+	            				<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{'/alltickets/inprogress'}">Összes folyamatban</a></li>
+	           					<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{'/alltickets/closed'}">Összes lezárt</a></li>
+	            				<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{'/alltickets'}">Összes</a></li>
 	            				<li role="separator" class="divider"></li>
 	            				<li><a th:href="@{'/tickets'}">Gazdátlan feladatok</a></li>
           					</ul></li>
@@ -52,7 +52,7 @@
 		           				<li><a th:href="@{'/workersdeleted'}">Törölt felhasználók</a></li>
 					        </ul></li>
 				        <li class="" sec:authorize="hasAuthority('USER')"><a class="" href="newticket">Bejelentés</a></li>
-				        <li class="" sec:authorize="hasAuthority('USER')"><a class="" href="editor/edit">Email</a></li>
+				        <li class="" sec:authorize="hasAuthority('USER')"><a class="" href="/email">Email</a></li>
 				        
 				    </ul>
 				    <div class="navbar-text navbar-right">

@@ -110,7 +110,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return userRepository.exists(email);
 	}
 	
-
+	
+	//USER MÓDOSÍTÁS
+	public void modifyUser(String email, String name, String address, String phone) {
+		User user = userRepository.findByEmail(email);
+		user.setName(name);
+		user.setAddress(address);
+		user.setPhone(phone);
+		userRepository.save(user);
+		log.debug("Felhasználó adatai módosítva: " +user.getName());
+	}
+	
+	//USER REGISZTRÁCIÓ
 	@Override
 	public String registerUser(User userToRegister) {
 		
@@ -127,6 +138,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		userToRegister.setToken(generateKey());
 		userToRegister.setPassword(pw);
 		userToRegister.setActive(false);
+		userToRegister.setDeleted(false);
 		
 		Role userRole = roleRepository.findByRole(USER_ROLE);
 		if (userRole != null) {
@@ -172,6 +184,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		log.debug("Random kód: " + toReturn);
 		return new String(word);
     }
+
+
 
 
 

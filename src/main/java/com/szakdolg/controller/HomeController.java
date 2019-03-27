@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.szakdolg.entity.Ticket;
 import com.szakdolg.entity.User;
-
+import com.szakdolg.service.EmailService;
 import com.szakdolg.service.TicketService;
 import com.szakdolg.service.UserServiceImpl;
 
@@ -29,6 +29,7 @@ public class HomeController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	private TicketService ticketService;
 	private UserServiceImpl userService;
+	private EmailService emailService;
 
 	@Autowired
 	public void setUserService(UserServiceImpl userService) {
@@ -37,6 +38,10 @@ public class HomeController {
 	@Autowired
 	public void setTicketService(TicketService ticketService) {
 		this.ticketService = ticketService;
+	}
+	@Autowired
+	public void setEmailService(EmailService emailService) {
+		this.emailService = emailService;
 	}
 	
 	@RequestMapping("/")
@@ -265,6 +270,29 @@ public class HomeController {
 		return "user";
 	}
 	
+	//USER MOD OLDALRA
+	@RequestMapping("/users/{id}/usermod")
+	public String modifyUser(@PathVariable(value="id") String id, Model model) throws Exception {
+		byte[] decoded = Base64.decode(id.getBytes());
+		String email = new String(decoded);
+		if (userService.emailExists(email) == false)
+			throw new Exception("Nincs ilyen azonosítójú felhasználó");
+		model.addAttribute("user", userService.findByEmail(email));
+		return "usermod";
+	}
+	
+	//USER MODIFY
+	@PostMapping("/users/{id}/umod")
+	public String modifyUserSubmit(@PathVariable(value="id") String id, @ModelAttribute("name") String name, @ModelAttribute("address") String address, @ModelAttribute("phone") String phone) throws Exception {
+		byte[] decoded = Base64.decode(id.getBytes());
+		String email = new String(decoded);
+		if (userService.emailExists(email) == false)
+			throw new Exception("Nincs ilyen azonosítójú felhasználó");
+		userService.modifyUser(email, name, address, phone);
+		return("redirect:/users/{id}");
+	}
+	
+	
 	//USER TÖRLÉS ****************************************************************
 	@RequestMapping("/users/{id}/delete")
 	public String deleteUser(@PathVariable(value="id") String id, Model model) throws Exception {
@@ -287,6 +315,20 @@ public class HomeController {
 		
 		userService.activateByEmail(email);
 		return ("redirect:/users");
+	}
+	
+	//EMAIL ****************************************************************
+	@RequestMapping("/email")
+	public String email() {
+		return "email";
+	}
+	
+	//EMAILSENDING
+	@RequestMapping("/emailsending")
+	public String emailSending(@ModelAttribute("subject") String subject, @ModelAttribute("text") String text) {
+		emailService.sendMessage2(subject, text);
+		log.debug("Email sent.");
+		return "index";
 	}
 	
 	//EXCEPTION

@@ -38,7 +38,7 @@ public class TicketService {
 	
 	public List<Ticket> getAllTickets() {
 		//log.debug("getAllTickets");
-		return ticketRepository.findAllByOrderByStartdateAsc();
+		return ticketRepository.findAllByOrderByStartdateDesc();
 	}
 
 	public Ticket getSpecificTicket(Long id) {

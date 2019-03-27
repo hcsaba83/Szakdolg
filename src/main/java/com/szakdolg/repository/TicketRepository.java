@@ -14,7 +14,7 @@ import com.szakdolg.entity.Ticket;
 @Repository
 public interface TicketRepository extends CrudRepository<Ticket, Long>  {
 	
-	List<Ticket> findAllByOrderByStartdateAsc();
+	List<Ticket> findAllByOrderByStartdateDesc();
 	
 	
 	@Query(value="SELECT t FROM Ticket t where client_email= (select email from User where email= :email)")

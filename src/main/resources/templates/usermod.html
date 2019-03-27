@@ -12,18 +12,22 @@ function goBack() {
 
 <div class="container"  layout:fragment="ticket">
 <h2>Felhasználó adatai</h2>
+
+<form name="usermod" th:action="@{'/users/' + ${user.getEmailEncoded()} + '/umod'}" th:object="${user}" method="post" class="form-signin">
 <table style="width:70%" class="table table-striped table-bordered table-hover">
-<tr><td>Név:</td><td th:utext="${user.name}">__név__</td></tr>
+<tr><td>Név:</td><td><input type="text" id="name" name="name" th:field="*{name}" class="form-control"   /> </td></tr>
 <tr><td>Email:</td><td th:utext="${user.email}">__email__</td></tr>
-<tr><td>Pontos cím:</td><td th:utext="${user.address}">__cím__</td></tr>
-<tr><td>Telefonszám:</td><td th:utext="${user.phone}">__telefon__</td></tr>
+<tr><td>Pontos cím:</td><td><input type="text" id="address" name="address" th:field="*{address}" class="form-control"   /></td></tr>
+<tr><td>Telefonszám:</td><td><input type="text" id="phone" name="phone" th:field="*{phone}" class="form-control"   /> </td></tr>
 <tr><td>Regisztráció dátuma:</td><td th:utext="${user.regdate}">__regdátum__</td></tr>
 <tr><td>Aktív-e:</td><td th:utext="${user.active}">__aktív__</td></tr>
 <tr><td>Token:</td><td  th:utext="${user.token}">__token__</td></tr>
 <tr><td>Jogkörök:</td><td th:each="roles : ${user.roles}"><span th:text="'['+${roles.role}+'] '"></span></td></tr>
 </table>
-	<button class="btn btn-success" onclick="goBack()">Vissza</button>
-
+<button class="btn btn-success" onclick="goBack()">Vissza</button>
+<button class="btn btn-primary" type="submit">Mentés</button>
+</form>
+	
 </div>
 
 </body>

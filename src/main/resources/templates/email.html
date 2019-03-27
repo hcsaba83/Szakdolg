@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" layout:decorator="layouts/main">
+<head>
+<title>uu74p5</title>
+</head>
+<body>
+
+<div style="width:50%;" layout:fragment="tickets">
+	
+<form name="email" th:action="@{'/emailsending/'}" method="post" class="form-signin">
+	
+
+		<h2>Levél írása</h2>
+		Tárgy:
+		<input required="" title="Kérem, adjon meg tárgyat!" type="text" id="subject" name="subject" class="form-control" placeholder="Levél tárgya"   />
+		Szöveg:
+		<textarea required="" title="Kérem, írjon a szövegrészbe!" rows="16" type="textarea" id="text" name="text" class="form-control" placeholder="Levél szövege"></textarea>
+		<br/>
+	<button class="btn btn-warning" type="submit" role="button">Küldés</button>
+	
+</form>
+
+	</div>
+
+</body>
+</html>
