@@ -24,54 +24,54 @@
 		    <div class="container-fluid">
 		       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				    <ul class="nav navbar-nav">
-				        <li class=""><a class="" href="/">Kezdőoldal</a></li>
-				        <li class="dropdown" sec:authorize="hasAuthority('USER')"><a href="/usertickets" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hibajegyeim <span class="caret"></span></a>
+				        <li class=""><a class="" href="/" th:text="#{menu_main}" >Kezdőoldal</a></li>
+				        <li class="dropdown" sec:authorize="hasAuthority('USER')"><a href="/usertickets" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span th:text="#{menu_tickets}">Hibajegyeim</span><span class="caret"></span></a>
 				        	<ul class="dropdown-menu">
-	            				<li><a th:href="@{'/usertickets/inprogress'}">Saját folyamatban</a></li>
-	            				<li><a th:href="@{'/usertickets/opened'}">Saját nyitott</a></li>
-	           					<li><a th:href="@{'/usertickets/closed'}">Saját lezárt</a></li>
-	            				<li><a th:href="@{'/usertickets'}">Saját összes</a></li>
+	            				<li><a th:href="@{'/usertickets/inprogress'}" th:text="#{menu_mytickets_inprog}">Saját folyamatban</a></li>
+	            				<li><a th:href="@{'/usertickets/opened'}" th:text="#{menu_mytickets_opened}">Saját nyitott</a></li>
+	           					<li><a th:href="@{'/usertickets/closed'}" th:text="#{menu_mytickets_closed}">Saját lezárt</a></li>
+	            				<li><a th:href="@{'/usertickets'}" th:text="#{menu_mytickets}">Saját összes</a></li>
 	            			</ul></li>
-				        <li class="dropdown" sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hibajegyek <span class="caret"></span></a>
+				        <li class="dropdown" sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span th:text="#{menu_tickets}">Hibajegyek</span><span class="caret"></span></a>
 				        	<ul class="dropdown-menu">
-	            				<li><a th:href="@{'/workertickets/inprogress'}">Saját folyamatban</a></li>
-	           					<li><a th:href="@{'/workertickets/closed'}">Saját lezárt</a></li>
-	            				<li><a th:href="@{'/workertickets'}">Saját összes</a></li>
+	            				<li><a th:href="@{'/workertickets/inprogress'}" th:text="#{menu_mytickets_inprog}">Saját folyamatban</a></li>
+	           					<li><a th:href="@{'/workertickets/closed'}" th:text="#{menu_mytickets_closed}">Saját lezárt</a></li>
+	            				<li><a th:href="@{'/workertickets'}" th:text="#{menu_mytickets}">Saját összes</a></li>
 	            				<li role="separator" class="divider"></li>
-	            				<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{'/alltickets/inprogress'}">Összes folyamatban</a></li>
-	           					<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{'/alltickets/closed'}">Összes lezárt</a></li>
-	            				<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{'/alltickets'}">Összes</a></li>
+	            				<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{'/alltickets/inprogress'}" th:text="#{menu_alltickets_inprog}">Összes folyamatban</a></li>
+	           					<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{'/alltickets/closed'}" th:text="#{menu_alltickets_closed}">Összes lezárt</a></li>
+	            				<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{'/alltickets'}" th:text="#{menu_alltickets}">Összes</a></li>
 	            				<li role="separator" class="divider"></li>
-	            				<li><a th:href="@{'/tickets'}">Gazdátlan feladatok</a></li>
+	            				<li><a th:href="@{'/tickets'}" th:text="#{menu_unowned}">Gazdátlan feladatok</a></li>
           					</ul></li>
-				        <li class="" sec:authorize="hasAuthority('ADMIN')"><a class="" href="/users">Kliensek</a></li>
-				        <li class="" sec:authorize="hasAuthority('ADMIN')"><a class="" href="/workers">Munkatársak</a></li>
-				        <li class="dropdown" sec:authorize="hasAuthority('ADMIN')"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Egyéb <span class="caret"></span></a>
+				        <li class="" sec:authorize="hasAuthority('ADMIN')"><a class="" href="/users" th:text="#{menu_clients}">Kliensek</a></li>
+				        <li class="" sec:authorize="hasAuthority('ADMIN')"><a class="" href="/workers" th:text="#{menu_workmates}">Munkatársak</a></li>
+				        <li class="dropdown" sec:authorize="hasAuthority('ADMIN')"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span th:text="#{menu_others}">Egyéb</span><span class="caret"></span></a>
 					        <ul class="dropdown-menu">
-		            			<li><a th:href="@{'/workertickets/inprogress'}">Statisztika</a></li>
-		           				<li><a th:href="@{'/workersdeleted'}">Törölt felhasználók</a></li>
+		            			<li><a th:href="@{'/workertickets/inprogress'}" th:text="#{statistics}">Statisztika</a></li>
+		           				<li><a th:href="@{'/workersdeleted'}" th:text="#{deleted_users}">Törölt felhasználók</a></li>
 					        </ul></li>
-				        <li class="" sec:authorize="hasAuthority('USER')"><a class="" href="newticket">Bejelentés</a></li>
+				        <li class="" sec:authorize="hasAuthority('USER')"><a th:text="#{menu_report}" class="" href="newticket">Bejelentés</a></li>
 				        <li class="" sec:authorize="hasAuthority('USER')"><a class="" href="/email">Email</a></li>
 				        
 				    </ul>
 				    <div class="navbar-text navbar-right">
 				    <form sec:authorize="isAuthenticated()" id="frmlogout" th:action="@{/logout}" method="post" class="form-inline">
-				    		| <a href="javascript:{}" onclick="document.getElementById('frmlogout').submit(); return false;">Kijelentkezés</a>
+				    		| <a th:text="#{logout}" href="javascript:{}" onclick="document.getElementById('frmlogout').submit(); return false;">Kijelentkezés</a>
 				      </form>
 				    </div>
 				    <div class="navbar-text navbar-right" sec:authorize="isAuthenticated()">
-				     <font color="green">Üdvözöllek, <span sec:authentication="name"></span>!</font>
+				     <font color="green"><span th:text="#{welcome2}">Üdvözöllek, </span><span sec:authentication="name"></span>!</font>
 				    </div>
 				    <div class="navbar-text navbar-right" sec:authorize="hasAuthority('ADMIN')">
 				     	<font color="red">{ADMIN}</font>
 				    </div>
 				    
 				    <div class="navbar-text navbar-right" sec:authorize="isAnonymous()">
-							| <a href="/login">Bejelentkezés</a>
+							| <a href="/login" th:text="#{login}">Bejelentkezés</a>
 				    </div>
 				    <div class="navbar-text navbar-right" sec:authorize="isAnonymous()">
-				     <span>Üdvözöllek, Vendég!</span>
+				     <span th:text="#{welcome}">Üdvözöllek, Vendég!</span>
 				    </div>
 				    
 				</div>
@@ -87,9 +87,9 @@
 		
 
 
-		<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>		
+		<br/><br/>		
 		<footer>
-			<p>Készítette: Horváth László Csaba - uu74p5</p>
+			<p th:text="#{footer}" >Készítette: Horváth László Csaba - uu74p5</p>
 		</footer>
 	
 	</div>

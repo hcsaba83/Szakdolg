@@ -264,7 +264,6 @@ public class HomeController {
 		String email = new String(decoded);
 		if (userService.emailExists(email) == false)
 			throw new Exception("Nincs ilyen azonosítójú felhasználó");
-		//log.debug("email: " +email);
 		model.addAttribute("pageTitle", "Felhasználó részletes adatai");
 		model.addAttribute("user", userService.findByEmail(email));
 		return "user";

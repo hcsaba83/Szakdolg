@@ -36,7 +36,7 @@ public class UserDetailsImpl implements UserDetails {
 		Set<Role> roles = user.getRoles();
 		for (Role role : roles) {
 			authorities.add(new SimpleGrantedAuthority(role.getRole()));
-			log.debug("Kiosztott Role: "+authorities);
+			log.debug("Kiosztott jogosultság: "+authorities);
 		}
 		return authorities;
 	}

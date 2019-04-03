@@ -70,7 +70,7 @@ public class TicketService {
 	public List<Ticket> getTicketsByClientByStatus(String status) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		thatname = auth.getName();
-		log.debug("getTicketsByWorkerbySTATUS: " + thatname + " és " + status);
+		//log.debug("getTicketsByWorkerbySTATUS: " + thatname + " és " + status);
 		return ticketRepository.findAllByClientByStatus(thatname, status);
 	}
 	
@@ -150,14 +150,14 @@ public class TicketService {
 		ticket.setClient(userService.findByEmail(sec_user));
 		ticketRepository.save(ticket);
 		log.info("Új hibajegy elkészítve.");
-		log.debug("User: " + ticket.getClient().getName() + " | Email: " + sec_user);
-		log.debug("Task: " + ticket.getTask());
+		log.debug("Felhasználó: " + ticket.getClient().getName() + " | Email: " + sec_user);
+		log.debug("Bejelentés: " + ticket.getTask());
 	}
 	
 	public void solveTicket(Long id, String solution) throws Exception {
 		if (idExists(id) == false)
 			throw new Exception("Nincs ilyen azonosítójú hibajegy.");
-		log.info("Ticket Módosítás. Ticket ID: " +id);
+		log.info("A " +id+ " azonosítójú hibajegy megoldva.");
 		Ticket jegy = getSpecificTicket(id);
 		jegy.setSolution(solution);
 		jegy.setEnddate(new Date());
@@ -186,7 +186,7 @@ public class TicketService {
 		jegy.setStatus("inprogress");
 		
 		ticketRepository.save(jegy);
-		log.info("Elvállalt Hibajegy ID: " +id+ " : " + jegy.getWorker().getName());
+		log.info("Elvállalt Hibajegy ID: " +id+ ", megoldó: " + jegy.getWorker().getName());
 		
 	}
 	

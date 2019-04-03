@@ -16,24 +16,24 @@ function goBack() {
 
 	<table style="width:98%" class="table table-striped table-bordered table-hover">
 		<tr style="font-weight:bold">
-			<td style="border-bottom:1pt solid black; border-left:1pt solid black; border-top:1pt solid black;" class="">Hibajegy ID:</td>
+			<td style="border-bottom:1pt solid black; border-left:1pt solid black; border-top:1pt solid black;" class="" th:text="#{ticket_id}">Hibajegy ID:</td>
 			<td style="border-bottom:1pt solid black; border-top:1pt solid black; border-right:1pt solid black;" class="info" th:text="${#numbers.formatInteger(ticket.id,5)}"></td>
-			<td style="border-bottom:1pt solid black; border-top:1pt solid black;" class="" >Státusz:</td>
-			<td style="border-bottom:1pt solid black; border-top:1pt solid black; border-right:1pt solid black;" class="danger" th:if="${ticket.status eq 'opened'}" th:utext="Nyitott"></td>
-			<td style="border-bottom:1pt solid black; border-top:1pt solid black; border-right:1pt solid black;" class="warning" th:if="${ticket.status eq 'inprogress'}" th:utext="Folyamatban"></td>
-			<td style="border-bottom:1pt solid black; border-top:1pt solid black; border-right:1pt solid black;" class="success" th:if="${ticket.status eq 'closed'}" th:utext="Lezárt"></td>
+			<td style="border-bottom:1pt solid black; border-top:1pt solid black;" class="" th:text="#{status}">Státusz:</td>
+			<td style="border-bottom:1pt solid black; border-top:1pt solid black; border-right:1pt solid black;" class="danger" th:if="${ticket.status eq 'opened'}" th:text="#{opened}"></td>
+			<td style="border-bottom:1pt solid black; border-top:1pt solid black; border-right:1pt solid black;" class="warning" th:if="${ticket.status eq 'inprogress'}" th:text="#{inprog}"></td>
+			<td style="border-bottom:1pt solid black; border-top:1pt solid black; border-right:1pt solid black;" class="success" th:if="${ticket.status eq 'closed'}" th:text="#{closed}"></td>
 		</tr>
 		<tr style="font-style:italic">
-			<td style="border-top:1pt solid black; border-left:1pt solid black; border-right:1pt solid black;" colspan="4">Feladat leírása:</td>
+			<td style="border-top:1pt solid black; border-left:1pt solid black; border-right:1pt solid black;" colspan="4" th:text="#{task_descr}">Feladat leírása:</td>
 		</tr>
 		<tr>
-			<td style="border-bottom:1pt solid black; border-left:1pt solid black; border-right:1pt solid black;" height="100px" colspan="4" th:utext="${ticket.task}">Feladat</td>
+			<td style="border-bottom:1pt solid black; border-left:1pt solid black; border-right:1pt solid black;" height="100px" colspan="4" th:utext="${ticket.task}" th:text="#{task}">Feladat</td>
 		</tr>
 		<tr>
-			<td style="border-left:1pt solid black; border-right:1pt solid black;">Bejelentő:</td>
-			<td style="border-right:1pt solid black;">Címe:</td>
-			<td style="border-right:1pt solid black;">Bejelentés dátuma:</td>
-			<td style="border-right:1pt solid black;">Telefonszám:</td>
+			<td style="border-left:1pt solid black; border-right:1pt solid black;" th:text="#{client2}">Bejelentő:</td>
+			<td style="border-right:1pt solid black;" th:text="#{address}">Címe:</td>
+			<td style="border-right:1pt solid black;" th:text="#{dateoftask}">Bejelentés dátuma:</td>
+			<td style="border-right:1pt solid black;" th:text="#{phone}">Telefonszám:</td>
 		</tr>
 		<tr>
 			<td style="border-bottom:1pt solid black; border-left:1pt solid black; border-right:1pt solid black;"><span th:if="${ticket.client.deleted eq false}" th:utext="${ticket.client.name}"></span><span style="color:red;" th:if="${ticket.client.deleted eq true}" th:utext="'TÖRÖLT F.H. ' + ${ticket.client.name}"></span></td>
@@ -42,13 +42,13 @@ function goBack() {
 			<td style="border-bottom:1pt solid black; border-right:1pt solid black;" th:text="${ticket.client.phone}"></td>
 		</tr>
 		<tr  style="font-style:italic">
-			<td style="border-right:1pt solid black; border-left:1pt solid black; border-top:1pt solid black;" colspan="4">Megoldás leírása:</td>
+			<td style="border-right:1pt solid black; border-left:1pt solid black; border-top:1pt solid black;" colspan="4" th:text="#{solution_descr}">Megoldás leírása:</td>
 		</tr>
 		<tr>
-			<td style="border-bottom:1pt solid black; border-left:1pt solid black; border-right:1pt solid black;" height="100px" colspan="4" th:utext="${ticket.solution}"></td>
+			<td style="border-bottom:1pt solid black; border-left:1pt solid black; border-right:1pt solid black;" height="100px" colspan="4" th:utext="${ticket.solution}" th:text="#{dateofsolution}"></td>
 		</tr>
 		<tr>
-			<td style="border-bottom:1pt solid black; border-left:1pt solid black;" width="25%">Megoldó:</td>
+			<td style="border-bottom:1pt solid black; border-left:1pt solid black;" width="25%" th:text="#{workmate2}">Megoldó:</td>
 			<td style="border-bottom:1pt solid black; border-right:1pt solid black;" width="25%">
 			
 				<span th:if="${ticket.worker != null}" th:utext="${ticket.worker.name}">Worker</span>
@@ -58,16 +58,16 @@ function goBack() {
 				<select th:field="*{worker}">
     			<option th:each="editor : ${editors}" th:value="${editor.email}" th:utext="${editor.name}"></option>
 				</select>
-				<button class="btn btn-warning btn-xs" type="submit" role="button" action="ticketworker">Megoldó kijelölése</button>
+				<button class="btn btn-warning btn-xs" type="submit" role="button" action="ticketworker" th:text="#{select_workmate}">Megoldó kijelölése</button>
 				</form>
 				</span>
 				<span sec:authorize="hasAuthority('EDITOR')" th:if="${ticket.worker == null}">
-				    		<a class="btn btn-warning btn-xs" th:href="@{'/vallalom/' + ${ticket.id}}">Vállalom</a>
+				    		<a class="btn btn-warning btn-xs" th:href="@{'/vallalom/' + ${ticket.id}}" th:text="#{undertake}">Vállalom</a>
 				      </span>
 				</td>
-			<td style="border-bottom:1pt solid black;" width="25%">Megoldás dátuma:</td>
+			<td style="border-bottom:1pt solid black;" width="25%" th:text="#{dateofsolution}">Megoldás dátuma:</td>
 				<div th:switch="${ticket.enddate}">
-						<p th:case="null"><td style="border-bottom:1pt solid black; border-right:1pt solid black;">Még nincs.</td></p>
+						<p th:case="null"><td style="border-bottom:1pt solid black; border-right:1pt solid black;">---</td></p>
 						<p th:case="*"> <td style="border-bottom:1pt solid black; border-right:1pt solid black;" th:utext="${#dates.format(ticket.enddate, 'yyyy.MM.dd HH:mm')}">datummm</td></p>
 				</div>
 			
@@ -76,11 +76,11 @@ function goBack() {
 	
 	</table>
 	
-	<button class="btn btn-success" onclick="goBack()">Vissza</button>
+	<button class="btn btn-success" onclick="goBack()" th:text="#{back}">Vissza</button>
 	<span th:if="${ticket.status == 'inprogress'}">
-   	<a sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')" class="btn btn-warning" th:href="@{${ticket.id} + '/editor'}" role="button">Szerkesztés</a>
+   	<a sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')" class="btn btn-warning" th:href="@{${ticket.id} + '/editor'}" role="button" th:text="#{modify}">Szerkesztés</a>
     </span>
-    <a sec:authorize="hasAuthority('ADMIN')" class="btn btn-danger" th:href="@{${ticket.id} + '/delete'}" role="button">Törlés</a>
+    <a sec:authorize="hasAuthority('ADMIN')" class="btn btn-danger" th:href="@{${ticket.id} + '/delete'}" role="button" th:text="#{delete}">Törlés</a>
     
 	
 	

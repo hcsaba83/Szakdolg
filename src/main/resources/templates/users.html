@@ -8,17 +8,17 @@
 <div width="95%" layout:fragment="tickets">
 <div class="container">
 	
-	<h2>Felhasználók</h2>
+	<h2 th:text="#{users}">Felhasználók</h2>
 	
    <table style="width:78%" class="table table-striped table-bordered table-hover">
    		<tr>
-   			<td width="20%">Név</td>
+   			<td width="20%" th:text="#{name}">Név</td>
 	        <td width="15%" >Email</td>
-	        <td width="20%">Regisztráció</td>
-	        <td width="10%">Aktív-e</td>
-	        <td width="6%">Aktivál</td>
-	        <td width="6%">Módosít</td>
-	        <td width="6%">Töröl</td>
+	        <td width="20%" th:text="#{regdate}">Regisztráció</td>
+	        <td width="10%" th:text="#{activity}">Aktív-e</td>
+	        <td width="6%" th:text="#{activate}">Aktivál</td>
+	        <td width="6%" th:text="#{modify}">Módosít</td>
+	        <td width="6%" th:text="#{delete}">Töröl</td>
 
     	</tr>
          	<tr th:each="user : ${users}"> 
@@ -26,9 +26,9 @@
 	        <td th:utext="${user.email}"></td>
 	        <td th:text="${#dates.format(user.regdate, 'yyyy.MM.dd HH:mm')}"></td>
 	        <td th:utext="${user.active}"></td>
-	        <td align="center"><a sec:authorize="hasAuthority('ADMIN')"  th:if="${user.active eq true}" class="btn btn-warning btn-xs" th:utext="Inaktivál" th:href="@{'/users/' + ${user.getEmailEncoded()} + '/active'}" role="button">Inaktivál</a><a sec:authorize="hasAuthority('ADMIN')"  th:if="${user.active != true}" class="btn btn-success btn-xs" th:utext="Aktivál" th:href="@{'/users/' + ${user.getEmailEncoded()} + '/active'}" role="button">Aktivál</a></td>
-	        <td align="center"><a sec:authorize="hasAuthority('ADMIN')" th:if="${user.deleted eq false}" class="btn btn-primary btn-xs" th:href="@{'/users/' + ${user.getEmailEncoded()} + '/usermod'}" role="button">Módosít</a></td>
-	        <td align="center"><a sec:authorize="hasAuthority('ADMIN')" th:if="${user.deleted eq false}" class="btn btn-danger btn-xs" th:href="@{'/users/' + ${user.getEmailEncoded()} + '/delete'}" role="button">Törlés</a></td>
+	        <td align="center"><a sec:authorize="hasAuthority('ADMIN')"  th:if="${user.active eq true}" class="btn btn-warning btn-xs" th:utext="Inaktivál" th:href="@{'/users/' + ${user.getEmailEncoded()} + '/active'}" role="button" th:text="#{inactivate}">Inaktivál</a><a sec:authorize="hasAuthority('ADMIN')"  th:if="${user.active != true}" class="btn btn-success btn-xs" th:utext="Aktivál" th:href="@{'/users/' + ${user.getEmailEncoded()} + '/active'}" role="button" th:text="#{activate}">Aktivál</a></td>
+	        <td align="center"><a sec:authorize="hasAuthority('ADMIN')" th:if="${user.deleted eq false}" class="btn btn-primary btn-xs" th:href="@{'/users/' + ${user.getEmailEncoded()} + '/usermod'}" role="button" th:text="#{modify}">Módosít</a></td>
+	        <td align="center"><a sec:authorize="hasAuthority('ADMIN')" th:if="${user.deleted eq false}" class="btn btn-danger btn-xs" th:href="@{'/users/' + ${user.getEmailEncoded()} + '/delete'}" role="button" th:text="#{delete}">Törlés</a></td>
         </tr>
    </table>
 

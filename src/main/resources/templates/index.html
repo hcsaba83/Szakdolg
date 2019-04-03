@@ -18,7 +18,7 @@ window.onload = function() {
 <div class="col-sm-6 col-md-4">
 		<div sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')"  class="panel panel-primary">
 		  <div class="panel-heading">
-		    <h3 class="panel-title">Saját folyamatban  <span class="badge" th:text="${ticketsbyopened_num}">12</span></h3>
+		    <h3 class="panel-title"><span th:text="#{menu_mytickets_inprog}">Saját folyamatban</span><span class="badge" th:text="${ticketsbyopened_num}">12</span></h3>
 		  </div>
 		  <div class="panel-body">
 			    <table class="table">
@@ -28,7 +28,7 @@ window.onload = function() {
 						<td th:utext="${ticket.task}"></td>
 					</tr>
 	  			</table>
-	  			<p><a th:href="@{'/workertickets/inprogress'}" class="btn btn-success" role="button">Mutasd mind</a></p>
+	  			<p><a th:href="@{'/workertickets/inprogress'}" class="btn btn-success" role="button" th:text="#{show_all}">Mutasd mind</a></p>
 		  </div>
 		</div>
 		
@@ -36,7 +36,7 @@ window.onload = function() {
 		<!-- user -->
 		<div sec:authorize="hasAuthority('USER')"  class="panel panel-primary">
 		  <div class="panel-heading">
-		    <h3 class="panel-title">Folyamatban lévő bejelentéseim  <span class="badge" th:text="${ticketsbyinprogress_num_us}">12</span></h3>
+		    <h3 class="panel-title"><span th:text="#{menu_mytickets_inprog}">Saját folyamatban</span><span class="badge" th:text="${ticketsbyinprogress_num_us}">12</span></h3>
 		  </div>
 		  <div class="panel-body">
 			    <table class="table">
@@ -46,13 +46,13 @@ window.onload = function() {
 						<td th:utext="${ticket.task}"></td>
 					</tr>
 	  			</table>
-	  			<p><a th:href="@{'/usertickets/inprogress'}" class="btn btn-success" role="button">Mutasd mind</a></p>
+	  			<p><a th:href="@{'/usertickets/inprogress'}" class="btn btn-success" role="button" th:text="#{show_all}">Mutasd mind</a></p>
 		  </div>
 		</div>
 		
 		<div sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')"  class="panel panel-primary">
 		  <div class="panel-heading">
-		    <h3 class="panel-title">Saját lezárt <span class="badge" th:text="${ticketsbyclosed_num}">12</span></h3>
+		    <h3 class="panel-title"><span th:text="#{menu_mytickets_closed}">Saját lezárt</span><span class="badge" th:text="${ticketsbyclosed_num}">12</span></h3>
 		  </div>
 		  <div class="panel-body">
 		    <table class="table">
@@ -62,7 +62,7 @@ window.onload = function() {
 						<td th:utext="${ticket.task}"></td>
 					</tr>
 	  			</table>
-	  			<p><a th:href="@{'/workertickets/closed'}" class="btn btn-success" role="button">Mutasd mind</a></p>
+	  			<p><a th:href="@{'/workertickets/closed'}" class="btn btn-success" role="button" th:text="#{show_all}">Mutasd mind</a></p>
 		  </div>
 		</div>
 </div>
@@ -70,7 +70,7 @@ window.onload = function() {
 <div class="col-sm-6 col-md-4">
 		<div sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')" class="panel panel-primary">
 		  <div class="panel-heading">
-		    <h3  class="panel-title">Gazdátlan  <span class="badge" th:text="${ticketsopened_num}"></span></h3>
+		    <h3  class="panel-title"><span th:text="#{menu_unowned}">Gazdátlan</span><span class="badge" th:text="${ticketsopened_num}"></span></h3>
 		  </div>
 		  <div class="panel-body">
 		    	<table class="table">
@@ -80,14 +80,14 @@ window.onload = function() {
 						<td th:utext="${ticket.task}"></td>
 					</tr>
 	  			</table>
-	  			<p><a th:href="@{'/tickets'}" class="btn btn-success" role="button">Mutasd mind</a></p>
+	  			<p><a th:href="@{'/tickets'}" class="btn btn-success" role="button" th:text="#{show_all}">Mutasd mind</a></p>
 		  </div>
 		</div>
 		
 		<!-- USER GAZDÁTLAN -->
 		<div sec:authorize="hasAuthority('USER')" class="panel panel-primary">
 		  <div class="panel-heading">
-		    <h3  class="panel-title">Nyitott  <span class="badge" th:text="${ticketsbyopened_num_us}"></span></h3>
+		    <h3  class="panel-title"><span th:text="#{menu_mytickets_opened}">Saját nyitott</span><span class="badge" th:text="${ticketsbyopened_num_us}"></span></h3>
 		  </div>
 		  <div class="panel-body">
 		    	<table class="table">
@@ -97,7 +97,7 @@ window.onload = function() {
 						<td th:utext="${ticket.task}"></td>
 					</tr>
 	  			</table>
-	  			<p><a th:href="@{'/tickets'}" class="btn btn-success" role="button">Mutasd mind</a></p>
+	  			<p><a th:href="@{'/tickets'}" class="btn btn-success" role="button" th:text="#{show_all}">Mutasd mind</a></p>
 		  </div>
 		</div>
 		
@@ -106,7 +106,7 @@ window.onload = function() {
 <div class="col-sm-6 col-md-4">
 		<div sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')"   class="panel panel-primary">
 		  <div class="panel-heading">
-		    <h3 class="panel-title">Statisztika</h3>
+		    <h3 class="panel-title" th:text="#{statistics}">Statisztika</h3>
 		  </div>
 		  <div class="panel-body">
 		    <table class="table">

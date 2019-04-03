@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		}
 		user.setDeleted(true);
 		userRepository.save(user);
-		log.debug("Törölt user: " + email);
+		log.debug("Törölt felhasználó: " + email);
 		
 	}
 	
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		log.debug("Belépett User: " + username);
+		log.debug("Belépett felhasználó: " + username);
 		User user = findByEmail(username);
 		if(user == null) {
 			throw new UsernameNotFoundException(username);
@@ -147,7 +147,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			userToRegister.addRoles("USER_ROLE");
 		}
 		userRepository.save(userToRegister);
-		log.debug("Sikeres registráció! " + userToRegister.getName());
+		log.debug("Sikeres registráció! Felhasználónév: " + userToRegister.getName());
 		//emailService.sendMessage(userToRegister.getEmail(), userToRegister.getName(), userToRegister.getToken());
 		return "ok";	
 	}
@@ -158,7 +158,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			return "noresult";
 		user.setActive(true);
 		user.setToken("");
-		log.debug("Sikeres aktiváció! " +user.getName());
+		log.debug("Sikeres aktiváció! Felhasználónév: " +user.getName());
 		userRepository.save(user);
 		return "ok";
 	}
