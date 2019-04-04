@@ -87,8 +87,12 @@ public class TicketService {
 	
 	//státusz szerint
 	public List<Ticket> getTicketsByStatus(String status) {
-		//log.debug("getTicketsByStatus: " + status);
 		return ticketRepository.findAllByStatus(status);
+	}
+	
+	//státusz szerint
+	public List<Ticket> getTicketsByStatusLimit(String status) {
+		return ticketRepository.findAllByStatusLimit(status,  new PageRequest(0,5));
 	}
 	
 	//inprogress szerint limit 5
@@ -135,6 +139,14 @@ public class TicketService {
 					Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 					thatname = auth.getName();
 					return ticketRepository.findAllByClientCount(thatname);
+				}
+	// by status COUNT
+				public int getTicketsByStatusCount(String status) {
+					return ticketRepository.findAllByStatusCount(status);
+				}
+	// all COUNT
+				public int getTicketsCount() {
+					return ticketRepository.findAllCount();
 				}
 		
 		

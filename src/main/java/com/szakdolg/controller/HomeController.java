@@ -44,11 +44,14 @@ public class HomeController {
 		this.emailService = emailService;
 	}
 	
+	//FŐOLDAL - DASHBOARD
 	@RequestMapping("/")
 	public String mainPage(Model model) {
 		model.addAttribute("user", userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
 		model.addAttribute("ticketsinprogress", ticketService.getTicketsByStatusByWorkerLimit("inprogress"));
 		model.addAttribute("ticketsinprogress_us", ticketService.getTicketByStatusByClientLimit("inprogress"));
+		model.addAttribute("allticketsinprogress", ticketService.getTicketsByStatusLimit("inprogress"));
+		model.addAttribute("allticketsclosed", ticketService.getTicketsByStatusLimit("closed"));
 		model.addAttribute("ticketsclosed", ticketService.getTicketsByStatusByWorkerLimit("closed"));
 		model.addAttribute("ticketsclosed_us", ticketService.getTicketByStatusByClientLimit("closed"));
 		model.addAttribute("ticketsopened", ticketService.getTicketsNoWorkerLimit());
@@ -61,9 +64,13 @@ public class HomeController {
 		model.addAttribute("ticketsopened_num", Integer.toString(ticketService.getTicketsByNoWorkerCount()));
 		model.addAttribute("ticketsbyworker_num", Integer.toString(ticketService.getTicketsByWorkerCount()));
 		model.addAttribute("ticketsbyclient_num", Integer.toString(ticketService.getTicketsByClientCount()));
+		model.addAttribute("allticketsbyinprogress_num", Integer.toString(ticketService.getTicketsByStatusCount("inprogress")));
+		model.addAttribute("allticketsbyclosed_num", Integer.toString(ticketService.getTicketsByStatusCount("closed")));
+		model.addAttribute("allcount", Integer.toString(ticketService.getTicketsCount()));
 		return "index";
 	}
 	
+	//GAZDÁTLAN HIBAJEGYEK LISTÁJA
 	@RequestMapping("/tickets")
 	public String ticketsWithNoWorker(Model model) {
 		model.addAttribute("pageTitle", "TICKETS");
@@ -72,6 +79,7 @@ public class HomeController {
 		return "tickets";
 	}
 	
+	//ÖSSZES HIBAJEGY
 	@RequestMapping("/alltickets")
 	public String allTickets(Model model) {
 		model.addAttribute("pageTitle", "TICKETS");
@@ -80,6 +88,7 @@ public class HomeController {
 		return "tickets";
 	}
 	
+	//ÖSSZES HIBAJEGY STÁTUSZONKÉNT
 	@RequestMapping("/alltickets/{status}")
 	public String allTicketsByStatus(@PathVariable(value="status") String status, Model model) {
 		model.addAttribute("pageTitle", "TICKETS");
@@ -89,6 +98,7 @@ public class HomeController {
 		return "tickets";
 	}
 	
+	//ÖSSZES HIBAJEGY USER felhasználóknak
 	@RequestMapping("/usertickets")
 	public String userTickets(Model model)  throws Exception  {
 		if (ticketService.getTicketsByClient() == null)
@@ -99,6 +109,7 @@ public class HomeController {
 		return "tickets";
 	}
 	
+	//ÖSSZES HIBAJEGY STÁTUSZONKÉNT USER felhasználóknak
 	@RequestMapping(value = "/usertickets/{status}", method = RequestMethod.GET)
 	public String userTicketsByStatus(@PathVariable(value="status") String status, Model model)  throws Exception  {
 		if (ticketService.getTicketsByClientByStatus(status) == null)
@@ -110,6 +121,7 @@ public class HomeController {
 		return "tickets";
 	}
 
+	//ÖSSZES HIBAJEGY MEGOLDÓKNAK, ADMINOKNAK 
 	@RequestMapping("/workertickets")
 	public String workerTicketsByWorker(Model model)  throws Exception  {
 		if (ticketService.getTicketsByWorker() == null)
@@ -120,6 +132,7 @@ public class HomeController {
 		return "tickets";
 	}
 	
+	//ÖSSZES HIBAJEGY STÁTUSZONKÉNT MEGOLDÓKNAK, ADMINOKNAK 
 	@RequestMapping("/workertickets/{status}")
 	public String workerTicketsByStatus(@PathVariable(value="status") String status, Model model)  throws Exception  {
 		if (ticketService.getTicketsByWorkerByStatus(status) == null)
@@ -131,22 +144,21 @@ public class HomeController {
 		return "tickets";
 	}
 
+	//HIBAJEGY részletes oldal mindenkinek - jogosultság kivételkezeléssel megoldva
 	@RequestMapping("/tickets/{id}")
 	public String searchForTicket(@PathVariable(value="id") Long id, Model model) throws Exception {
 		if (ticketService.idExists(id) == false)
 			throw new Exception("Nincs ilyen azonosítószámú hibajegy: ( "+id+ " ).");
+		if (userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).amIAdmin() != true &&
+				ticketService.getSpecificTicket(id).getWorker() != null && 
+				(ticketService.getSpecificTicket(id).getClient().getEmail() != SecurityContextHolder.getContext().getAuthentication().getName() &&
+				ticketService.getSpecificTicket(id).getWorker().getEmail() != SecurityContextHolder.getContext().getAuthentication().getName()))
+			throw new Exception("Nincs jogosultsága ehhez a hibajegyhez: ( "+id+" ).");
 		model.addAttribute("pageTitle", "Ticket részletei");
+		 
 		model.addAttribute("ticket", ticketService.getSpecificTicket(id));
+		
 		model.addAttribute("editors", userService.findAllEditor());
-		return "ticket";
-	}
-	
-	@RequestMapping("/usertickets/{id}")
-	public String searchForUserTicket(@PathVariable(value="id") Long id, Model model) throws Exception {
-		if (ticketService.idExists(id) == false)
-			throw new Exception("Nincs ilyen azonosítószámú hibajegy: ( "+id+ " ).");
-		model.addAttribute("pageTitle", "Ticket részletei");
-		model.addAttribute("ticket", ticketService.getSpecificTicket(id));
 		return "ticket";
 	}
 	
@@ -229,35 +241,23 @@ public class HomeController {
 		model.addAttribute("users", userService.findAllUser());
 		return "users";
 	}
-	
 	@RequestMapping("/usersdeleted")
 	public String usersByClientsByDeleted(Model model) {
 		model.addAttribute("users", userService.findAllUserByDeleted());
 		return "users";
 	}
-	
 	@RequestMapping("/workers")
 	public String usersByWorkers(Model model) {
 		model.addAttribute("users", userService.findAllEditor());
 		return "users";
 	}
-	
 	@RequestMapping("/workersdeleted")
 	public String usersByWorkersByDeleted(Model model) {
 		model.addAttribute("users", userService.findAllEditorByDeleted());
 		return "users";
 	}
 	
-//	@RequestMapping("/users/{email}")
-//	public String searchForUser(@PathVariable(value="email") String email, Model model) throws Exception {
-//		if (userService.emailExists(email) == false)
-//			throw new Exception("Nincs ilyen azonosítójú felhasználó");
-//		log.info("email: " +email);
-//		model.addAttribute("pageTitle", "Felhasználó részletes adatai");
-//		model.addAttribute("user", userService.findByEmail(email));
-//		return "user";
-//	}
-	
+	//USER RÉSZLETES OLDAL
 	@RequestMapping("/users/{id}")
 	public String searchForUser(@PathVariable(value="id") String id, Model model) throws Exception {
 		byte[] decoded = Base64.decode(id.getBytes());
@@ -269,7 +269,7 @@ public class HomeController {
 		return "user";
 	}
 	
-	//USER MOD OLDALRA
+	//USER MÓDOSÍTÓ OLDALRA
 	@RequestMapping("/users/{id}/usermod")
 	public String modifyUser(@PathVariable(value="id") String id, Model model) throws Exception {
 		byte[] decoded = Base64.decode(id.getBytes());
@@ -280,7 +280,7 @@ public class HomeController {
 		return "usermod";
 	}
 	
-	//USER MODIFY
+	//USER MÓDOSÍTÓ OLDAL
 	@PostMapping("/users/{id}/umod")
 	public String modifyUserSubmit(@PathVariable(value="id") String id, @ModelAttribute("name") String name, @ModelAttribute("address") String address, @ModelAttribute("phone") String phone) throws Exception {
 		byte[] decoded = Base64.decode(id.getBytes());
@@ -288,7 +288,7 @@ public class HomeController {
 		if (userService.emailExists(email) == false)
 			throw new Exception("Nincs ilyen azonosítójú felhasználó");
 		userService.modifyUser(email, name, address, phone);
-		return("redirect:/users/{id}");
+		return("redirect:/");
 	}
 	
 	

@@ -102,6 +102,18 @@ public class User {
 		this.roles.add(new Role(roleName));
 	}
 	
+	// 3-as az ADMIN role ID-ja
+	public Boolean amIAdmin() {
+		Boolean result = false;
+		for (Role r : this.getRoles()) {
+			if (r.getId() == 3) {
+				result = true; 
+				break;
+		} 
+			}
+		return result;
+	}
+	
 	public void deleteRoles() {
 		this.roles.clear();
 		System.out.println("roles deleted");

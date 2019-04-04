@@ -50,6 +50,9 @@ public interface TicketRepository extends CrudRepository<Ticket, Long>  {
 	//by no worker
 	@Query(value="SELECT t FROM Ticket t where worker_email = null ORDER BY t.startdate DESC")
 	List<Ticket> findAllNoWorkerLimit(Pageable pageable);
+	//by status
+	@Query(value="SELECT t FROM Ticket t where status = :status")
+	List<Ticket> findAllByStatusLimit(@Param("status") String status, Pageable pageable);
 	
 	
 	//COUNT LEKÉRÉSEK
@@ -68,6 +71,11 @@ public interface TicketRepository extends CrudRepository<Ticket, Long>  {
 	//by no worker - opened
 	@Query(value="SELECT COUNT(id) FROM Ticket t where worker_email = null")
 	int findAllNoWorkerCount();
+	//by status
+	@Query(value="SELECT COUNT(id) FROM Ticket t where status = :status")
+	int findAllByStatusCount(@Param("status") String status);
+	@Query(value="SELECT COUNT(id) FROM Ticket")
+	int findAllCount();
 
 	Ticket findById(Long id);
 

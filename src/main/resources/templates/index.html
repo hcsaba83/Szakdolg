@@ -33,7 +33,7 @@ window.onload = function() {
 		</div>
 		
 		
-		<!-- user -->
+		<!-- user SAJÁT FOLYAMATBAN -->
 		<div sec:authorize="hasAuthority('USER')"  class="panel panel-primary">
 		  <div class="panel-heading">
 		    <h3 class="panel-title"><span th:text="#{menu_mytickets_inprog}">Saját folyamatban</span><span class="badge" th:text="${ticketsbyinprogress_num_us}">12</span></h3>
@@ -41,7 +41,7 @@ window.onload = function() {
 		  <div class="panel-body">
 			    <table class="table">
 					<tr th:each="ticket : ${ticketsinprogress_us}">
-						<td><a class="btn btn-primary btn-xs" th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/usertickets/' + ${ticket.id}}"   /></td>
+						<td><a class="btn btn-primary btn-xs" th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/tickets/' + ${ticket.id}}"   /></td>
 						<td> <span th:if="${ticket.client.deleted eq false}" th:utext="${ticket.client.name}"></span><span th:if="${ticket.client.deleted eq true}">*DELETED USER*</span></td>
 						<td th:utext="${ticket.task}"></td>
 					</tr>
@@ -49,7 +49,7 @@ window.onload = function() {
 	  			<p><a th:href="@{'/usertickets/inprogress'}" class="btn btn-success" role="button" th:text="#{show_all}">Mutasd mind</a></p>
 		  </div>
 		</div>
-		
+		<!-- SAJÁT LEZÁRT ADMIN, EDITOR -->
 		<div sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')"  class="panel panel-primary">
 		  <div class="panel-heading">
 		    <h3 class="panel-title"><span th:text="#{menu_mytickets_closed}">Saját lezárt</span><span class="badge" th:text="${ticketsbyclosed_num}">12</span></h3>
@@ -65,9 +65,28 @@ window.onload = function() {
 	  			<p><a th:href="@{'/workertickets/closed'}" class="btn btn-success" role="button" th:text="#{show_all}">Mutasd mind</a></p>
 		  </div>
 		</div>
+		
+		<!-- ÖSSZES FOLYAMATBAN, ADMIN -->
+		<div sec:authorize="hasAuthority('ADMIN')"  class="panel panel-primary">
+		  <div class="panel-heading">
+		    <h3 class="panel-title"><span th:text="#{menu_alltickets_inprog}">Összes folyamatban</span><span class="badge" th:text="${allticketsbyinprogress_num}">12</span></h3>
+		  </div>
+		  <div class="panel-body">
+		    <table class="table">
+					<tr th:each="ticket : ${allticketsinprogress}">
+						<td><a class="btn btn-primary btn-xs" th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/tickets/' + ${ticket.id}}"   /></td>
+						<td> <span th:if="${ticket.client.deleted eq false}" th:utext="${ticket.client.name}"></span><span th:if="${ticket.client.deleted eq true}">*DELETED USER*</span></td>
+						<td th:utext="${ticket.task}"></td>
+					</tr>
+	  			</table>
+	  			<p><a th:href="@{'/alltickets/closed'}" class="btn btn-success" role="button" th:text="#{show_all}">Mutasd mind</a></p>
+		  </div>
+		</div>
 </div>
 <!-- 2. oszlop -->
 <div class="col-sm-6 col-md-4">
+
+		<!-- GAZDÁTLAN ADMIN, EDITOR -->
 		<div sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')" class="panel panel-primary">
 		  <div class="panel-heading">
 		    <h3  class="panel-title"><span th:text="#{menu_unowned}">Gazdátlan</span><span class="badge" th:text="${ticketsopened_num}"></span></h3>
@@ -97,24 +116,48 @@ window.onload = function() {
 						<td th:utext="${ticket.task}"></td>
 					</tr>
 	  			</table>
-	  			<p><a th:href="@{'/tickets'}" class="btn btn-success" role="button" th:text="#{show_all}">Mutasd mind</a></p>
+	  			<p><a th:href="@{'/usertickets/opened'}" class="btn btn-success" role="button" th:text="#{show_all}">Mutasd mind</a></p>
+		  </div>
+		</div>
+		
+		<!-- ÖSSZES LEZÁRT, ADMIN -->
+		<div sec:authorize="hasAuthority('ADMIN')"  class="panel panel-primary">
+		  <div class="panel-heading">
+		    <h3 class="panel-title"><span th:text="#{menu_alltickets_closed}">Összes lezárt</span><span class="badge" th:text="${allticketsbyclosed_num}">12</span></h3>
+		  </div>
+		  <div class="panel-body">
+		    <table class="table">
+					<tr th:each="ticket : ${allticketsclosed}">
+						<td><a class="btn btn-primary btn-xs" th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/tickets/' + ${ticket.id}}"   /></td>
+						<td> <span th:if="${ticket.client.deleted eq false}" th:utext="${ticket.client.name}"></span><span th:if="${ticket.client.deleted eq true}">*DELETED USER*</span></td>
+						<td th:utext="${ticket.task}"></td>
+					</tr>
+	  			</table>
+	  			<p><a th:href="@{'/alltickets/closed'}" class="btn btn-success" role="button" th:text="#{show_all}">Mutasd mind</a></p>
 		  </div>
 		</div>
 		
 </div>
 <!-- 3. oszlop -->
 <div class="col-sm-6 col-md-4">
+
+		<!-- ADMIN, EDITOR STATISZTIKA -->
 		<div sec:authorize="hasAnyAuthority('EDITOR', 'ADMIN')"   class="panel panel-primary">
 		  <div class="panel-heading">
 		    <h3 class="panel-title" th:text="#{statistics}">Statisztika</h3>
 		  </div>
 		  <div class="panel-body">
 		    <table class="table">
-					<tr><td>Lezárt</td><td th:text="${ticketsbyclosed_num}">103</td></tr>
-					<tr><td>Folymatban</td><td th:text="${ticketsbyopened_num}">4</td></tr>
-					<tr style="font-weight: bold"><td>Összes</td><td th:text="${ticketsbyworker_num}"></td></tr>
-					
+					<tr><td>Saját lezárt:</td><td th:text="${ticketsbyclosed_num}">103</td></tr>
+					<tr><td>Saját folymatban:</td><td th:text="${ticketsbyopened_num}">4</td></tr>
+					<tr style="font-weight: bold"><td>Saját összes:</td><td th:text="${ticketsbyworker_num}"></td></tr>
 	  			</table>
+	  		<table class="table">
+					<tr><td>Összes lezárt:</td><td th:text="${allticketsbyclosed_num}">103</td></tr>
+					<tr><td>Összes folymatban:</td><td th:text="${allticketsbyinprogress_num}">4</td></tr>
+					<tr><td>Összes gazdátlan:</td><td th:text="${ticketsopened_num}">4</td></tr>
+					<tr style="font-weight: bold"><td>Összes:</td><td th:text="${allcount}"></td></tr>
+	  		</table>
 		  </div>
 		</div>
 		
@@ -125,12 +168,29 @@ window.onload = function() {
 		  </div>
 		  <div class="panel-body">
 		    <table class="table">
-					<tr><td>Lezárt</td><td th:text="${ticketsbyclosed_num_us}">103</td></tr>
-					<tr><td>Folymatban</td><td th:text="${ticketsbyinprogress_num_us}">4</td></tr>
-					<tr><td>Nyitott</td><td th:text="${ticketsbyopened_num_us}">4</td></tr>
+					<tr><td>Lezárt bejelentéseim:</td><td th:text="${ticketsbyclosed_num_us}">103</td></tr>
+					<tr><td>Bejelentéseim folyamatban:</td><td th:text="${ticketsbyinprogress_num_us}">4</td></tr>
+					<tr><td>Nyitott bejelentéseim:</td><td th:text="${ticketsbyopened_num_us}">4</td></tr>
 					<tr style="font-weight: bold"><td>Összes</td><td th:text="${ticketsbyclient_num}"></td></tr>
 					
 	  			</table>
+		  </div>
+		</div>
+		<!-- user ADATOK -->
+		<div class="panel panel-primary">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Adataim</h3>
+		  </div>
+		  <div class="panel-body">
+		    <table class="table">
+					<tr style="font-weight: bold"><td>Név:</td><td th:text="${user.name}">nev</td></tr>
+					<tr><td>Email:</td><td th:text="${user.email}">email</td></tr>
+					<tr><td>Cím:</td><td th:text="${user.address}">cim</td></tr>
+					<tr><td>Telefonszám:</td><td th:text="${user.phone}">telszam</td></tr>
+					<tr><td>Regisztráció dátuma:</td><td th:text="${#dates.format(user.regdate, 'yyyy.MM.dd')}">regdatum</td></tr>
+					<tr><td>Jogosultság:</td><td th:each="roles : ${user.roles}"><span th:text="'['+${roles.role}+'] '"></span></td></tr>
+	  			</table>
+	  			<a th:href="@{'/users/' + ${user.getEmailEncoded()} + '/usermod'}" class="btn btn-warning" role="button" th:text="#{modify}">Módosít</a>
 		  </div>
 		</div>
 	

@@ -10,10 +10,11 @@
 	
 	<h2 th:text="#{menu_tickets}">Hibajegyek</h2>
 	<h4>
-		<span th:if="${all == 'true'}" th:text="#{menu_tickets}">Összes</span>
-		<span th:if="${status == 'inprogress'}" th:text="#{menu_mytickets_inprog}">Saj�t folyamatban</span>
-		<span th:if="${status == 'closed'}" th:text="#{menu_mytickets_closed}">Saj�t lezárt</span>
-		<span th:if="${status == 'opened'}" th:text="#{menu_mytickets_opened}">Saj�t nyitott</span>
+		<span th:if="${all == 'true'}" th:text="#{all}">Összes</span>
+		<span th:if="${all == 'false'}" th:text="#{own}">Saj�t</span>
+		<span th:if="${status == 'inprogress'}" th:text="#{inprog}">folyamatban</span>
+		<span th:if="${status == 'closed'}" th:text="#{closed}">lezárt</span>
+		<span th:if="${status == 'opened'}" th:text="#{opened}">nyitott</span>
 		<span th:if="${status == 'allworkertickets'}" th:text="#{menu_mytickets}">Összes saját</span>
 		<span th:if="${status == 'allusertickets'}" th:text="#{menu_mytickets}">Összes saját</span>
 		<span th:if="${status == 'alltickets'}" th:text="#{all}">Összes</span>
@@ -35,8 +36,7 @@
          																																		  (   ${( ((#dates.month(#dates.createNow())*30) + (#dates.day(#dates.createNow()))) - 
          																																			     (((#dates.month(ticket.startdate))*30) + (#dates.day(ticket.startdate))) ) gt 15} ? 'warning' : '')) )"> 
         	
-	        <p sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')"><td><a class="btn btn-primary btn-xs" th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/tickets/' + ${ticket.id}}"   /></td></p>
-	        <p sec:authorize="hasAuthority('USER')"><td><a th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/usertickets/' + ${ticket.id}}"   /></td></p>
+	        <p><td><a class="btn btn-primary btn-xs" th:text="${#numbers.formatInteger(ticket.id,5)}"  th:href="@{'/tickets/' + ${ticket.id}}"   /></td></p>
 
 	        <td> <span th:if="${ticket.client.deleted eq false}" th:utext="${ticket.client.name}"></span><span th:if="${ticket.client.deleted eq true}">*DELETED USER*</span></td>
 	        <td th:utext="${ticket.task}"></td>
