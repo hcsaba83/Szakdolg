@@ -148,7 +148,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		}
 		userRepository.save(userToRegister);
 		log.debug("Sikeres registráció! Felhasználónév: " + userToRegister.getName());
-		//emailService.sendMessage(userToRegister.getEmail(), userToRegister.getName(), userToRegister.getToken());
+		emailService.sendMessage(userToRegister.getEmail(), userToRegister.getName(), userToRegister.getToken());
 		return "ok";	
 	}
 

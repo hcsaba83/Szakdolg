@@ -48,7 +48,7 @@
 
 	        </td>
 	        <td th:text="${#dates.format(ticket.startdate, 'yyyy.MM.dd HH:mm')}"></td>
-	        <td th:if="${ticket.status eq 'opened'}" th:utext="Nyitott"></td><td th:if="${ticket.status eq 'inprogress'}" th:utext="Folyamatban"></td><td th:if="${ticket.status eq 'closed'}" th:utext="Lezárt"></td>
+	        <td th:if="${ticket.status eq 'opened'}" th:text="#{opened}"></td><td th:if="${ticket.status eq 'inprogress'}" th:text="#{inprog}"></td><td th:if="${ticket.status eq 'closed'}" th:text="#{closed}"></td>
         </tr>
    </table>
 
