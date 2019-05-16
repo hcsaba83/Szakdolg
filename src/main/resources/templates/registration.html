@@ -9,6 +9,7 @@
 
 		<form name="registration" th:action="@{/reg}" th:object="${user}" method="post" class="form-signin">
 			<h2 class="form-signin-heading" th:text="#{wanttoreg}">Kérlek, regisztrálj!</h2>
+			<div class="alert alert-warning" role="alert"><p th:text="#{alert1}">alert1</p></div>
 				<p>Email:</p>
 		 	    <input type="text" required="" id="email" name="email" th:field="*{email}" class="form-control" /> 
 			    <p th:text="#{pw}">Jelszó: /minimum 8 karakter/</p>

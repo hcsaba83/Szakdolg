@@ -48,7 +48,6 @@
 				        <li class="" sec:authorize="hasAuthority('ADMIN')"><a class="" href="/workers" th:text="#{menu_workmates}">Munkatársak</a></li>
 				        <li class="dropdown" sec:authorize="hasAuthority('ADMIN')"><a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span th:text="#{menu_others}">Egyéb</span><span class="caret"></span></a>
 					        <ul class="dropdown-menu">
-		            			<li><a th:href="@{'/workertickets/inprogress'}" th:text="#{statistics}">Statisztika</a></li>
 		           				<li><a th:href="@{'/workersdeleted'}" th:text="#{deleted_users}">Törölt felhasználók</a></li>
 					        </ul></li>
 				        <li class="" sec:authorize="hasAuthority('USER')"><a th:text="#{menu_report}" class="" href="newticket">Bejelentés</a></li>
